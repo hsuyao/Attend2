@@ -39,10 +39,47 @@ public partial class AttendForm : Form
 
             int lastColumnWithData = startColumnIndex;
             lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
+            // ICell cell = row.GetCell(lastColumnWithData);
+            // MessageBox.Show("從 '" + startColumnLetter + "' 列開始，共有資料筆數: " + (lastColumnWithData-startColumnIndex+1)+ " "+cell);
 
-           // ICell cell = row.GetCell(lastColumnWithData);
-           // MessageBox.Show("從 '" + startColumnLetter + "' 列開始，共有資料筆數: " + (lastColumnWithData-startColumnIndex+1)+ " "+cell);
+            List<string> result = GroupByMonth(sheet);
+            foreach (string s in result)
+            {
+                MessageBox.Show(s);
+            }
         }
+    }
+
+    private List<string> GroupByMonth(ISheet sheet)
+    {
+        var result = new List<string>();
+        int groupCount = 0;
+        int i = 0;
+
+        while ((sheet.GetRow(1).GetCell(i) != null) && (sheet.GetRow(1).GetCell(i).ToString() != ""))
+        {
+            if (sheet.GetRow(1).GetCell(i).ToString() == "第一週")
+            {
+                int groupStart = i;
+                int j = 0;
+                while (sheet.GetRow(1).GetCell(i + j + 1) != null && (sheet.GetRow(1).GetCell(i + j).ToString() == "第一週" || sheet.GetRow(1).GetCell(i + j).ToString() == "第二週" ||
+                    sheet.GetRow(1).GetCell(i + j).ToString() == "第三週" || sheet.GetRow(1).GetCell(i + j).ToString() == "第四週" || sheet.GetRow(1).GetCell(i + j).ToString() == "第五週"))
+
+                {
+                    if (sheet.GetRow(1).GetCell(i + j + 1).ToString() == "第一週" || sheet.GetRow(1).GetCell(i + j + 1).ToString() == "")
+                    {
+                        break;
+                    }
+                    j++;
+                }
+                int groupEnd = i + j;
+                result.Add(groupStart + "-" + groupEnd);
+                groupCount++;
+            }
+            i++;
+        }
+
+        return result;
     }
 
     private int GetLastColumnWithData(ISheet sheet, int rowIndex, int startColumnIndex)

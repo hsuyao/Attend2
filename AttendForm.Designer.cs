@@ -61,7 +61,6 @@ partial class AttendForm
         // 
         // btnCalculate
         // 
-        btnCalculate.Enabled = false;
         btnCalculate.Location = new Point(19, 65);
         btnCalculate.Name = "btnCalculate";
         btnCalculate.Size = new Size(108, 53);
