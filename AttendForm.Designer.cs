@@ -36,38 +36,44 @@ partial class AttendForm
         label1 = new Label();
         txtBoxStartColumn = new TextBox();
         groupBox1 = new GroupBox();
-        ckbHalfYear = new CheckBox();
-        ckbMonth = new CheckBox();
-        ckb_week = new CheckBox();
+        rbHalfYear = new RadioButton();
+        rbMonth = new RadioButton();
+        rbWeek = new RadioButton();
+        groupBox2 = new GroupBox();
+        txtBoxStable = new TextBox();
+        label2 = new Label();
+        label3 = new Label();
+        txtbIgnoreLevel = new TextBox();
         groupBox1.SuspendLayout();
+        groupBox2.SuspendLayout();
         SuspendLayout();
         // 
         // btnSelect
         // 
-        btnSelect.Location = new Point(19, 11);
-        btnSelect.Margin = new Padding(5);
+        btnSelect.Location = new Point(12, 7);
         btnSelect.Name = "btnSelect";
-        btnSelect.Size = new Size(108, 46);
+        btnSelect.Size = new Size(133, 30);
         btnSelect.TabIndex = 0;
-        btnSelect.Text = "Select";
+        btnSelect.Text = "Select Lord Day File";
         btnSelect.UseVisualStyleBackColor = true;
         btnSelect.Click += btnSelect_Click;
         // 
         // lblCurFile
         // 
         lblCurFile.AutoSize = true;
-        lblCurFile.Location = new Point(140, 23);
-        lblCurFile.Margin = new Padding(5, 0, 5, 0);
+        lblCurFile.Location = new Point(151, 15);
         lblCurFile.Name = "lblCurFile";
-        lblCurFile.Size = new Size(183, 23);
+        lblCurFile.Size = new Size(121, 15);
         lblCurFile.TabIndex = 2;
         lblCurFile.Text = "Select your excel file";
+        lblCurFile.Click += lblCurFile_Click;
         // 
         // btnCalculate
         // 
-        btnCalculate.Location = new Point(19, 65);
+        btnCalculate.Location = new Point(12, 234);
+        btnCalculate.Margin = new Padding(2);
         btnCalculate.Name = "btnCalculate";
-        btnCalculate.Size = new Size(108, 53);
+        btnCalculate.Size = new Size(69, 35);
         btnCalculate.TabIndex = 3;
         btnCalculate.Text = "Calculate";
         btnCalculate.UseVisualStyleBackColor = true;
@@ -76,80 +82,144 @@ partial class AttendForm
         // label1
         // 
         label1.AutoSize = true;
-        label1.Location = new Point(140, 80);
+        label1.Location = new Point(15, 24);
+        label1.Margin = new Padding(2, 0, 2, 0);
         label1.Name = "label1";
-        label1.Size = new Size(127, 23);
+        label1.Size = new Size(83, 15);
         label1.TabIndex = 5;
         label1.Text = "Start Column:";
         // 
         // txtBoxStartColumn
         // 
         txtBoxStartColumn.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxStartColumn.Location = new Point(273, 75);
+        txtBoxStartColumn.Location = new Point(102, 20);
+        txtBoxStartColumn.Margin = new Padding(2);
         txtBoxStartColumn.Name = "txtBoxStartColumn";
-        txtBoxStartColumn.Size = new Size(29, 33);
+        txtBoxStartColumn.Size = new Size(41, 24);
         txtBoxStartColumn.TabIndex = 6;
         txtBoxStartColumn.Text = "I";
         txtBoxStartColumn.TextAlign = HorizontalAlignment.Center;
         // 
         // groupBox1
         // 
-        groupBox1.Controls.Add(ckbHalfYear);
-        groupBox1.Controls.Add(ckbMonth);
-        groupBox1.Controls.Add(ckb_week);
-        groupBox1.Location = new Point(19, 133);
+        groupBox1.Controls.Add(rbHalfYear);
+        groupBox1.Controls.Add(rbMonth);
+        groupBox1.Controls.Add(rbWeek);
+        groupBox1.Location = new Point(12, 55);
+        groupBox1.Margin = new Padding(2);
         groupBox1.Name = "groupBox1";
-        groupBox1.Size = new Size(168, 150);
+        groupBox1.Padding = new Padding(2);
+        groupBox1.Size = new Size(133, 130);
         groupBox1.TabIndex = 7;
         groupBox1.TabStop = false;
         groupBox1.Text = "Calculate Period";
         // 
-        // ckbHalfYear
+        // rbHalfYear
         // 
-        ckbHalfYear.AutoSize = true;
-        ckbHalfYear.Location = new Point(21, 103);
-        ckbHalfYear.Name = "ckbHalfYear";
-        ckbHalfYear.Size = new Size(114, 27);
-        ckbHalfYear.TabIndex = 6;
-        ckbHalfYear.Text = "Half Year";
-        ckbHalfYear.UseVisualStyleBackColor = true;
+        rbHalfYear.AutoSize = true;
+        rbHalfYear.Location = new Point(16, 89);
+        rbHalfYear.Name = "rbHalfYear";
+        rbHalfYear.Size = new Size(76, 19);
+        rbHalfYear.TabIndex = 11;
+        rbHalfYear.Text = "Half Year";
+        rbHalfYear.UseVisualStyleBackColor = true;
         // 
-        // ckbMonth
+        // rbMonth
         // 
-        ckbMonth.AutoSize = true;
-        ckbMonth.Location = new Point(21, 70);
-        ckbMonth.Name = "ckbMonth";
-        ckbMonth.Size = new Size(93, 27);
-        ckbMonth.TabIndex = 5;
-        ckbMonth.Text = "Month";
-        ckbMonth.UseVisualStyleBackColor = true;
+        rbMonth.AutoSize = true;
+        rbMonth.Location = new Point(16, 57);
+        rbMonth.Name = "rbMonth";
+        rbMonth.Size = new Size(63, 19);
+        rbMonth.TabIndex = 10;
+        rbMonth.Text = "Month";
+        rbMonth.UseVisualStyleBackColor = true;
         // 
-        // ckb_week
+        // rbWeek
         // 
-        ckb_week.AutoSize = true;
-        ckb_week.Location = new Point(21, 37);
-        ckb_week.Name = "ckb_week";
-        ckb_week.Size = new Size(84, 27);
-        ckb_week.TabIndex = 4;
-        ckb_week.Text = "Week";
-        ckb_week.UseVisualStyleBackColor = true;
+        rbWeek.AutoSize = true;
+        rbWeek.Checked = true;
+        rbWeek.Location = new Point(16, 27);
+        rbWeek.Name = "rbWeek";
+        rbWeek.Size = new Size(57, 19);
+        rbWeek.TabIndex = 9;
+        rbWeek.TabStop = true;
+        rbWeek.Text = "Week";
+        rbWeek.UseVisualStyleBackColor = true;
+        // 
+        // groupBox2
+        // 
+        groupBox2.Controls.Add(txtbIgnoreLevel);
+        groupBox2.Controls.Add(label3);
+        groupBox2.Controls.Add(txtBoxStable);
+        groupBox2.Controls.Add(label2);
+        groupBox2.Controls.Add(label1);
+        groupBox2.Controls.Add(txtBoxStartColumn);
+        groupBox2.Location = new Point(151, 55);
+        groupBox2.Name = "groupBox2";
+        groupBox2.Size = new Size(193, 130);
+        groupBox2.TabIndex = 8;
+        groupBox2.TabStop = false;
+        groupBox2.Text = "Parameters";
+        // 
+        // txtBoxStable
+        // 
+        txtBoxStable.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        txtBoxStable.Location = new Point(94, 53);
+        txtBoxStable.Margin = new Padding(2);
+        txtBoxStable.Name = "txtBoxStable";
+        txtBoxStable.Size = new Size(42, 23);
+        txtBoxStable.TabIndex = 8;
+        txtBoxStable.Text = "0.4";
+        txtBoxStable.TextAlign = HorizontalAlignment.Center;
+        txtBoxStable.TextChanged += txtBoxStable_TextChanged;
+        // 
+        // label2
+        // 
+        label2.AutoSize = true;
+        label2.Location = new Point(15, 56);
+        label2.Margin = new Padding(2, 0, 2, 0);
+        label2.Name = "label2";
+        label2.Size = new Size(75, 15);
+        label2.TabIndex = 7;
+        label2.Text = "Stable Rate:";
+        // 
+        // label3
+        // 
+        label3.AutoSize = true;
+        label3.Location = new Point(15, 89);
+        label3.Margin = new Padding(2, 0, 2, 0);
+        label3.Name = "label3";
+        label3.Size = new Size(106, 15);
+        label3.TabIndex = 9;
+        label3.Text = "Ignore Threshold:";
+        // 
+        // txtbIgnoreLevel
+        // 
+        txtbIgnoreLevel.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        txtbIgnoreLevel.Location = new Point(125, 85);
+        txtbIgnoreLevel.Margin = new Padding(2);
+        txtbIgnoreLevel.Name = "txtbIgnoreLevel";
+        txtbIgnoreLevel.Size = new Size(42, 23);
+        txtbIgnoreLevel.TabIndex = 10;
+        txtbIgnoreLevel.Text = "0.5";
+        txtbIgnoreLevel.TextAlign = HorizontalAlignment.Center;
         // 
         // AttendForm
         // 
-        AutoScaleDimensions = new SizeF(11F, 23F);
+        AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1057, 315);
+        ClientSize = new Size(475, 280);
+        Controls.Add(groupBox2);
         Controls.Add(groupBox1);
-        Controls.Add(txtBoxStartColumn);
-        Controls.Add(label1);
         Controls.Add(btnCalculate);
         Controls.Add(lblCurFile);
         Controls.Add(btnSelect);
-        Margin = new Padding(5);
         Name = "AttendForm";
         Text = "Form1";
         groupBox1.ResumeLayout(false);
         groupBox1.PerformLayout();
+        groupBox2.ResumeLayout(false);
+        groupBox2.PerformLayout();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -167,7 +237,12 @@ partial class AttendForm
     private Label label1;
     private TextBox txtBoxStartColumn;
     private GroupBox groupBox1;
-    private CheckBox ckbHalfYear;
-    private CheckBox ckbMonth;
-    private CheckBox ckb_week;
+    private GroupBox groupBox2;
+    private TextBox txtBoxStable;
+    private Label label2;
+    private RadioButton rbWeek;
+    private RadioButton rbHalfYear;
+    private RadioButton rbMonth;
+    private TextBox txtbIgnoreLevel;
+    private Label label3;
 }
