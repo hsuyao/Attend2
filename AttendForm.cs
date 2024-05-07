@@ -80,8 +80,6 @@ public partial class AttendForm : Form
         }
     }
 
-
-
     private List<string> GroupByMonth(ISheet sheet)
     {
         var result = new List<string>();
@@ -110,7 +108,6 @@ public partial class AttendForm : Form
             }
             i++;
         }
-
         return result;
     }
 
@@ -215,7 +212,7 @@ public partial class AttendForm : Form
         {
             var row = sheet.GetRow(i);
             string district = row.GetCell(0)?.ToString() + row.GetCell(1)?.ToString();
-
+            string upper_district = row.GetCell(0)?.ToString();
             if (string.IsNullOrEmpty(district))
                 continue;
 
@@ -228,7 +225,7 @@ public partial class AttendForm : Form
                 if (weekAttendance == 1)
                 {
                     string key = district + "|" + identity + "|" + (j - 7); // 小區|身分|週次
-
+                    string key2 = upper_district + "|" + identity + "|" + (j - 7);
                     if (dict.ContainsKey(key))
                     {
                         dict[key][0] += 1;
@@ -236,6 +233,14 @@ public partial class AttendForm : Form
                     else
                     {
                         dict[key] = new List<int> { 1 };
+                    }
+                    if (dict.ContainsKey(key2))
+                    {
+                        dict[key2][0] += 1;
+                    }
+                    else
+                    {
+                        dict[key2] = new List<int> { 1 };
                     }
                 }
             }
