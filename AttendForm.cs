@@ -42,10 +42,31 @@ public partial class AttendForm : Form
             // ICell cell = row.GetCell(lastColumnWithData);
             // MessageBox.Show("從 '" + startColumnLetter + "' 列開始，共有資料筆數: " + (lastColumnWithData-startColumnIndex+1)+ " "+cell);
 
-            List<string> result = GroupByMonth(sheet);
-            foreach (string s in result)
+            if (ckbMonth.Checked == true)
             {
-                MessageBox.Show(s);
+                List<string> result = GroupByMonth(sheet);
+                foreach (string s in result)
+                {
+                    //MessageBox.Show(s);
+                }
+            }
+            if (ckb_week.Checked == true)
+            {
+                lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
+                List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 1);
+                foreach (string s in result)
+                {
+                   // MessageBox.Show(s);
+                }
+            }
+            if (ckbHalfYear.Checked == true)
+            {
+                lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
+                List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 26);
+                foreach (string s in result)
+                {
+                   // MessageBox.Show(s);
+                }
             }
         }
     }
@@ -99,23 +120,20 @@ public partial class AttendForm : Form
         return lastColumnWithData;
     }
 
-    private List<string> GroupNumbers(long total, long groupSize)
+    private List<string> GroupNumbers(long startNum, long endNum, long groupSize)
     {
         var groups = new List<string>();
+        long total = endNum - startNum + 1;
         long numGroups = (long)Math.Ceiling((double)total / groupSize);
-        long endNum = total;
 
         for (long i = numGroups - 1; i >= 0; i--)
         {
-            long startNum = endNum - groupSize + 1;
-            if (startNum < 1) startNum = 1;
-            groups.Add(startNum + "-" + endNum);
-            endNum = startNum - 1;
+            long groupEndNum = startNum + groupSize - 1;
+            if (groupEndNum > endNum) groupEndNum = endNum;
+            groups.Add(startNum + "-" + groupEndNum);
+            startNum = groupEndNum + 1;
         }
 
         return groups;
     }
 }
-
-
-
