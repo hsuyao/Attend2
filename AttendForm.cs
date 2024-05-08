@@ -7,6 +7,7 @@ using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using ClosedXML.Excel;
+using NPOI.SS.Util;
 
 namespace Attend;
 
@@ -49,6 +50,7 @@ public partial class AttendForm : Form
                 {
                     // MessageBox.Show(s);
                     var dict = ClassifyAttendancy(s, sheet);
+                    FillSheetWithDict(dict, s, lblCurFile.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
                 }
@@ -61,6 +63,7 @@ public partial class AttendForm : Form
                 {
                     // MessageBox.Show(s);
                     var dict = ClassifyAttendancy(s, sheet);
+                    FillSheetWithDict(dict, s, lblCurFile.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
                 }
@@ -73,6 +76,7 @@ public partial class AttendForm : Form
                 {
                     // MessageBox.Show(s);
                     var dict = ClassifyAttendancy(s, sheet);
+                    FillSheetWithDict(dict, s, lblCurFile.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
                 }
@@ -161,7 +165,7 @@ public partial class AttendForm : Form
             if (string.IsNullOrEmpty(groupName))
                 continue;
 
-            string[] categories = startColumn == endColumn ? new[] { "本週到會", "未到會  " } : new[] { "正常聚會", "不穩定", "不聚會" };
+            string[] categories = startColumn == endColumn ? new[] { "本週到會", "未到會  " } : new[] { "正常聚會", "不穩定", "無紀錄" };
 
             foreach (var _category in categories)
             {
@@ -187,7 +191,7 @@ public partial class AttendForm : Form
             if (startColumn == endColumn)
                 category = attendanceRate > double.Parse(txtBoxStable.Text) ? "本週到會" : "未到會  ";
             else
-                category = attendanceRate > double.Parse(txtBoxStable.Text) ? "正常聚會" : attendanceRate > 0 ? "不穩定" : "不聚會";
+                category = attendanceRate > double.Parse(txtBoxStable.Text) ? "正常聚會" : attendanceRate > 0 ? "不穩定" : "無紀錄";
 
             string key = groupName + "_" + category;
 
@@ -290,7 +294,8 @@ public partial class AttendForm : Form
                 {
                     sum += value;
                     count++;
-                }else
+                }
+                else
                 {
                     count = count;// debug purpose
                 }
@@ -303,13 +308,123 @@ public partial class AttendForm : Form
         return result;
     }
 
-private void lblCurFile_Click(object sender, EventArgs e)
+    private void FillSheetWithDict(Dictionary<string, List<string>> dict, string sheetName, string filePath, bool replaceUnderscore)
     {
+        IWorkbook workbook;
+        using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
+        {
+            workbook = new HSSFWorkbook(stream);
+        }
 
+        // Remove the sheet with the same name if it exists
+        int sheetIndex = workbook.GetSheetIndex(sheetName);
+        if (sheetIndex != -1)
+        {
+            workbook.RemoveSheetAt(sheetIndex);
+        }
+
+        ISheet sheet = workbook.CreateSheet(sheetName);
+
+        int columnIndex = 0;
+        foreach (var kvp in dict)
+        {
+            // Split the key into two parts
+            string[] parts = kvp.Key.Split('_');
+            string info1 = parts[0];
+            string info2 = parts.Length > 1 ? parts[1] : "";
+
+            // Create a row and fill the first and second cells with the two parts of the key
+            IRow row1 = sheet.GetRow(0) ?? sheet.CreateRow(0);
+            IRow row2 = sheet.GetRow(1) ?? sheet.CreateRow(1);
+            row1.CreateCell(columnIndex).SetCellValue(info1);
+            row2.CreateCell(columnIndex).SetCellValue(info2);
+
+            // Fill the rest of the column with the list values
+            for (int i = 0; i < kvp.Value.Count; i++)
+            {
+                string value = kvp.Value[i];
+                if (replaceUnderscore)
+                {
+                    if (value.Contains("_"))
+                    {
+                        // Replace "_" with "(" ")"
+                        value = value.Replace("_", "(") + ")";
+                    }
+                }
+                else
+                {
+                    if (value.Contains("_"))
+                    {
+                        // Remove everything after and including the first "_"
+                        value = value.Substring(0, value.IndexOf("_"));
+                    }
+                }
+                IRow row = sheet.GetRow(i + 2) ?? sheet.CreateRow(i + 2);
+                row.CreateCell(columnIndex).SetCellValue(value);
+            }
+
+            columnIndex++;  // Move to the next column
+        }
+
+        // Save the changes and close the workbook
+        using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
+        {
+            workbook.Write(stream);
+        }
+        MergeCells(filePath, sheetName, 0);
     }
 
-    private void txtBoxStable_TextChanged(object sender, EventArgs e)
-    {
 
+
+    private void MergeCells(string fileName, string sheetName, int rowNumber)
+    {
+        using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+        {
+            HSSFWorkbook workbook = new HSSFWorkbook(file);
+            ISheet sheet = workbook.GetSheet(sheetName);
+
+            IRow row = sheet.GetRow(rowNumber);
+            string previousValue = null;
+            int startMergeIndex = -1;
+
+            for (int i = 0; i < row.LastCellNum; i++)
+            {
+                ICell cell = row.GetCell(i);
+                if (cell != null)
+                {
+                    if (previousValue == null)
+                    {
+                        previousValue = cell.StringCellValue;
+                        startMergeIndex = i;
+                    }
+                    else if (previousValue == cell.StringCellValue)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if (i - startMergeIndex > 1)
+                        {
+                            sheet.AddMergedRegion(new CellRangeAddress(rowNumber, rowNumber, startMergeIndex, i - 1));
+                            row.GetCell(startMergeIndex).SetCellValue(previousValue);
+                        }
+                        previousValue = cell.StringCellValue;
+                        startMergeIndex = i;
+                    }
+                }
+            }
+
+            if (row.LastCellNum - startMergeIndex > 1)
+            {
+                sheet.AddMergedRegion(new CellRangeAddress(rowNumber, rowNumber, startMergeIndex, row.LastCellNum - 1));
+                row.GetCell(startMergeIndex).SetCellValue(previousValue);
+            }
+
+            using (FileStream fileOut = new FileStream(fileName, FileMode.Open, FileAccess.Write))
+            {
+                workbook.Write(fileOut);
+            }
+        }
     }
+
 }

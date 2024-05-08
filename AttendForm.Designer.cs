@@ -66,7 +66,6 @@ partial class AttendForm
         lblCurFile.Size = new Size(121, 15);
         lblCurFile.TabIndex = 2;
         lblCurFile.Text = "Select your excel file";
-        lblCurFile.Click += lblCurFile_Click;
         // 
         // btnCalculate
         // 
@@ -171,7 +170,7 @@ partial class AttendForm
         txtBoxStable.TabIndex = 8;
         txtBoxStable.Text = "0.4";
         txtBoxStable.TextAlign = HorizontalAlignment.Center;
-        txtBoxStable.TextChanged += txtBoxStable_TextChanged;
+
         // 
         // label2
         // 
