@@ -40,21 +40,21 @@ partial class AttendForm
         rbMonth = new RadioButton();
         rbWeek = new RadioButton();
         groupBox2 = new GroupBox();
+        txtBoxOutput = new TextBox();
+        label4 = new Label();
         txtbIgnoreLevel = new TextBox();
         label3 = new Label();
         txtBoxStable = new TextBox();
         label2 = new Label();
-        txtBoxOutput = new TextBox();
-        label4 = new Label();
         groupBox1.SuspendLayout();
         groupBox2.SuspendLayout();
         SuspendLayout();
         // 
         // btnSelect
         // 
-        btnSelect.Location = new Point(12, 7);
+        btnSelect.Location = new Point(90, 5);
         btnSelect.Name = "btnSelect";
-        btnSelect.Size = new Size(133, 30);
+        btnSelect.Size = new Size(133, 35);
         btnSelect.TabIndex = 0;
         btnSelect.Text = "Select Lord Day File";
         btnSelect.UseVisualStyleBackColor = true;
@@ -63,7 +63,7 @@ partial class AttendForm
         // lblCurFile
         // 
         lblCurFile.AutoSize = true;
-        lblCurFile.Location = new Point(151, 15);
+        lblCurFile.Location = new Point(229, 16);
         lblCurFile.Name = "lblCurFile";
         lblCurFile.Size = new Size(121, 15);
         lblCurFile.TabIndex = 2;
@@ -71,7 +71,7 @@ partial class AttendForm
         // 
         // btnCalculate
         // 
-        btnCalculate.Location = new Point(12, 234);
+        btnCalculate.Location = new Point(16, 5);
         btnCalculate.Margin = new Padding(2);
         btnCalculate.Name = "btnCalculate";
         btnCalculate.Size = new Size(69, 35);
@@ -110,7 +110,7 @@ partial class AttendForm
         groupBox1.Margin = new Padding(2);
         groupBox1.Name = "groupBox1";
         groupBox1.Padding = new Padding(2);
-        groupBox1.Size = new Size(133, 130);
+        groupBox1.Size = new Size(133, 158);
         groupBox1.TabIndex = 7;
         groupBox1.TabStop = false;
         groupBox1.Text = "Calculate Period";
@@ -118,7 +118,7 @@ partial class AttendForm
         // rbHalfYear
         // 
         rbHalfYear.AutoSize = true;
-        rbHalfYear.Location = new Point(16, 89);
+        rbHalfYear.Location = new Point(16, 85);
         rbHalfYear.Name = "rbHalfYear";
         rbHalfYear.Size = new Size(76, 19);
         rbHalfYear.TabIndex = 11;
@@ -128,7 +128,7 @@ partial class AttendForm
         // rbMonth
         // 
         rbMonth.AutoSize = true;
-        rbMonth.Location = new Point(16, 57);
+        rbMonth.Location = new Point(16, 52);
         rbMonth.Name = "rbMonth";
         rbMonth.Size = new Size(63, 19);
         rbMonth.TabIndex = 10;
@@ -159,10 +159,33 @@ partial class AttendForm
         groupBox2.Controls.Add(txtBoxStartColumn);
         groupBox2.Location = new Point(151, 55);
         groupBox2.Name = "groupBox2";
-        groupBox2.Size = new Size(304, 213);
+        groupBox2.Size = new Size(199, 158);
         groupBox2.TabIndex = 8;
         groupBox2.TabStop = false;
         groupBox2.Text = "Parameters";
+        // 
+        // txtBoxOutput
+        // 
+        txtBoxOutput.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        txtBoxOutput.Location = new Point(86, 117);
+        txtBoxOutput.Margin = new Padding(2);
+        txtBoxOutput.Name = "txtBoxOutput";
+        txtBoxOutput.Size = new Size(84, 23);
+        txtBoxOutput.TabIndex = 12;
+        txtBoxOutput.Text = "主日.xlsx";
+        txtBoxOutput.TextAlign = HorizontalAlignment.Center;
+        txtBoxOutput.TextChanged += textBox1_TextChanged;
+        // 
+        // label4
+        // 
+        label4.AutoSize = true;
+        label4.Location = new Point(18, 120);
+        label4.Margin = new Padding(2, 0, 2, 0);
+        label4.Name = "label4";
+        label4.Size = new Size(72, 15);
+        label4.TabIndex = 11;
+        label4.Text = "Output File:";
+        label4.Click += label4_Click;
         // 
         // txtbIgnoreLevel
         // 
@@ -206,33 +229,11 @@ partial class AttendForm
         label2.TabIndex = 7;
         label2.Text = "Stable Rate:";
         // 
-        // txtBoxOutput
-        // 
-        txtBoxOutput.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxOutput.Location = new Point(83, 117);
-        txtBoxOutput.Margin = new Padding(2);
-        txtBoxOutput.Name = "txtBoxOutput";
-        txtBoxOutput.Size = new Size(84, 23);
-        txtBoxOutput.TabIndex = 12;
-        txtBoxOutput.Text = "主日.xlsx";
-        txtBoxOutput.TextAlign = HorizontalAlignment.Center;
-        txtBoxOutput.TextChanged += textBox1_TextChanged;
-        // 
-        // label4
-        // 
-        label4.AutoSize = true;
-        label4.Location = new Point(15, 120);
-        label4.Margin = new Padding(2, 0, 2, 0);
-        label4.Name = "label4";
-        label4.Size = new Size(72, 15);
-        label4.TabIndex = 11;
-        label4.Text = "Output File:";
-        // 
         // AttendForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(475, 280);
+        ClientSize = new Size(499, 223);
         Controls.Add(groupBox2);
         Controls.Add(groupBox1);
         Controls.Add(btnCalculate);

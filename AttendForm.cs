@@ -32,14 +32,31 @@ public partial class AttendForm : Form
             hssfWorkbook = new HSSFWorkbook(file);
         }
 
-        // 創建一個新的 .xlsx 文件
-        XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
+        // 讀取或創建一個 .xlsx 文件
+        XSSFWorkbook xssfWorkbook;
+        if (File.Exists(outputFileName))
+        {
+            using (FileStream file = new FileStream(outputFileName, FileMode.Open, FileAccess.Read))
+            {
+                xssfWorkbook = new XSSFWorkbook(file);
+            }
+        }
+        else
+        {
+            xssfWorkbook = new XSSFWorkbook();
+        }
 
         // 遍歷所有的工作表
         for (int i = 0; i < hssfWorkbook.NumberOfSheets; i++)
         {
             ISheet hssfSheet = hssfWorkbook.GetSheetAt(i);
-            ISheet xssfSheet = xssfWorkbook.CreateSheet(hssfSheet.SheetName);
+            ISheet xssfSheet = xssfWorkbook.GetSheet(hssfSheet.SheetName);
+
+            // 如果工作表不存在，則創建一個新的
+            if (xssfSheet == null)
+            {
+                xssfSheet = xssfWorkbook.CreateSheet(hssfSheet.SheetName);
+            }
 
             // 遍歷所有的行
             for (int j = 0; j <= hssfSheet.LastRowNum; j++)
@@ -88,6 +105,7 @@ public partial class AttendForm : Form
             xssfWorkbook.Write(file);
         }
     }
+
     private void btnSelect_Click(object sender, EventArgs e)
     {
         OpenFileDialog ofd = new OpenFileDialog();
@@ -134,6 +152,88 @@ public partial class AttendForm : Form
 
         return newCellValue;
     }
+    private void WriteToExcel(Dictionary<string, double> result, string filePath, string sheetName, int startRow, int startColumn)
+    {
+        XSSFWorkbook workbook;
+        using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+        {
+            workbook = new XSSFWorkbook(file);
+        }
+
+        ISheet sheet = workbook.GetSheet(sheetName);
+
+        // 如果 column 輸入為 0，則使用輸入 row 的最後一個有資料的 column 的下一個 column 作為指定 column 的值
+        if (startColumn == 0)
+        {
+            IRow row = sheet.GetRow(startRow);
+            startColumn = row.LastCellNum + 1;
+        }
+
+        var districtSums = new Dictionary<string, double>();
+        var districtIdentitySums = new Dictionary<string, double>();
+
+        foreach (var key in result.Keys)
+        {
+            var parts = key.Split('|');
+            var district = parts[0];
+            var identity = parts[1];
+
+            // 將 "年長", "中壯", "青壯", "青職" 的數值合併為一個數值，並統一他們的第二資訊為 "青職以上"
+            if (identity == "年長" || identity == "中壯" || identity == "青壯" || identity == "青職")
+            {
+                identity = "青職以上";
+                if (!districtIdentitySums.ContainsKey(district + "|" + identity))
+                {
+                    districtIdentitySums[district + "|" + identity] = 0;
+                }
+                districtIdentitySums[district + "|" + identity] += result[key];
+            }
+
+            // 將所有身份的數值加到 districtSums 中
+            if (!districtSums.ContainsKey(district))
+            {
+                districtSums[district] = 0;
+            }
+            districtSums[district] += result[key];
+
+            // 將其他身份的數值加到 districtIdentitySums 中
+            if (!districtIdentitySums.ContainsKey(district + "|" + identity))
+            {
+                districtIdentitySums[district + "|" + identity] = 0;
+            }
+            districtIdentitySums[district + "|" + identity] += result[key];
+        }
+
+        // 寫入每個第一資訊的 "青職以上" 和總和
+        foreach (var district in districtSums.Keys)
+        {
+            var identities = new List<string> { "青職以上", "大專", "中學", "小學", "學齡前", "總計" };
+            foreach (var identity in identities)
+            {
+                IRow row = sheet.GetRow(startRow++);
+                if (row == null)
+                {
+                    row = sheet.CreateRow(startRow - 1);
+                }
+                row.CreateCell(startColumn).SetCellValue(district);
+                row.CreateCell(startColumn + 1).SetCellValue(identity);
+                if (identity == "總計")
+                {
+                    row.CreateCell(startColumn + 2).SetCellValue(districtSums[district]);
+                }
+                else
+                {
+                    row.CreateCell(startColumn + 2).SetCellValue(districtIdentitySums.ContainsKey(district + "|" + identity) ? districtIdentitySums[district + "|" + identity] : 0);
+                }
+            }
+        }
+
+        using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Write))
+        {
+            workbook.Write(file);
+        }
+    }
+
 
     private void OpenExcelFile()
     {
@@ -165,6 +265,7 @@ public partial class AttendForm : Form
                     FillSheetWithDict(dict, month, txtBoxOutput.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
+                    WriteToExcel(calculateAverageResult, txtBoxOutput.Text, month, 1, 0);
                 }
                 for (int i = 1; i < sheetName.Count; i++)
                 {
@@ -215,7 +316,6 @@ public partial class AttendForm : Form
             MessageBox.Show("Finished!");
         }
     }
-
 
     private List<string> GroupByMonth(ISheet sheet)
     {
@@ -339,6 +439,7 @@ public partial class AttendForm : Form
     private Dictionary<string, List<int>> AttendanceCountByIdentity(string columnRange, ISheet sheet)
     {
         var dict = new Dictionary<string, List<int>>();
+        var dict2 = new Dictionary<string, List<int>>();
 
         // 使用 Split 函數來分割字串
         string[] parts = columnRange.Split('-');
@@ -371,25 +472,35 @@ public partial class AttendForm : Form
                     {
                         dict[key] = new List<int> { 1 };
                     }
-                    if (dict.ContainsKey(key2))
+                    if (dict2.ContainsKey(key2))
                     {
-                        dict[key2][0] += 1;
+                        dict2[key2][0] += 1;
                     }
                     else
                     {
-                        dict[key2] = new List<int> { 1 };
+                        dict2[key2] = new List<int> { 1 };
                     }
                 }
             }
         }
 
+        // 把 dict2 的內容添加到 dict 的最後面
+        foreach (var item in dict2)
+        {
+            dict[item.Key] = item.Value;
+        }
+
         return dict;
     }
+
     private Dictionary<string, double> CalculateAverage(Dictionary<string, List<int>> dict)
     {
         var districtIdentityDict = new Dictionary<string, List<int>>();
 
         // 分類每個小區和身份的數字
+        // 身份的固定順序
+        string[] identities = new string[] { "年長", "中壯", "青壯", "青職", "大專", "中學", "小學", "學齡前" };
+
         foreach (var key in dict.Keys)
         {
             var parts = key.Split('|');
@@ -397,11 +508,22 @@ public partial class AttendForm : Form
             var identity = parts[1];
             var districtIdentityKey = district + "|" + identity;
 
+            // 如果 districtIdentityKey 不存在，則為每個 identity 創建一個新的 key
             if (!districtIdentityDict.ContainsKey(districtIdentityKey))
-                districtIdentityDict[districtIdentityKey] = new List<int>();
+            {
+                foreach (var id in identities)
+                {
+                    var newKey = district + "|" + id;
+                    if (!districtIdentityDict.ContainsKey(newKey))
+                    {
+                        districtIdentityDict[newKey] = new List<int>();
+                    }
+                }
+            }
 
             districtIdentityDict[districtIdentityKey].AddRange(dict[key]);
         }
+
 
         var result = new Dictionary<string, double>();
 
@@ -409,6 +531,13 @@ public partial class AttendForm : Form
         foreach (var key in districtIdentityDict.Keys)
         {
             var values = districtIdentityDict[key];
+
+            // 如果 values 為空，則將 result[key] 設為 0 並跳過此次循環
+            if (values.Count == 0)
+            {
+                result[key] = 0;
+                continue;
+            }
 
             // 使用 OrderBy 對 List 進行排序
             values.Sort();
@@ -437,6 +566,7 @@ public partial class AttendForm : Form
             // 計算平均數並更新字典
             result[key] = Math.Round(sum / count, 0);
         }
+
 
         return result;
     }
@@ -510,7 +640,7 @@ public partial class AttendForm : Form
                 if (cell != null)
                 {
                     int length = cell.ToString().Length;
-                    sheet.SetColumnWidth(i, ((length+1)*2) * 256);  // Set the column width based on the length of the cell content
+                    sheet.SetColumnWidth(i, ((length + 1) * 2) * 256);  // Set the column width based on the length of the cell content
                     cell.CellStyle = style;
                 }
             }
@@ -628,7 +758,7 @@ public partial class AttendForm : Form
             }
 
         }
-        
+
         // 儲存變更回 Excel 檔案
         using (FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.Write))
         {
@@ -651,6 +781,11 @@ public partial class AttendForm : Form
 
 
     private void textBox1_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    private void label4_Click(object sender, EventArgs e)
     {
 
     }
