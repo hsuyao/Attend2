@@ -40,10 +40,12 @@ partial class AttendForm
         rbMonth = new RadioButton();
         rbWeek = new RadioButton();
         groupBox2 = new GroupBox();
+        txtbIgnoreLevel = new TextBox();
+        label3 = new Label();
         txtBoxStable = new TextBox();
         label2 = new Label();
-        label3 = new Label();
-        txtbIgnoreLevel = new TextBox();
+        txtBoxOutput = new TextBox();
+        label4 = new Label();
         groupBox1.SuspendLayout();
         groupBox2.SuspendLayout();
         SuspendLayout();
@@ -147,6 +149,8 @@ partial class AttendForm
         // 
         // groupBox2
         // 
+        groupBox2.Controls.Add(txtBoxOutput);
+        groupBox2.Controls.Add(label4);
         groupBox2.Controls.Add(txtbIgnoreLevel);
         groupBox2.Controls.Add(label3);
         groupBox2.Controls.Add(txtBoxStable);
@@ -155,42 +159,10 @@ partial class AttendForm
         groupBox2.Controls.Add(txtBoxStartColumn);
         groupBox2.Location = new Point(151, 55);
         groupBox2.Name = "groupBox2";
-        groupBox2.Size = new Size(193, 130);
+        groupBox2.Size = new Size(304, 213);
         groupBox2.TabIndex = 8;
         groupBox2.TabStop = false;
         groupBox2.Text = "Parameters";
-        // 
-        // txtBoxStable
-        // 
-        txtBoxStable.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxStable.Location = new Point(94, 53);
-        txtBoxStable.Margin = new Padding(2);
-        txtBoxStable.Name = "txtBoxStable";
-        txtBoxStable.Size = new Size(42, 23);
-        txtBoxStable.TabIndex = 8;
-        txtBoxStable.Text = "0.4";
-        txtBoxStable.TextAlign = HorizontalAlignment.Center;
-
-        // 
-        // label2
-        // 
-        label2.AutoSize = true;
-        label2.Location = new Point(15, 56);
-        label2.Margin = new Padding(2, 0, 2, 0);
-        label2.Name = "label2";
-        label2.Size = new Size(75, 15);
-        label2.TabIndex = 7;
-        label2.Text = "Stable Rate:";
-        // 
-        // label3
-        // 
-        label3.AutoSize = true;
-        label3.Location = new Point(15, 89);
-        label3.Margin = new Padding(2, 0, 2, 0);
-        label3.Name = "label3";
-        label3.Size = new Size(106, 15);
-        label3.TabIndex = 9;
-        label3.Text = "Ignore Threshold:";
         // 
         // txtbIgnoreLevel
         // 
@@ -202,6 +174,59 @@ partial class AttendForm
         txtbIgnoreLevel.TabIndex = 10;
         txtbIgnoreLevel.Text = "0.5";
         txtbIgnoreLevel.TextAlign = HorizontalAlignment.Center;
+        // 
+        // label3
+        // 
+        label3.AutoSize = true;
+        label3.Location = new Point(15, 89);
+        label3.Margin = new Padding(2, 0, 2, 0);
+        label3.Name = "label3";
+        label3.Size = new Size(106, 15);
+        label3.TabIndex = 9;
+        label3.Text = "Ignore Threshold:";
+        // 
+        // txtBoxStable
+        // 
+        txtBoxStable.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        txtBoxStable.Location = new Point(94, 53);
+        txtBoxStable.Margin = new Padding(2);
+        txtBoxStable.Name = "txtBoxStable";
+        txtBoxStable.Size = new Size(42, 23);
+        txtBoxStable.TabIndex = 8;
+        txtBoxStable.Text = "0.4";
+        txtBoxStable.TextAlign = HorizontalAlignment.Center;
+        // 
+        // label2
+        // 
+        label2.AutoSize = true;
+        label2.Location = new Point(15, 56);
+        label2.Margin = new Padding(2, 0, 2, 0);
+        label2.Name = "label2";
+        label2.Size = new Size(75, 15);
+        label2.TabIndex = 7;
+        label2.Text = "Stable Rate:";
+        // 
+        // txtBoxOutput
+        // 
+        txtBoxOutput.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        txtBoxOutput.Location = new Point(83, 117);
+        txtBoxOutput.Margin = new Padding(2);
+        txtBoxOutput.Name = "txtBoxOutput";
+        txtBoxOutput.Size = new Size(84, 23);
+        txtBoxOutput.TabIndex = 12;
+        txtBoxOutput.Text = "主日.xlsx";
+        txtBoxOutput.TextAlign = HorizontalAlignment.Center;
+        txtBoxOutput.TextChanged += textBox1_TextChanged;
+        // 
+        // label4
+        // 
+        label4.AutoSize = true;
+        label4.Location = new Point(15, 120);
+        label4.Margin = new Padding(2, 0, 2, 0);
+        label4.Name = "label4";
+        label4.Size = new Size(72, 15);
+        label4.TabIndex = 11;
+        label4.Text = "Output File:";
         // 
         // AttendForm
         // 
@@ -244,4 +269,6 @@ partial class AttendForm
     private RadioButton rbMonth;
     private TextBox txtbIgnoreLevel;
     private Label label3;
+    private TextBox txtBoxOutput;
+    private Label label4;
 }

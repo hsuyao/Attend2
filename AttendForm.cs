@@ -9,6 +9,8 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using ClosedXML.Excel;
 using NPOI.SS.Util;
 using NPOI.HSSF.Util;
+using CellType = NPOI.SS.UserModel.CellType;
+using IndexedColors = NPOI.SS.UserModel.IndexedColors;
 
 namespace Attend;
 
@@ -20,6 +22,71 @@ public partial class AttendForm : Form
         InitializeComponent();
     }
 
+    public void ConvertHssfToXssf(string inputFileName, string outputFileName)
+    {
+        // 讀取 .xls 文件
+        HSSFWorkbook hssfWorkbook;
+        using (FileStream file = new FileStream(inputFileName, FileMode.Open, FileAccess.Read))
+        {
+            hssfWorkbook = new HSSFWorkbook(file);
+        }
+
+        // 創建一個新的 .xlsx 文件
+        XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
+
+        // 遍歷所有的工作表
+        for (int i = 0; i < hssfWorkbook.NumberOfSheets; i++)
+        {
+            ISheet hssfSheet = hssfWorkbook.GetSheetAt(i);
+            ISheet xssfSheet = xssfWorkbook.CreateSheet(hssfSheet.SheetName);
+
+            // 遍歷所有的行
+            for (int j = 0; j <= hssfSheet.LastRowNum; j++)
+            {
+                IRow hssfRow = hssfSheet.GetRow(j);
+                IRow xssfRow = xssfSheet.CreateRow(j);
+
+                if (hssfRow != null)
+                {
+                    // 遍歷所有的單元格
+                    for (int k = hssfRow.FirstCellNum; k < hssfRow.LastCellNum; k++)
+                    {
+                        ICell hssfCell = hssfRow.GetCell(k);
+                        ICell xssfCell = xssfRow.CreateCell(k);
+
+                        if (hssfCell != null)
+                        {
+                            // 複製單元格的值
+                            switch (hssfCell.CellType)
+                            {
+                                case CellType.String:
+                                    xssfCell.SetCellValue(hssfCell.StringCellValue);
+                                    break;
+                                case CellType.Numeric:
+                                    xssfCell.SetCellValue(hssfCell.NumericCellValue);
+                                    break;
+                                case CellType.Boolean:
+                                    xssfCell.SetCellValue(hssfCell.BooleanCellValue);
+                                    break;
+                                case CellType.Formula:
+                                    xssfCell.SetCellFormula(hssfCell.CellFormula);
+                                    break;
+                                default:
+                                    xssfCell.SetCellValue(hssfCell.ToString());
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 儲存 .xlsx 文件
+        using (FileStream file = new FileStream(outputFileName, FileMode.Create, FileAccess.Write))
+        {
+            xssfWorkbook.Write(file);
+        }
+    }
     private void btnSelect_Click(object sender, EventArgs e)
     {
         OpenFileDialog ofd = new OpenFileDialog();
@@ -40,17 +107,18 @@ public partial class AttendForm : Form
     {
         string startColumnLetter = txtBoxStartColumn.Text; // 使用者輸入的開始列名
         int startColumnIndex = startColumnLetter.ToUpper()[0] - 'A'; // 轉換列名為索引
+        ConvertHssfToXssf(lblCurFile.Text, txtBoxOutput.Text);
 
-        using (var fs = new FileStream(lblCurFile.Text, FileMode.Open, FileAccess.Read))
+        using (var fs = new FileStream(txtBoxOutput.Text, FileMode.Open, FileAccess.Read))
         {
-            var workbook = new HSSFWorkbook(fs);
+            var workbook = new XSSFWorkbook(fs);
             var sheet = workbook.GetSheetAt(0); // 選擇第一個工作表
             var row = sheet.GetRow(1); // 選擇第五行
 
             int lastColumnWithData = startColumnIndex;
             lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
-            // ICell cell = row.GetCell(lastColumnWithData);
-            // MessageBox.Show("從 '" + startColumnLetter + "' 列開始，共有資料筆數: " + (lastColumnWithData-startColumnIndex+1)+ " "+cell);
+                                                                                    // ICell cell = row.GetCell(lastColumnWithData);
+                                                                                    // MessageBox.Show("從 '" + startColumnLetter + "' 列開始，共有資料筆數: " + (lastColumnWithData-startColumnIndex+1)+ " "+cell);
 
             if (rbMonth.Checked == true)
             {
@@ -62,7 +130,7 @@ public partial class AttendForm : Form
                     var dict = ClassifyAttendancy(s, sheet);
                     var month = GetCellValue(sheet, s);
                     sheetName.Add(month);
-                    FillSheetWithDict(dict, month, lblCurFile.Text, false);
+                    FillSheetWithDict(dict, month, txtBoxOutput.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
                 }
@@ -72,7 +140,7 @@ public partial class AttendForm : Form
                     string currentSheetName = sheetName[i];
                     string previousSheetName = sheetName[i - 1];
 
-                    CompareSheets(lblCurFile.Text, currentSheetName, previousSheetName);
+                    CompareSheets(txtBoxOutput.Text, currentSheetName, previousSheetName);
                 }
             }
             if (rbWeek.Checked == true)
@@ -83,7 +151,7 @@ public partial class AttendForm : Form
                 {
                     // MessageBox.Show(s);
                     var dict = ClassifyAttendancy(s, sheet);
-                    FillSheetWithDict(dict, s, lblCurFile.Text, false);
+                    FillSheetWithDict(dict, s, txtBoxOutput.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
                 }
@@ -96,7 +164,7 @@ public partial class AttendForm : Form
                 {
                     // MessageBox.Show(s);
                     var dict = ClassifyAttendancy(s, sheet);
-                    FillSheetWithDict(dict, s, lblCurFile.Text, false);
+                    FillSheetWithDict(dict, s, txtBoxOutput.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
                 }
@@ -104,6 +172,7 @@ public partial class AttendForm : Form
             MessageBox.Show("Finished!");
         }
     }
+
 
     private List<string> GroupByMonth(ISheet sheet)
     {
@@ -334,7 +403,7 @@ public partial class AttendForm : Form
         IWorkbook workbook;
         using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
         {
-            workbook = new HSSFWorkbook(stream);
+            workbook = new XSSFWorkbook(stream);
         }
 
         // Remove the sheet with the same name if it exists
@@ -401,7 +470,7 @@ public partial class AttendForm : Form
     {
         using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
         {
-            HSSFWorkbook workbook = new HSSFWorkbook(file);
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
             ISheet sheet = workbook.GetSheet(sheetName);
 
             IRow row = sheet.GetRow(rowNumber);
@@ -448,64 +517,63 @@ public partial class AttendForm : Form
         }
     }
     private void CompareSheets(string fileName, string mainSheetName, string compareSheetName)
-{
-    HSSFWorkbook workbook;
-    using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
     {
-        workbook = new HSSFWorkbook(file);
-    }
+        XSSFWorkbook workbook;
+        using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+        {
+            workbook = new XSSFWorkbook(file);
+        }
 
-    ISheet mainSheet = workbook.GetSheet(mainSheetName);
-    ISheet compareSheet = workbook.GetSheet(compareSheetName);
+        ISheet mainSheet = workbook.GetSheet(mainSheetName);
+        ISheet compareSheet = workbook.GetSheet(compareSheetName);
 
-    // Define the colors
-    HSSFPalette palette = workbook.GetCustomPalette();
-    HSSFColor lightGreen = palette.GetColor(11);
-    HSSFColor lightRed = palette.GetColor(10);
+        // Define the colors
+        XSSFColor lightGreen = new XSSFColor(new byte[] { 44, 238, 144 }); // light green
+        XSSFColor lightRed = new XSSFColor(new byte[] { 255, 210, 210 }); // light red
 
         // Loop through columns
         for (int col = 1; col < mainSheet.GetRow(0).LastCellNum; col++)
-    {
-        // Compare column
-        for (int row = 2; row <= mainSheet.LastRowNum; row++)
         {
-            ICell mainCell = mainSheet.GetRow(row)?.GetCell(col);
-            string mainCellValue = mainCell?.ToString() ?? string.Empty;
-
-            int bracketPos = mainCellValue.IndexOf("(");
-            string removeAfterBracket = bracketPos > 0 ? mainCellValue.Substring(0, bracketPos) : mainCellValue;
-
-            if (!string.IsNullOrEmpty(mainCellValue) && !CellExistsInColumn(compareSheet, col, removeAfterBracket))
+            // Compare column
+            for (int row = 2; row <= mainSheet.LastRowNum; row++)
             {
-                // Create a new cell style and set the fill foreground color
-                ICellStyle style = workbook.CreateCellStyle();
-                style.FillPattern = FillPattern.SolidForeground;
+                ICell mainCell = mainSheet.GetRow(row)?.GetCell(col);
+                string mainCellValue = mainCell?.ToString() ?? string.Empty;
 
-                // Highlight the cell with light green or light red color
-                if (CellExistsInColumn(compareSheet, col + 1, removeAfterBracket) || CellExistsInColumn(compareSheet, col + 2, removeAfterBracket))
-                {
-                    // Green, if attendance getting better
-                    style.FillForegroundColor = lightGreen.Indexed;
-                }
-                else
-                {
-                    // Red, if attendance getting worse
-                    style.FillForegroundColor = lightRed.Indexed;
-                }
+                int bracketPos = mainCellValue.IndexOf("(");
+                string removeAfterBracket = bracketPos > 0 ? mainCellValue.Substring(0, bracketPos) : mainCellValue;
 
-                // Apply the style to the cell
-                mainCell.CellStyle = style;
+                if (!string.IsNullOrEmpty(mainCellValue) && !CellExistsInColumn(compareSheet, col, removeAfterBracket))
+                {
+                    // Create a new cell style and set the fill foreground color
+                    XSSFCellStyle style = (XSSFCellStyle)workbook.CreateCellStyle();
+
+                    // Highlight the cell with light green or light red color
+                    if (CellExistsInColumn(compareSheet, col + 1, removeAfterBracket) || CellExistsInColumn(compareSheet, col + 2, removeAfterBracket))
+                    {
+                        // Green, if attendance getting better
+                        style.SetFillForegroundColor(lightGreen); // 使用自訂顏色
+                        style.FillPattern = FillPattern.SolidForeground;
+                    }
+                    else
+                    {
+                        // Red, if attendance getting worse
+                        style.SetFillForegroundColor(lightRed); // 使用自訂顏色
+                        style.FillPattern = FillPattern.SolidForeground;
+                    }
+
+                    // Apply the style to the cell
+                    mainCell.CellStyle = style;
+                }
             }
         }
-    }
 
-    // 儲存變更回 Excel 檔案
-    using (FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-    {
-        workbook.Write(file);
+        // 儲存變更回 Excel 檔案
+        using (FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+        {
+            workbook.Write(file);
+        }
     }
-}
-
 
     private bool CellExistsInColumn(ISheet sheet, int col, string value)
     {
@@ -518,5 +586,11 @@ public partial class AttendForm : Form
             }
         }
         return false;
+    }
+
+
+    private void textBox1_TextChanged(object sender, EventArgs e)
+    {
+
     }
 }
