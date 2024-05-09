@@ -110,7 +110,7 @@ public partial class AttendForm : Form
     {
         OpenFileDialog ofd = new OpenFileDialog();
         ofd.ShowDialog();
-        lblCurFile.Text = ofd.FileName;
+        txtBoxLord.Text = ofd.FileName;
         btnCalculate.Enabled = true;
     }
     private string GetMonthString(ISheet sheet, string input)
@@ -172,6 +172,12 @@ public partial class AttendForm : Form
         var districtSums = new Dictionary<string, double>();
         var districtIdentitySums = new Dictionary<string, double>();
 
+        // 建立顏色
+        var lightBlue = new XSSFColor(new byte[] { 145, 203, 232 });
+        var navyBlue = new XSSFColor(new byte[] { 157, 189, 220 });
+
+        bool isLightBlue = true;
+
         foreach (var key in result.Keys)
         {
             var parts = key.Split('|');
@@ -195,6 +201,7 @@ public partial class AttendForm : Form
                 {
                     districtIdentitySums[district + "|" + identity] = 0;
                 }
+             
                 districtIdentitySums[district + "|" + identity] += result[key];
             }
 
@@ -203,8 +210,8 @@ public partial class AttendForm : Form
             {
                 districtSums[district] = 0;
             }
-            districtSums[district] += result[key];
-
+            if (identity != "學齡前")
+                districtSums[district] += result[key];
         }
 
         // 寫入每個第一資訊的 "青職以上" 和總和
@@ -228,21 +235,47 @@ public partial class AttendForm : Form
                 {
                     row.CreateCell(startColumn + 2).SetCellValue(districtIdentitySums.ContainsKey(district + "|" + identity) ? districtIdentitySums[district + "|" + identity] : 0);
                 }
+
+                // 設置儲存格的背景顏色和對齊方式
+                XSSFCellStyle style = (XSSFCellStyle)workbook.CreateCellStyle();
+               // style.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                style.VerticalAlignment = VerticalAlignment.Center;
+                if (isLightBlue == true)
+                {
+                    style.SetFillForegroundColor(lightBlue);
+                }
+                else
+                {
+                    style.SetFillForegroundColor(navyBlue);
+                }
+
+                style.FillPattern = FillPattern.SolidForeground;
+                for (int i = startColumn; i <= startColumn + 2; i++)
+                {
+                    row.GetCell(i).CellStyle = style;
+                }
             }
+
+            // 切換顏色
+            isLightBlue = !isLightBlue;
         }
+
         MergeColumnCells(sheet, startColumn);
+        sheet.SetColumnWidth(startColumn, 14 * 256);
+        sheet.SetColumnWidth(startColumn + 1, 10 * 256);
+        sheet.SetColumnWidth(startColumn + 2, 4 * 256);
+
         using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Write))
         {
             workbook.Write(file);
         }
     }
 
-
     private void OpenExcelFile()
     {
         string startColumnLetter = txtBoxStartColumn.Text; // 使用者輸入的開始列名
         int startColumnIndex = startColumnLetter.ToUpper()[0] - 'A'; // 轉換列名為索引
-        ConvertHssfToXssf(lblCurFile.Text, txtBoxOutput.Text);
+        ConvertHssfToXssf(txtBoxLord.Text, txtBoxOutput.Text);
 
         using (var fs = new FileStream(txtBoxOutput.Text, FileMode.Open, FileAccess.Read))
         {
@@ -648,65 +681,54 @@ public partial class AttendForm : Form
                 }
             }
         }
+
+        MergeCells(sheet, 0);
         // Save the changes and close the workbook
         using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
         {
             workbook.Write(stream);
         }
-        MergeCells(filePath, sheetName, 0);
+        
 
     }
 
-
-
-    private void MergeCells(string fileName, string sheetName, int rowNumber)
+    private void MergeCells(ISheet sheet, int rowNumber)
     {
-        using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+        IRow row = sheet.GetRow(rowNumber);
+        string previousValue = null;
+        int startMergeIndex = -1;
+
+        for (int i = 0; i < row.LastCellNum; i++)
         {
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
-            ISheet sheet = workbook.GetSheet(sheetName);
-
-            IRow row = sheet.GetRow(rowNumber);
-            string previousValue = null;
-            int startMergeIndex = -1;
-
-            for (int i = 0; i < row.LastCellNum; i++)
+            ICell cell = row.GetCell(i);
+            if (cell != null)
             {
-                ICell cell = row.GetCell(i);
-                if (cell != null)
+                if (previousValue == null)
                 {
-                    if (previousValue == null)
+                    previousValue = cell.StringCellValue;
+                    startMergeIndex = i;
+                }
+                else if (previousValue == cell.StringCellValue)
+                {
+                    continue;
+                }
+                else
+                {
+                    if (i - startMergeIndex > 1)
                     {
-                        previousValue = cell.StringCellValue;
-                        startMergeIndex = i;
+                        sheet.AddMergedRegion(new CellRangeAddress(rowNumber, rowNumber, startMergeIndex, i - 1));
+                        row.GetCell(startMergeIndex).SetCellValue(previousValue);
                     }
-                    else if (previousValue == cell.StringCellValue)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        if (i - startMergeIndex > 1)
-                        {
-                            sheet.AddMergedRegion(new CellRangeAddress(rowNumber, rowNumber, startMergeIndex, i - 1));
-                            row.GetCell(startMergeIndex).SetCellValue(previousValue);
-                        }
-                        previousValue = cell.StringCellValue;
-                        startMergeIndex = i;
-                    }
+                    previousValue = cell.StringCellValue;
+                    startMergeIndex = i;
                 }
             }
+        }
 
-            if (row.LastCellNum - startMergeIndex > 1)
-            {
-                sheet.AddMergedRegion(new CellRangeAddress(rowNumber, rowNumber, startMergeIndex, row.LastCellNum - 1));
-                row.GetCell(startMergeIndex).SetCellValue(previousValue);
-            }
-
-            using (FileStream fileOut = new FileStream(fileName, FileMode.Open, FileAccess.Write))
-            {
-                workbook.Write(fileOut);
-            }
+        if (row.LastCellNum - startMergeIndex > 1)
+        {
+            sheet.AddMergedRegion(new CellRangeAddress(rowNumber, rowNumber, startMergeIndex, row.LastCellNum - 1));
+            row.GetCell(startMergeIndex).SetCellValue(previousValue);
         }
     }
 

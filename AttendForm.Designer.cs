@@ -31,7 +31,6 @@ partial class AttendForm
     {
         folderBrowserDialog1 = new FolderBrowserDialog();
         btnSelect = new Button();
-        lblCurFile = new Label();
         btnCalculate = new Button();
         label1 = new Label();
         txtBoxStartColumn = new TextBox();
@@ -46,32 +45,24 @@ partial class AttendForm
         label3 = new Label();
         txtBoxStable = new TextBox();
         label2 = new Label();
+        txtBoxLord = new TextBox();
         groupBox1.SuspendLayout();
         groupBox2.SuspendLayout();
         SuspendLayout();
         // 
         // btnSelect
         // 
-        btnSelect.Location = new Point(90, 5);
+        btnSelect.Location = new Point(12, 6);
         btnSelect.Name = "btnSelect";
-        btnSelect.Size = new Size(133, 35);
+        btnSelect.Size = new Size(92, 25);
         btnSelect.TabIndex = 0;
-        btnSelect.Text = "Select Lord Day File";
+        btnSelect.Text = "選擇主日表單";
         btnSelect.UseVisualStyleBackColor = true;
         btnSelect.Click += btnSelect_Click;
         // 
-        // lblCurFile
-        // 
-        lblCurFile.AutoSize = true;
-        lblCurFile.Location = new Point(229, 16);
-        lblCurFile.Name = "lblCurFile";
-        lblCurFile.Size = new Size(121, 15);
-        lblCurFile.TabIndex = 2;
-        lblCurFile.Text = "Select your excel file";
-        // 
         // btnCalculate
         // 
-        btnCalculate.Location = new Point(16, 5);
+        btnCalculate.Location = new Point(419, 172);
         btnCalculate.Margin = new Padding(2);
         btnCalculate.Name = "btnCalculate";
         btnCalculate.Size = new Size(69, 35);
@@ -229,15 +220,25 @@ partial class AttendForm
         label2.TabIndex = 7;
         label2.Text = "Stable Rate:";
         // 
+        // txtBoxLord
+        // 
+        txtBoxLord.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        txtBoxLord.Location = new Point(109, 7);
+        txtBoxLord.Margin = new Padding(2);
+        txtBoxLord.Name = "txtBoxLord";
+        txtBoxLord.Size = new Size(241, 24);
+        txtBoxLord.TabIndex = 13;
+        txtBoxLord.TextAlign = HorizontalAlignment.Center;
+        // 
         // AttendForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(499, 223);
+        Controls.Add(txtBoxLord);
         Controls.Add(groupBox2);
         Controls.Add(groupBox1);
         Controls.Add(btnCalculate);
-        Controls.Add(lblCurFile);
         Controls.Add(btnSelect);
         Name = "AttendForm";
         Text = "Form1";
@@ -257,7 +258,6 @@ partial class AttendForm
     #endregion
     private FolderBrowserDialog folderBrowserDialog1;
     private Button btnSelect;
-    private Label lblCurFile;
     private Button btnCalculate;
     private Label label1;
     private TextBox txtBoxStartColumn;
@@ -272,4 +272,5 @@ partial class AttendForm
     private Label label3;
     private TextBox txtBoxOutput;
     private Label label4;
+    private TextBox txtBoxLord;
 }

@@ -3,11 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\erichy_tsai\\Attend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|c:\\users\\erichy_tsai\\attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|c:\\users\\erichy_tsai\\attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\erichy_tsai\\AppData\\Local\\SourceServer\\79c855badfa28392bdaced51b1ce93dc809f56d0f7514bcc07693e2c9028b044\\src\\libraries\\System.Private.CoreLib\\src\\Microsoft\\Win32\\SafeHandles\\SafeFileHandle.Windows.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
@@ -15,7 +18,7 @@
       "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|c:\\users\\erichy_tsai\\attend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -30,11 +33,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -52,45 +55,58 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SafeFileHandle.Windows.cs",
+              "DocumentMoniker": "C:\\Users\\erichy_tsai\\AppData\\Local\\SourceServer\\79c855badfa28392bdaced51b1ce93dc809f56d0f7514bcc07693e2c9028b044\\src\\libraries\\System.Private.CoreLib\\src\\Microsoft\\Win32\\SafeHandles\\SafeFileHandle.Windows.cs",
+              "RelativeDocumentMoniker": "..\\AppData\\Local\\SourceServer\\79c855badfa28392bdaced51b1ce93dc809f56d0f7514bcc07693e2c9028b044\\src\\libraries\\System.Private.CoreLib\\src\\Microsoft\\Win32\\SafeHandles\\SafeFileHandle.Windows.cs",
+              "ToolTip": "C:\\Users\\erichy_tsai\\AppData\\Local\\SourceServer\\79c855badfa28392bdaced51b1ce93dc809f56d0f7514bcc07693e2c9028b044\\src\\libraries\\System.Private.CoreLib\\src\\Microsoft\\Win32\\SafeHandles\\SafeFileHandle.Windows.cs [\u552F\u8B80]",
+              "RelativeToolTip": "..\\AppData\\Local\\SourceServer\\79c855badfa28392bdaced51b1ce93dc809f56d0f7514bcc07693e2c9028b044\\src\\libraries\\System.Private.CoreLib\\src\\Microsoft\\Win32\\SafeHandles\\SafeFileHandle.Windows.cs [\u552F\u8B80]",
+              "ViewState": "AQIAAG8AAAAAAAAAAAAewHEAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-09T15:43:20.639Z",
+              "EditorCaption": " [\u552F\u8B80]"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "AttendForm.cs",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs",
               "RelativeDocumentMoniker": "AttendForm.cs",
               "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs*",
               "RelativeToolTip": "AttendForm.cs*",
-              "ViewState": "AQIAACsAAAAAAAAAAAAnwEAAAABFAAAA",
+              "ViewState": "AQIAALoAAAAAAAAAAAAswNQAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-03T09:43:34.13Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "AttendForm.cs [\u8A2D\u8A08]",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs",
               "RelativeDocumentMoniker": "AttendForm.cs",
               "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs [\u8A2D\u8A08]*",
               "RelativeToolTip": "AttendForm.cs [\u8A2D\u8A08]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-06T06:57:45.373Z",
+              "WhenOpened": "2024-05-07T05:09:33.299Z",
               "EditorCaption": " [\u8A2D\u8A08]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "AttendForm.Designer.cs",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.Designer.cs",
               "RelativeDocumentMoniker": "AttendForm.Designer.cs",
               "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.Designer.cs",
               "RelativeToolTip": "AttendForm.Designer.cs",
-              "ViewState": "AQIAAJAAAAAAAAAAAAAUwJ4AAAAVAAAA",
+              "ViewState": "AQIAAM8AAAAAAAAAAAAMwNsAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-03T09:35:01.454Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Attend.csproj",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\Attend.csproj",
               "RelativeDocumentMoniker": "Attend.csproj",
