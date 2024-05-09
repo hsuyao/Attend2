@@ -188,6 +188,15 @@ public partial class AttendForm : Form
                 }
                 districtIdentitySums[district + "|" + identity] += result[key];
             }
+            else
+            {
+                // 將其他身份的數值加到 districtIdentitySums 中
+                if (!districtIdentitySums.ContainsKey(district + "|" + identity))
+                {
+                    districtIdentitySums[district + "|" + identity] = 0;
+                }
+                districtIdentitySums[district + "|" + identity] += result[key];
+            }
 
             // 將所有身份的數值加到 districtSums 中
             if (!districtSums.ContainsKey(district))
@@ -196,12 +205,6 @@ public partial class AttendForm : Form
             }
             districtSums[district] += result[key];
 
-            // 將其他身份的數值加到 districtIdentitySums 中
-            if (!districtIdentitySums.ContainsKey(district + "|" + identity))
-            {
-                districtIdentitySums[district + "|" + identity] = 0;
-            }
-            districtIdentitySums[district + "|" + identity] += result[key];
         }
 
         // 寫入每個第一資訊的 "青職以上" 和總和
@@ -227,7 +230,7 @@ public partial class AttendForm : Form
                 }
             }
         }
-
+        MergeColumnCells(sheet, startColumn);
         using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Write))
         {
             workbook.Write(file);
@@ -706,6 +709,53 @@ public partial class AttendForm : Form
             }
         }
     }
+
+    private void MergeColumnCells(ISheet sheet, int columnNumber)
+    {
+        string previousValue = null;
+        int startMergeIndex = -1;
+
+        for (int i = 0; i <= sheet.LastRowNum; i++)
+        {
+            IRow row = sheet.GetRow(i);
+            if (row != null)
+            {
+                ICell cell = row.GetCell(columnNumber);
+                if (cell != null)
+                {
+                    if (previousValue == null)
+                    {
+                        previousValue = cell.StringCellValue;
+                        startMergeIndex = i;
+                    }
+                    else if (previousValue == cell.StringCellValue)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if (i - startMergeIndex > 1 && startMergeIndex >= 0)
+                        {
+                            sheet.AddMergedRegion(new CellRangeAddress(startMergeIndex, i - 1, columnNumber, columnNumber));
+                        }
+                        previousValue = cell.StringCellValue;
+                        startMergeIndex = i;
+                    }
+                }
+                else if (previousValue != null)
+                {
+                    if (i - startMergeIndex > 1 && startMergeIndex >= 0)
+                    {
+                        sheet.AddMergedRegion(new CellRangeAddress(startMergeIndex, i - 1, columnNumber, columnNumber));
+                    }
+                    previousValue = null;
+                    startMergeIndex = -1;
+                }
+            }
+        }
+    }
+
+
     private void CompareSheets(string fileName, string mainSheetName, string compareSheetName)
     {
         XSSFWorkbook workbook;
