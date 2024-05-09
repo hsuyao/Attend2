@@ -8,6 +8,7 @@ using NPOI.HSSF.UserModel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using ClosedXML.Excel;
 using NPOI.SS.Util;
+using NPOI.HSSF.Util;
 
 namespace Attend;
 
@@ -26,7 +27,15 @@ public partial class AttendForm : Form
         lblCurFile.Text = ofd.FileName;
         btnCalculate.Enabled = true;
     }
+    private string GetCellValue(ISheet sheet, string input)
+    {
+        int columnIndex = int.Parse(input.Split('-')[0]);
 
+        IRow row = sheet.GetRow(0);
+        ICell cell = row.GetCell(columnIndex);
+
+        return cell.StringCellValue;
+    }
     private void OpenExcelFile()
     {
         string startColumnLetter = txtBoxStartColumn.Text; // 使用者輸入的開始列名
@@ -46,13 +55,24 @@ public partial class AttendForm : Form
             if (rbMonth.Checked == true)
             {
                 List<string> result = GroupByMonth(sheet);
+                var sheetName = new List<string>();
                 foreach (string s in result)
                 {
                     // MessageBox.Show(s);
                     var dict = ClassifyAttendancy(s, sheet);
-                    FillSheetWithDict(dict, s, lblCurFile.Text, false);
+                    var month = GetCellValue(sheet, s);
+                    sheetName.Add(month);
+                    FillSheetWithDict(dict, month, lblCurFile.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
+                }
+                for (int i = 1; i < sheetName.Count; i++)
+                {
+                    // 取得當前表單和前一個表單的名稱
+                    string currentSheetName = sheetName[i];
+                    string previousSheetName = sheetName[i - 1];
+
+                    CompareSheets(lblCurFile.Text, currentSheetName, previousSheetName);
                 }
             }
             if (rbWeek.Checked == true)
@@ -81,6 +101,7 @@ public partial class AttendForm : Form
                     var calculateAverageResult = CalculateAverage(byIdentity);
                 }
             }
+            MessageBox.Show("Finished!");
         }
     }
 
@@ -426,5 +447,76 @@ public partial class AttendForm : Form
             }
         }
     }
+    private void CompareSheets(string fileName, string mainSheetName, string compareSheetName)
+{
+    HSSFWorkbook workbook;
+    using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+    {
+        workbook = new HSSFWorkbook(file);
+    }
 
+    ISheet mainSheet = workbook.GetSheet(mainSheetName);
+    ISheet compareSheet = workbook.GetSheet(compareSheetName);
+
+    // Define the colors
+    HSSFPalette palette = workbook.GetCustomPalette();
+    HSSFColor lightGreen = palette.GetColor(11);
+    HSSFColor lightRed = palette.GetColor(10);
+
+        // Loop through columns
+        for (int col = 1; col < mainSheet.GetRow(0).LastCellNum; col++)
+    {
+        // Compare column
+        for (int row = 2; row <= mainSheet.LastRowNum; row++)
+        {
+            ICell mainCell = mainSheet.GetRow(row)?.GetCell(col);
+            string mainCellValue = mainCell?.ToString() ?? string.Empty;
+
+            int bracketPos = mainCellValue.IndexOf("(");
+            string removeAfterBracket = bracketPos > 0 ? mainCellValue.Substring(0, bracketPos) : mainCellValue;
+
+            if (!string.IsNullOrEmpty(mainCellValue) && !CellExistsInColumn(compareSheet, col, removeAfterBracket))
+            {
+                // Create a new cell style and set the fill foreground color
+                ICellStyle style = workbook.CreateCellStyle();
+                style.FillPattern = FillPattern.SolidForeground;
+
+                // Highlight the cell with light green or light red color
+                if (CellExistsInColumn(compareSheet, col + 1, removeAfterBracket) || CellExistsInColumn(compareSheet, col + 2, removeAfterBracket))
+                {
+                    // Green, if attendance getting better
+                    style.FillForegroundColor = lightGreen.Indexed;
+                }
+                else
+                {
+                    // Red, if attendance getting worse
+                    style.FillForegroundColor = lightRed.Indexed;
+                }
+
+                // Apply the style to the cell
+                mainCell.CellStyle = style;
+            }
+        }
+    }
+
+    // 儲存變更回 Excel 檔案
+    using (FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+    {
+        workbook.Write(file);
+    }
+}
+
+
+    private bool CellExistsInColumn(ISheet sheet, int col, string value)
+    {
+        for (int row = 2; row <= sheet.LastRowNum; row++)
+        {
+            ICell cell = sheet.GetRow(row).GetCell(col);
+            if (cell != null && cell.ToString().Contains(value))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
