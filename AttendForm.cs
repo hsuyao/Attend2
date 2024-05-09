@@ -11,6 +11,7 @@ using NPOI.SS.Util;
 using NPOI.HSSF.Util;
 using CellType = NPOI.SS.UserModel.CellType;
 using IndexedColors = NPOI.SS.UserModel.IndexedColors;
+using DocumentFormat.OpenXml.Office2016.Excel;
 
 namespace Attend;
 
@@ -94,7 +95,7 @@ public partial class AttendForm : Form
         lblCurFile.Text = ofd.FileName;
         btnCalculate.Enabled = true;
     }
-    private string GetCellValue(ISheet sheet, string input)
+    private string GetMonthString(ISheet sheet, string input)
     {
         int columnIndex = int.Parse(input.Split('-')[0]);
 
@@ -103,6 +104,37 @@ public partial class AttendForm : Form
 
         return cell.StringCellValue;
     }
+    private string GetWeekString(ISheet sheet, string input)
+    {
+        int columnIndex = int.Parse(input.Split('-')[0]);
+
+        IRow row0 = sheet.GetRow(0);
+        IRow row1 = sheet.GetRow(1);
+        ICell cell0 = row0?.GetCell(columnIndex);
+        ICell cell1 = row1?.GetCell(columnIndex);
+
+        string cellValue0 = cell0?.StringCellValue ?? string.Empty;
+        string cellValue1 = cell1?.StringCellValue ?? string.Empty;
+
+        // 如果Row(0)內容是空的，往前面的column搜尋以取得該column的Row(0)內容
+        if (string.IsNullOrEmpty(cellValue0))
+        {
+            for (int i = columnIndex - 1; i >= 0; i--)
+            {
+                cellValue0 = row0.GetCell(i)?.StringCellValue ?? string.Empty;
+                if (!string.IsNullOrEmpty(cellValue0))
+                {
+                    break;
+                }
+            }
+        }
+
+        // 將Row(0) 與 Row(1) 組成新的字串
+        string newCellValue = cellValue0 + cellValue1;
+
+        return newCellValue;
+    }
+
     private void OpenExcelFile()
     {
         string startColumnLetter = txtBoxStartColumn.Text; // 使用者輸入的開始列名
@@ -128,7 +160,7 @@ public partial class AttendForm : Form
                 {
                     // MessageBox.Show(s);
                     var dict = ClassifyAttendancy(s, sheet);
-                    var month = GetCellValue(sheet, s);
+                    var month = GetMonthString(sheet, s);
                     sheetName.Add(month);
                     FillSheetWithDict(dict, month, txtBoxOutput.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
@@ -147,13 +179,24 @@ public partial class AttendForm : Form
             {
                 lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
                 List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 1);
+                var sheetName = new List<string>();
                 foreach (string s in result)
                 {
                     // MessageBox.Show(s);
                     var dict = ClassifyAttendancy(s, sheet);
-                    FillSheetWithDict(dict, s, txtBoxOutput.Text, false);
+                    var week = GetWeekString(sheet, s);
+                    sheetName.Add(week);
+                    FillSheetWithDict(dict, week, txtBoxOutput.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
+                }
+                for (int i = 1; i < sheetName.Count; i++)
+                {
+                    // 取得當前表單和前一個表單的名稱
+                    string currentSheetName = sheetName[i];
+                    string previousSheetName = sheetName[i - 1];
+
+                    CompareSheets(txtBoxOutput.Text, currentSheetName, previousSheetName);
                 }
             }
             if (rbHalfYear.Checked == true)
@@ -455,13 +498,30 @@ public partial class AttendForm : Form
 
             columnIndex++;  // Move to the next column
         }
-
+        int rowIndex = 1;  // Row index for the second row
+        IRow row3 = sheet.GetRow(rowIndex);
+        if (row3 != null)
+        {
+            ICellStyle style = workbook.CreateCellStyle();
+            style.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+            for (int i = row3.FirstCellNum; i < row3.LastCellNum; i++)
+            {
+                ICell cell = row3.GetCell(i);
+                if (cell != null)
+                {
+                    int length = cell.ToString().Length;
+                    sheet.SetColumnWidth(i, ((length+1)*2) * 256);  // Set the column width based on the length of the cell content
+                    cell.CellStyle = style;
+                }
+            }
+        }
         // Save the changes and close the workbook
         using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
         {
             workbook.Write(stream);
         }
         MergeCells(filePath, sheetName, 0);
+
     }
 
 
@@ -566,8 +626,9 @@ public partial class AttendForm : Form
                     mainCell.CellStyle = style;
                 }
             }
-        }
 
+        }
+        
         // 儲存變更回 Excel 檔案
         using (FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.Write))
         {
