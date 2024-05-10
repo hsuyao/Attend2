@@ -112,7 +112,7 @@ public partial class AttendForm : Form
         OpenFileDialog ofd = new OpenFileDialog();
         ofd.ShowDialog();
         txtBoxLord.Text = ofd.FileName;
-        btnCalculate.Enabled = true;
+        btnCalculateExcel1.Enabled = true;
     }
     private string GetMonthString(ISheet sheet, string input)
     {
@@ -891,6 +891,11 @@ public partial class AttendForm : Form
     }
 
     private void txtBoxStartColumn_TextChanged_1(object sender, EventArgs e)
+    {
+
+    }
+
+    private void AttendForm_Load(object sender, EventArgs e)
     {
 
     }
