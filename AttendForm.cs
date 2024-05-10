@@ -287,60 +287,6 @@ public partial class AttendForm : Form
         sheet.SetColumnWidth(startColumn + 1, 10 * 256);
         sheet.SetColumnWidth(startColumn + 2, 4 * 256);
     }
-
-    private string WriteToTextBox(Dictionary<string, double> result)
-    {
-        StringBuilder sb = new StringBuilder();
-
-        var districtSums = new Dictionary<string, double>();
-        var districtIdentitySums = new Dictionary<string, double>();
-
-        foreach (var key in result.Keys)
-        {
-            var parts = key.Split('|');
-            var district = parts[0];
-            var identity = parts[1];
-
-            if (identity == "年長" || identity == "中壯" || identity == "青壯" || identity == "青職")
-            {
-                identity = "青職以上";
-                if (!districtIdentitySums.ContainsKey(district + "|" + identity))
-                {
-                    districtIdentitySums[district + "|" + identity] = 0;
-                }
-                districtIdentitySums[district + "|" + identity] += result[key];
-            }
-            else
-            {
-                if (!districtIdentitySums.ContainsKey(district + "|" + identity))
-                {
-                    districtIdentitySums[district + "|" + identity] = 0;
-                }
-
-                districtIdentitySums[district + "|" + identity] += result[key];
-            }
-
-            if (!districtSums.ContainsKey(district))
-            {
-                districtSums[district] = 0;
-            }
-            if (identity != "學齡前")
-                districtSums[district] += result[key];
-        }
-
-        foreach (var district in districtSums.Keys)
-        {
-            var identities = new List<string> { "青職以上", "大專", "中學", "小學", "學齡前", "總計" };
-            foreach (var identity in identities)
-            {
-                sb.AppendLine(district + "\t" + identity + "\t" +
-                    (identity == "總計" ? districtSums[district] :
-                    (districtIdentitySums.ContainsKey(district + "|" + identity) ? districtIdentitySums[district + "|" + identity] : 0)));
-            }
-        }
-
-        return sb.ToString();
-    }
     private DataTable WriteToDataTable(Dictionary<string, double> result)
     {
         DataTable dt = new DataTable();
