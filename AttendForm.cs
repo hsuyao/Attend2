@@ -272,13 +272,13 @@ public partial class AttendForm : Form
         }
     }
 
-    private void OpenExcelFile()
+    private void OpenExcelFile(string inputFilePath, string outputFilePath)
     {
         string startColumnLetter = txtBoxStartColumn.Text; // 使用者輸入的開始列名
         int startColumnIndex = startColumnLetter.ToUpper()[0] - 'A'; // 轉換列名為索引
-        ConvertHssfToXssf(txtBoxLord.Text, txtBoxOutput.Text);
+        ConvertHssfToXssf(inputFilePath, outputFilePath);
 
-        using (var fs = new FileStream(txtBoxOutput.Text, FileMode.Open, FileAccess.Read))
+        using (var fs = new FileStream(outputFilePath, FileMode.Open, FileAccess.Read))
         {
             var workbook = new XSSFWorkbook(fs);
             var sheet = workbook.GetSheetAt(0); // 選擇第一個工作表
@@ -299,10 +299,10 @@ public partial class AttendForm : Form
                     var dict = ClassifyAttendancy(s, sheet);
                     var month = GetMonthString(sheet, s);
                     sheetName.Add(month);
-                    FillSheetWithDict(dict, month, txtBoxOutput.Text, false);
+                    FillSheetWithDict(dict, month, outputFilePath, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
-                    WriteToExcel(calculateAverageResult, txtBoxOutput.Text, month, 1, 0);
+                    WriteToExcel(calculateAverageResult, outputFilePath, month, 1, 0);
                 }
                 for (int i = 1; i < sheetName.Count; i++)
                 {
@@ -310,7 +310,7 @@ public partial class AttendForm : Form
                     string currentSheetName = sheetName[i];
                     string previousSheetName = sheetName[i - 1];
 
-                    CompareSheets(txtBoxOutput.Text, currentSheetName, previousSheetName);
+                    CompareSheets(outputFilePath, currentSheetName, previousSheetName);
                 }
             }
             if (rbWeek.Checked == true)
@@ -324,10 +324,10 @@ public partial class AttendForm : Form
                     var dict = ClassifyAttendancy(s, sheet);
                     var week = GetWeekString(sheet, s);
                     sheetName.Add(week);
-                    FillSheetWithDict(dict, week, txtBoxOutput.Text, false);
+                    FillSheetWithDict(dict, week, outputFilePath, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
-                    WriteToExcel(calculateAverageResult, txtBoxOutput.Text, week, 1, 0);
+                    WriteToExcel(calculateAverageResult, outputFilePath, week, 1, 0);
                 }
                 for (int i = 1; i < sheetName.Count; i++)
                 {
@@ -335,7 +335,7 @@ public partial class AttendForm : Form
                     string currentSheetName = sheetName[i];
                     string previousSheetName = sheetName[i - 1];
 
-                    CompareSheets(txtBoxOutput.Text, currentSheetName, previousSheetName);
+                    CompareSheets(outputFilePath, currentSheetName, previousSheetName);
                 }
             }
             if (rbHalfYear.Checked == true)
@@ -348,10 +348,10 @@ public partial class AttendForm : Form
                     // MessageBox.Show(s);
                     var dict = ClassifyAttendancy(s, sheet);
                     sheetName.Add(s);
-                    FillSheetWithDict(dict, s, txtBoxOutput.Text, false);
+                    FillSheetWithDict(dict, s, outputFilePath, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
-                    WriteToExcel(calculateAverageResult, txtBoxOutput.Text, s, 1, 0);
+                    WriteToExcel(calculateAverageResult, outputFilePath, s, 1, 0);
                 }
                 for (int i = 1; i < sheetName.Count; i++)
                 {
@@ -359,7 +359,7 @@ public partial class AttendForm : Form
                     string currentSheetName = sheetName[i];
                     string previousSheetName = sheetName[i - 1];
 
-                    CompareSheets(txtBoxOutput.Text, currentSheetName, previousSheetName);
+                    CompareSheets(outputFilePath, currentSheetName, previousSheetName);
                 }
             }
             MessageBox.Show("Finished!");
@@ -898,5 +898,30 @@ public partial class AttendForm : Form
     private void AttendForm_Load(object sender, EventArgs e)
     {
 
+    }
+
+    private void btnSelect2_Click(object sender, EventArgs e)
+    {
+        OpenFileDialog ofd = new OpenFileDialog();
+        ofd.ShowDialog();
+        txtBoxPray.Text = ofd.FileName;
+        //btnCalculateExcel1.Enabled = true;
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+        OpenExcelFile(txtBoxHome.Text, txtBoxOutputHome.Text);
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        OpenExcelFile(txtBoxPray.Text, txtBoxOutputPray.Text);
+    }
+
+    private void btnSelect3_Click(object sender, EventArgs e)
+    {
+        OpenFileDialog ofd = new OpenFileDialog();
+        ofd.ShowDialog();
+        txtBoxHome.Text = ofd.FileName;
     }
 }
