@@ -12,6 +12,7 @@ using NPOI.HSSF.Util;
 using CellType = NPOI.SS.UserModel.CellType;
 using IndexedColors = NPOI.SS.UserModel.IndexedColors;
 using DocumentFormat.OpenXml.Office2016.Excel;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace Attend;
 
@@ -201,7 +202,7 @@ public partial class AttendForm : Form
                 {
                     districtIdentitySums[district + "|" + identity] = 0;
                 }
-             
+
                 districtIdentitySums[district + "|" + identity] += result[key];
             }
 
@@ -238,7 +239,7 @@ public partial class AttendForm : Form
 
                 // 設置儲存格的背景顏色和對齊方式
                 XSSFCellStyle style = (XSSFCellStyle)workbook.CreateCellStyle();
-               // style.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                // style.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
                 style.VerticalAlignment = VerticalAlignment.Center;
                 if (isLightBlue == true)
                 {
@@ -326,6 +327,7 @@ public partial class AttendForm : Form
                     FillSheetWithDict(dict, week, txtBoxOutput.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
+                    WriteToExcel(calculateAverageResult, txtBoxOutput.Text, week, 1, 0);
                 }
                 for (int i = 1; i < sheetName.Count; i++)
                 {
@@ -340,13 +342,24 @@ public partial class AttendForm : Form
             {
                 lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
                 List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 26);
+                var sheetName = new List<string>();
                 foreach (string s in result)
                 {
                     // MessageBox.Show(s);
                     var dict = ClassifyAttendancy(s, sheet);
+                    sheetName.Add(s);
                     FillSheetWithDict(dict, s, txtBoxOutput.Text, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
+                    WriteToExcel(calculateAverageResult, txtBoxOutput.Text, s, 1, 0);
+                }
+                for (int i = 1; i < sheetName.Count; i++)
+                {
+                    // 取得當前表單和前一個表單的名稱
+                    string currentSheetName = sheetName[i];
+                    string previousSheetName = sheetName[i - 1];
+
+                    CompareSheets(txtBoxOutput.Text, currentSheetName, previousSheetName);
                 }
             }
             MessageBox.Show("Finished!");
@@ -458,9 +471,9 @@ public partial class AttendForm : Form
             string category;
 
             if (startColumn == endColumn)
-                category = attendanceRate > double.Parse(txtBoxStable.Text) ? "本週到會" : "未到會  ";
+                category = attendanceRate > double.Parse(txtBoxStable.Text) / 100 ? "本週到會" : "未到會  ";
             else
-                category = attendanceRate > double.Parse(txtBoxStable.Text) ? "正常聚會" : attendanceRate > 0 ? "不穩定" : "無紀錄";
+                category = attendanceRate > double.Parse(txtBoxStable.Text) / 100 ? "正常聚會" : attendanceRate > 0 ? "不穩定" : "無紀錄";
 
             string key = groupName + "_" + category;
 
@@ -582,7 +595,7 @@ public partial class AttendForm : Form
             double median = (values.Count % 2 != 0) ? values[values.Count / 2] : (values[(values.Count - 1) / 2] + values[values.Count / 2]) / 2.0;
 
             // 計算低於中位數XX %的數字的平均數
-            double lowerBound = median * double.Parse(txtbIgnoreLevel.Text);
+            double lowerBound = median * double.Parse(txtbIgnoreLevel.Text) / 100;
             double sum = 0;
             int count = 0;
 
@@ -688,7 +701,7 @@ public partial class AttendForm : Form
         {
             workbook.Write(stream);
         }
-        
+
 
     }
 
@@ -858,6 +871,26 @@ public partial class AttendForm : Form
     }
 
     private void label4_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void txtBoxStartColumn_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    private void label3_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void txtbIgnoreLevel_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    private void txtBoxStartColumn_TextChanged_1(object sender, EventArgs e)
     {
 
     }
