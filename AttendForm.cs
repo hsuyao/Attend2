@@ -14,6 +14,9 @@ using IndexedColors = NPOI.SS.UserModel.IndexedColors;
 using DocumentFormat.OpenXml.Office2016.Excel;
 using DocumentFormat.OpenXml.Bibliography;
 using NPOI.HPSF;
+using System.Text;
+using System.Data;
+using System.Windows.Forms;
 
 namespace Attend;
 
@@ -285,8 +288,118 @@ public partial class AttendForm : Form
         sheet.SetColumnWidth(startColumn + 2, 4 * 256);
     }
 
+    private string WriteToTextBox(Dictionary<string, double> result)
+    {
+        StringBuilder sb = new StringBuilder();
 
-    public void OpenExcelFile(string inputFilePath, string outputFilePath)
+        var districtSums = new Dictionary<string, double>();
+        var districtIdentitySums = new Dictionary<string, double>();
+
+        foreach (var key in result.Keys)
+        {
+            var parts = key.Split('|');
+            var district = parts[0];
+            var identity = parts[1];
+
+            if (identity == "年長" || identity == "中壯" || identity == "青壯" || identity == "青職")
+            {
+                identity = "青職以上";
+                if (!districtIdentitySums.ContainsKey(district + "|" + identity))
+                {
+                    districtIdentitySums[district + "|" + identity] = 0;
+                }
+                districtIdentitySums[district + "|" + identity] += result[key];
+            }
+            else
+            {
+                if (!districtIdentitySums.ContainsKey(district + "|" + identity))
+                {
+                    districtIdentitySums[district + "|" + identity] = 0;
+                }
+
+                districtIdentitySums[district + "|" + identity] += result[key];
+            }
+
+            if (!districtSums.ContainsKey(district))
+            {
+                districtSums[district] = 0;
+            }
+            if (identity != "學齡前")
+                districtSums[district] += result[key];
+        }
+
+        foreach (var district in districtSums.Keys)
+        {
+            var identities = new List<string> { "青職以上", "大專", "中學", "小學", "學齡前", "總計" };
+            foreach (var identity in identities)
+            {
+                sb.AppendLine(district + "\t" + identity + "\t" +
+                    (identity == "總計" ? districtSums[district] :
+                    (districtIdentitySums.ContainsKey(district + "|" + identity) ? districtIdentitySums[district + "|" + identity] : 0)));
+            }
+        }
+
+        return sb.ToString();
+    }
+    private DataTable WriteToDataTable(Dictionary<string, double> result)
+    {
+        DataTable dt = new DataTable();
+        dt.Columns.Add("所屬區");
+        dt.Columns.Add("身份");
+        dt.Columns.Add("人數");
+
+        var districtSums = new Dictionary<string, double>();
+        var districtIdentitySums = new Dictionary<string, double>();
+
+        foreach (var key in result.Keys)
+        {
+            var parts = key.Split('|');
+            var district = parts[0];
+            var identity = parts[1];
+
+            if (identity == "年長" || identity == "中壯" || identity == "青壯" || identity == "青職")
+            {
+                identity = "青職以上";
+                if (!districtIdentitySums.ContainsKey(district + "|" + identity))
+                {
+                    districtIdentitySums[district + "|" + identity] = 0;
+                }
+                districtIdentitySums[district + "|" + identity] += result[key];
+            }
+            else
+            {
+                if (!districtIdentitySums.ContainsKey(district + "|" + identity))
+                {
+                    districtIdentitySums[district + "|" + identity] = 0;
+                }
+
+                districtIdentitySums[district + "|" + identity] += result[key];
+            }
+
+            if (!districtSums.ContainsKey(district))
+            {
+                districtSums[district] = 0;
+            }
+            if (identity != "學齡前")
+                districtSums[district] += result[key];
+        }
+
+        foreach (var district in districtSums.Keys)
+        {
+            var identities = new List<string> { "青職以上", "大專", "中學", "小學", "學齡前", "總計" };
+            foreach (var identity in identities)
+            {
+                dt.Rows.Add(district, identity,
+                    identity == "總計" ? districtSums[district] :
+                    (districtIdentitySums.ContainsKey(district + "|" + identity) ? districtIdentitySums[district + "|" + identity] : 0));
+            }
+        }
+
+        return dt;
+    }
+
+
+    public void OpenExcelFile(string inputFilePath, string outputFilePath, DataGridView dbvResult)
     {
         try
         {
@@ -301,38 +414,7 @@ public partial class AttendForm : Form
                 var row = sheet.GetRow(1); // 選擇第五行
 
                 int lastColumnWithData = startColumnIndex;
-                lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
-                                                                                        // ICell cell = row.GetCell(lastColumnWithData);
-                                                                                        // MessageBox.Show("從 '" + startColumnLetter + "' 列開始，共有資料筆數: " + (lastColumnWithData-startColumnIndex+1)+ " "+cell);
-
-                if (rbMonth.Checked == true)
-                {
-                    List<string> result = GroupByMonth(sheet);
-                    var sheetName = new List<string>();
-                    foreach (string s in result)
-                    {
-                        // MessageBox.Show(s);
-                        var dict = ClassifyAttendancy(s, sheet);
-                        var month = GetMonthString(sheet, s);
-                        sheetName.Add(month);
-                        FillSheetWithDict(dict, month, workbook, false);
-                        var byIdentity = AttendanceCountByIdentity(s, sheet);
-                        var calculateAverageResult = CalculateAverage(byIdentity);
-                        WriteToExcel(calculateAverageResult, workbook, month, 1, 0);
-                    }
-                    for (int i = 1; i < sheetName.Count; i++)
-                    {
-                        // 取得當前表單和前一個表單的名稱
-                        string currentSheetName = sheetName[i];
-                        string previousSheetName = sheetName[i - 1];
-
-                        CompareSheets(workbook, currentSheetName, previousSheetName);
-                    }
-                    using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
-                    {
-                        workbook.Write(file);
-                    }
-                }
+                lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); 
                 if (rbWeek.Checked == true)
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
@@ -348,6 +430,8 @@ public partial class AttendForm : Form
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
                         WriteToExcel(calculateAverageResult, workbook, week, 1, 0);
+                        DataTable dt = WriteToDataTable(calculateAverageResult);
+                        if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
                     }
                     for (int i = 1; i < sheetName.Count; i++)
                     {
@@ -362,6 +446,37 @@ public partial class AttendForm : Form
                         workbook.Write(file);
                     }
                 }
+                if (rbMonth.Checked == true)
+                {
+                    List<string> result = GroupByMonth(sheet);
+                    var sheetName = new List<string>();
+                    foreach (string s in result)
+                    {
+                        // MessageBox.Show(s);
+                        var dict = ClassifyAttendancy(s, sheet);
+                        var month = GetMonthString(sheet, s);
+                        sheetName.Add(month);
+                        FillSheetWithDict(dict, month, workbook, false);
+                        var byIdentity = AttendanceCountByIdentity(s, sheet);
+                        var calculateAverageResult = CalculateAverage(byIdentity);
+                        WriteToExcel(calculateAverageResult, workbook, month, 1, 0);
+                        DataTable dt = WriteToDataTable(calculateAverageResult);
+                        if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
+                    }
+                    for (int i = 1; i < sheetName.Count; i++)
+                    {
+                        // 取得當前表單和前一個表單的名稱
+                        string currentSheetName = sheetName[i];
+                        string previousSheetName = sheetName[i - 1];
+
+                        CompareSheets(workbook, currentSheetName, previousSheetName);
+                    }
+                    using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                    {
+                        workbook.Write(file);
+                    }
+                }
+                
                 if (rbHalfYear.Checked == true)
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
@@ -376,6 +491,8 @@ public partial class AttendForm : Form
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
                         WriteToExcel(calculateAverageResult, workbook, s, 1, 0);
+                        DataTable dt = WriteToDataTable(calculateAverageResult);
+                        if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
                     }
                     for (int i = 1; i < sheetName.Count; i++)
                     {
@@ -390,7 +507,12 @@ public partial class AttendForm : Form
                         workbook.Write(file);
                     }
                 }
+                dbvResult.Columns["所屬區"].Width = 70;
+                dbvResult.Columns["身份"].Width = 70;
+                dbvResult.Columns["人數"].Width = 30;
                 MessageBox.Show("Finished!");
+                
+
             }
         }
         catch (FileNotFoundException e)
@@ -888,12 +1010,12 @@ public partial class AttendForm : Form
 
     private void btnCalculateSheet3_Click(object sender, EventArgs e)
     {
-        OpenExcelFile(txtBoxHome.Text, txtBoxOutputHome.Text);
+        OpenExcelFile(txtBoxHome.Text, txtBoxOutputHome.Text, dgvResult3);
     }
 
     private void btnCalculateSheet2_Click(object sender, EventArgs e)
     {
-        OpenExcelFile(txtBoxPray.Text, txtBoxOutputPray.Text);
+        OpenExcelFile(txtBoxPray.Text, txtBoxOutputPray.Text, dgvResult2);
     }
 
     private void btnSelect3_Click(object sender, EventArgs e)
