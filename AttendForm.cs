@@ -13,6 +13,7 @@ using CellType = NPOI.SS.UserModel.CellType;
 using IndexedColors = NPOI.SS.UserModel.IndexedColors;
 using DocumentFormat.OpenXml.Office2016.Excel;
 using DocumentFormat.OpenXml.Bibliography;
+using NPOI.HPSF;
 
 namespace Attend;
 
@@ -153,14 +154,8 @@ public partial class AttendForm : Form
 
         return newCellValue;
     }
-    private void WriteToExcel(Dictionary<string, double> result, string filePath, string sheetName, int startRow, int startColumn)
+    private void WriteToExcel(Dictionary<string, double> result, XSSFWorkbook workbook, string sheetName, int startRow, int startColumn)
     {
-        XSSFWorkbook workbook;
-        using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-        {
-            workbook = new XSSFWorkbook(file);
-        }
-
         ISheet sheet = workbook.GetSheet(sheetName);
 
         // 如果 column 輸入為 0，則使用輸入 row 的最後一個有資料的 column 的下一個 column 作為指定 column 的值
@@ -265,12 +260,8 @@ public partial class AttendForm : Form
         sheet.SetColumnWidth(startColumn, 14 * 256);
         sheet.SetColumnWidth(startColumn + 1, 10 * 256);
         sheet.SetColumnWidth(startColumn + 2, 4 * 256);
-
-        using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Write))
-        {
-            workbook.Write(file);
-        }
     }
+
 
     private void OpenExcelFile(string inputFilePath, string outputFilePath)
     {
@@ -299,10 +290,10 @@ public partial class AttendForm : Form
                     var dict = ClassifyAttendancy(s, sheet);
                     var month = GetMonthString(sheet, s);
                     sheetName.Add(month);
-                    FillSheetWithDict(dict, month, outputFilePath, false);
+                    FillSheetWithDict(dict, month, workbook, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
-                    WriteToExcel(calculateAverageResult, outputFilePath, month, 1, 0);
+                    WriteToExcel(calculateAverageResult, workbook, month, 1, 0);
                 }
                 for (int i = 1; i < sheetName.Count; i++)
                 {
@@ -310,7 +301,11 @@ public partial class AttendForm : Form
                     string currentSheetName = sheetName[i];
                     string previousSheetName = sheetName[i - 1];
 
-                    CompareSheets(outputFilePath, currentSheetName, previousSheetName);
+                    CompareSheets(workbook, currentSheetName, previousSheetName);
+                }
+                using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    workbook.Write(file);
                 }
             }
             if (rbWeek.Checked == true)
@@ -324,10 +319,10 @@ public partial class AttendForm : Form
                     var dict = ClassifyAttendancy(s, sheet);
                     var week = GetWeekString(sheet, s);
                     sheetName.Add(week);
-                    FillSheetWithDict(dict, week, outputFilePath, false);
+                    FillSheetWithDict(dict, week, workbook, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
-                    WriteToExcel(calculateAverageResult, outputFilePath, week, 1, 0);
+                    WriteToExcel(calculateAverageResult, workbook, week, 1, 0);
                 }
                 for (int i = 1; i < sheetName.Count; i++)
                 {
@@ -335,7 +330,11 @@ public partial class AttendForm : Form
                     string currentSheetName = sheetName[i];
                     string previousSheetName = sheetName[i - 1];
 
-                    CompareSheets(outputFilePath, currentSheetName, previousSheetName);
+                    CompareSheets(workbook, currentSheetName, previousSheetName);
+                }
+                using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    workbook.Write(file);
                 }
             }
             if (rbHalfYear.Checked == true)
@@ -348,10 +347,10 @@ public partial class AttendForm : Form
                     // MessageBox.Show(s);
                     var dict = ClassifyAttendancy(s, sheet);
                     sheetName.Add(s);
-                    FillSheetWithDict(dict, s, outputFilePath, false);
+                    FillSheetWithDict(dict, s, workbook, false);
                     var byIdentity = AttendanceCountByIdentity(s, sheet);
                     var calculateAverageResult = CalculateAverage(byIdentity);
-                    WriteToExcel(calculateAverageResult, outputFilePath, s, 1, 0);
+                    WriteToExcel(calculateAverageResult, workbook, s, 1, 0);
                 }
                 for (int i = 1; i < sheetName.Count; i++)
                 {
@@ -359,7 +358,11 @@ public partial class AttendForm : Form
                     string currentSheetName = sheetName[i];
                     string previousSheetName = sheetName[i - 1];
 
-                    CompareSheets(outputFilePath, currentSheetName, previousSheetName);
+                    CompareSheets(workbook, currentSheetName, previousSheetName);
+                }
+                using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    workbook.Write(file);
                 }
             }
             MessageBox.Show("Finished!");
@@ -620,14 +623,8 @@ public partial class AttendForm : Form
         return result;
     }
 
-    private void FillSheetWithDict(Dictionary<string, List<string>> dict, string sheetName, string filePath, bool replaceUnderscore)
+    private void FillSheetWithDict(Dictionary<string, List<string>> dict, string sheetName, XSSFWorkbook workbook, bool replaceUnderscore)
     {
-        IWorkbook workbook;
-        using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
-        {
-            workbook = new XSSFWorkbook(stream);
-        }
-
         // Remove the sheet with the same name if it exists
         int sheetIndex = workbook.GetSheetIndex(sheetName);
         if (sheetIndex != -1)
@@ -696,14 +693,8 @@ public partial class AttendForm : Form
         }
 
         MergeCells(sheet, 0);
-        // Save the changes and close the workbook
-        using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
-        {
-            workbook.Write(stream);
-        }
-
-
     }
+
 
     private void MergeCells(ISheet sheet, int rowNumber)
     {
@@ -789,16 +780,8 @@ public partial class AttendForm : Form
             }
         }
     }
-
-
-    private void CompareSheets(string fileName, string mainSheetName, string compareSheetName)
+    private void CompareSheets(XSSFWorkbook workbook, string mainSheetName, string compareSheetName)
     {
-        XSSFWorkbook workbook;
-        using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-        {
-            workbook = new XSSFWorkbook(file);
-        }
-
         ISheet mainSheet = workbook.GetSheet(mainSheetName);
         ISheet compareSheet = workbook.GetSheet(compareSheetName);
 
@@ -841,13 +824,6 @@ public partial class AttendForm : Form
                     mainCell.CellStyle = style;
                 }
             }
-
-        }
-
-        // 儲存變更回 Excel 檔案
-        using (FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-        {
-            workbook.Write(file);
         }
     }
 

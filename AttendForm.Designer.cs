@@ -121,7 +121,7 @@ partial class AttendForm
         groupBox1.Controls.Add(rbWeek);
         groupBox1.Location = new Point(20, 526);
         groupBox1.Name = "groupBox1";
-        groupBox1.Size = new Size(209, 166);
+        groupBox1.Size = new Size(209, 218);
         groupBox1.TabIndex = 7;
         groupBox1.TabStop = false;
         groupBox1.Text = "統計單位";
@@ -176,7 +176,7 @@ partial class AttendForm
         groupBox2.Margin = new Padding(5);
         groupBox2.Name = "groupBox2";
         groupBox2.Padding = new Padding(5);
-        groupBox2.Size = new Size(313, 219);
+        groupBox2.Size = new Size(835, 219);
         groupBox2.TabIndex = 8;
         groupBox2.TabStop = false;
         groupBox2.Text = "統計參數";
