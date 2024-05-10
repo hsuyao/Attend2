@@ -112,7 +112,6 @@ partial class AttendForm
         txtBoxStartColumn.TabIndex = 6;
         txtBoxStartColumn.Text = "I";
         txtBoxStartColumn.TextAlign = HorizontalAlignment.Center;
-        txtBoxStartColumn.TextChanged += txtBoxStartColumn_TextChanged_1;
         // 
         // groupBox1
         // 
@@ -219,7 +218,6 @@ partial class AttendForm
         txtbIgnoreLevel.TabIndex = 10;
         txtbIgnoreLevel.Text = "40";
         txtbIgnoreLevel.TextAlign = HorizontalAlignment.Center;
-        txtbIgnoreLevel.TextChanged += txtbIgnoreLevel_TextChanged;
         // 
         // label3
         // 
@@ -229,7 +227,6 @@ partial class AttendForm
         label3.Size = new Size(100, 23);
         label3.TabIndex = 9;
         label3.Text = "低於中位數";
-        label3.Click += label3_Click;
         // 
         // txtBoxStable
         // 
@@ -258,7 +255,6 @@ partial class AttendForm
         txtBoxOutput.Size = new Size(178, 30);
         txtBoxOutput.TabIndex = 12;
         txtBoxOutput.Text = "主日.xlsx";
-        txtBoxOutput.TextChanged += textBox1_TextChanged;
         // 
         // label4
         // 
@@ -268,7 +264,6 @@ partial class AttendForm
         label4.Size = new Size(68, 23);
         label4.TabIndex = 11;
         label4.Text = "輸出檔:";
-        label4.Click += label4_Click;
         // 
         // txtBoxLord
         // 
@@ -431,7 +426,7 @@ partial class AttendForm
         btnCalculateExcel2.TabIndex = 24;
         btnCalculateExcel2.Text = "統計表單2";
         btnCalculateExcel2.UseVisualStyleBackColor = false;
-        btnCalculateExcel2.Click += button1_Click;
+        btnCalculateExcel2.Click += btnCalculateSheet2_Click;
         // 
         // btnCalculateExcel3
         // 
@@ -442,7 +437,7 @@ partial class AttendForm
         btnCalculateExcel3.TabIndex = 25;
         btnCalculateExcel3.Text = "統計表單3";
         btnCalculateExcel3.UseVisualStyleBackColor = false;
-        btnCalculateExcel3.Click += button2_Click;
+        btnCalculateExcel3.Click += btnCalculateSheet3_Click;
         // 
         // AttendForm
         // 
@@ -472,7 +467,6 @@ partial class AttendForm
         Margin = new Padding(5);
         Name = "AttendForm";
         Text = "Form1";
-        Load += AttendForm_Load;
         groupBox1.ResumeLayout(false);
         groupBox1.PerformLayout();
         groupBox2.ResumeLayout(false);

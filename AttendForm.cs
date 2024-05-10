@@ -25,87 +25,110 @@ public partial class AttendForm : Form
         InitializeComponent();
     }
 
-    public void ConvertHssfToXssf(string inputFileName, string outputFileName)
+    public bool ConvertHssfToXssf(string inputFileName, string outputFileName)
     {
-        // 讀取 .xls 文件
-        HSSFWorkbook hssfWorkbook;
-        using (FileStream file = new FileStream(inputFileName, FileMode.Open, FileAccess.Read))
+        try
         {
-            hssfWorkbook = new HSSFWorkbook(file);
-        }
-
-        // 讀取或創建一個 .xlsx 文件
-        XSSFWorkbook xssfWorkbook;
-        if (File.Exists(outputFileName))
-        {
-            using (FileStream file = new FileStream(outputFileName, FileMode.Open, FileAccess.Read))
+            // 檢查輸出檔案名稱是否包含 ".xlsx" 擴展名，如果沒有，則添加
+            if (!outputFileName.EndsWith(".xlsx"))
             {
-                xssfWorkbook = new XSSFWorkbook(file);
-            }
-        }
-        else
-        {
-            xssfWorkbook = new XSSFWorkbook();
-        }
-
-        // 遍歷所有的工作表
-        for (int i = 0; i < hssfWorkbook.NumberOfSheets; i++)
-        {
-            ISheet hssfSheet = hssfWorkbook.GetSheetAt(i);
-            ISheet xssfSheet = xssfWorkbook.GetSheet(hssfSheet.SheetName);
-
-            // 如果工作表不存在，則創建一個新的
-            if (xssfSheet == null)
-            {
-                xssfSheet = xssfWorkbook.CreateSheet(hssfSheet.SheetName);
+                outputFileName += ".xlsx";
             }
 
-            // 遍歷所有的行
-            for (int j = 0; j <= hssfSheet.LastRowNum; j++)
+            // 讀取 .xls 文件
+            HSSFWorkbook hssfWorkbook;
+            using (FileStream file = new FileStream(inputFileName, FileMode.Open, FileAccess.Read))
             {
-                IRow hssfRow = hssfSheet.GetRow(j);
-                IRow xssfRow = xssfSheet.CreateRow(j);
+                hssfWorkbook = new HSSFWorkbook(file);
+            }
 
-                if (hssfRow != null)
+            // 讀取或創建一個 .xlsx 文件
+            XSSFWorkbook xssfWorkbook;
+            if (File.Exists(outputFileName))
+            {
+                using (FileStream file = new FileStream(outputFileName, FileMode.Open, FileAccess.Read))
                 {
-                    // 遍歷所有的單元格
-                    for (int k = hssfRow.FirstCellNum; k < hssfRow.LastCellNum; k++)
-                    {
-                        ICell hssfCell = hssfRow.GetCell(k);
-                        ICell xssfCell = xssfRow.CreateCell(k);
+                    xssfWorkbook = new XSSFWorkbook(file);
+                }
+            }
+            else
+            {
+                xssfWorkbook = new XSSFWorkbook();
+            }
 
-                        if (hssfCell != null)
+            // 遍歷所有的工作表
+            for (int i = 0; i < hssfWorkbook.NumberOfSheets; i++)
+            {
+                ISheet hssfSheet = hssfWorkbook.GetSheetAt(i);
+                ISheet xssfSheet = xssfWorkbook.GetSheet(hssfSheet.SheetName);
+
+                // 如果工作表不存在，則創建一個新的
+                if (xssfSheet == null)
+                {
+                    xssfSheet = xssfWorkbook.CreateSheet(hssfSheet.SheetName);
+                }
+
+                // 遍歷所有的行
+                for (int j = 0; j <= hssfSheet.LastRowNum; j++)
+                {
+                    IRow hssfRow = hssfSheet.GetRow(j);
+                    IRow xssfRow = xssfSheet.CreateRow(j);
+
+                    if (hssfRow != null)
+                    {
+                        // 遍歷所有的單元格
+                        for (int k = hssfRow.FirstCellNum; k < hssfRow.LastCellNum; k++)
                         {
-                            // 複製單元格的值
-                            switch (hssfCell.CellType)
+                            ICell hssfCell = hssfRow.GetCell(k);
+                            ICell xssfCell = xssfRow.CreateCell(k);
+
+                            if (hssfCell != null)
                             {
-                                case CellType.String:
-                                    xssfCell.SetCellValue(hssfCell.StringCellValue);
-                                    break;
-                                case CellType.Numeric:
-                                    xssfCell.SetCellValue(hssfCell.NumericCellValue);
-                                    break;
-                                case CellType.Boolean:
-                                    xssfCell.SetCellValue(hssfCell.BooleanCellValue);
-                                    break;
-                                case CellType.Formula:
-                                    xssfCell.SetCellFormula(hssfCell.CellFormula);
-                                    break;
-                                default:
-                                    xssfCell.SetCellValue(hssfCell.ToString());
-                                    break;
+                                // 複製單元格的值
+                                switch (hssfCell.CellType)
+                                {
+                                    case CellType.String:
+                                        xssfCell.SetCellValue(hssfCell.StringCellValue);
+                                        break;
+                                    case CellType.Numeric:
+                                        xssfCell.SetCellValue(hssfCell.NumericCellValue);
+                                        break;
+                                    case CellType.Boolean:
+                                        xssfCell.SetCellValue(hssfCell.BooleanCellValue);
+                                        break;
+                                    case CellType.Formula:
+                                        xssfCell.SetCellFormula(hssfCell.CellFormula);
+                                        break;
+                                    default:
+                                        xssfCell.SetCellValue(hssfCell.ToString());
+                                        break;
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        // 儲存 .xlsx 文件
-        using (FileStream file = new FileStream(outputFileName, FileMode.Create, FileAccess.Write))
-        {
-            xssfWorkbook.Write(file);
+            // 儲存 .xlsx 文件
+            using (FileStream file = new FileStream(outputFileName, FileMode.Create, FileAccess.Write))
+            {
+                xssfWorkbook.Write(file);
+            }
+            return true;
         }
+        catch (FileNotFoundException e)
+        {
+            MessageBox.Show("檔案不存在: " + e.Message);
+        }
+        catch (IOException e)
+        {
+            MessageBox.Show("檔案無法開啟: " + e.Message);
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show("發生錯誤: " + e.Message);
+        }
+        return false;
     }
 
     private void btnSelect_Click(object sender, EventArgs e)
@@ -263,109 +286,124 @@ public partial class AttendForm : Form
     }
 
 
-    private void OpenExcelFile(string inputFilePath, string outputFilePath)
+    public void OpenExcelFile(string inputFilePath, string outputFilePath)
     {
-        string startColumnLetter = txtBoxStartColumn.Text; // 使用者輸入的開始列名
-        int startColumnIndex = startColumnLetter.ToUpper()[0] - 'A'; // 轉換列名為索引
-        ConvertHssfToXssf(inputFilePath, outputFilePath);
-
-        using (var fs = new FileStream(outputFilePath, FileMode.Open, FileAccess.Read))
+        try
         {
-            var workbook = new XSSFWorkbook(fs);
-            var sheet = workbook.GetSheetAt(0); // 選擇第一個工作表
-            var row = sheet.GetRow(1); // 選擇第五行
+            string startColumnLetter = txtBoxStartColumn.Text; // 使用者輸入的開始列名
+            int startColumnIndex = startColumnLetter.ToUpper()[0] - 'A'; // 轉換列名為索引
+            if (false == ConvertHssfToXssf(inputFilePath, outputFilePath)) return;
 
-            int lastColumnWithData = startColumnIndex;
-            lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
-                                                                                    // ICell cell = row.GetCell(lastColumnWithData);
-                                                                                    // MessageBox.Show("從 '" + startColumnLetter + "' 列開始，共有資料筆數: " + (lastColumnWithData-startColumnIndex+1)+ " "+cell);
-
-            if (rbMonth.Checked == true)
+            using (var fs = new FileStream(outputFilePath, FileMode.Open, FileAccess.Read))
             {
-                List<string> result = GroupByMonth(sheet);
-                var sheetName = new List<string>();
-                foreach (string s in result)
-                {
-                    // MessageBox.Show(s);
-                    var dict = ClassifyAttendancy(s, sheet);
-                    var month = GetMonthString(sheet, s);
-                    sheetName.Add(month);
-                    FillSheetWithDict(dict, month, workbook, false);
-                    var byIdentity = AttendanceCountByIdentity(s, sheet);
-                    var calculateAverageResult = CalculateAverage(byIdentity);
-                    WriteToExcel(calculateAverageResult, workbook, month, 1, 0);
-                }
-                for (int i = 1; i < sheetName.Count; i++)
-                {
-                    // 取得當前表單和前一個表單的名稱
-                    string currentSheetName = sheetName[i];
-                    string previousSheetName = sheetName[i - 1];
+                var workbook = new XSSFWorkbook(fs);
+                var sheet = workbook.GetSheetAt(0); // 選擇第一個工作表
+                var row = sheet.GetRow(1); // 選擇第五行
 
-                    CompareSheets(workbook, currentSheetName, previousSheetName);
-                }
-                using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
-                {
-                    workbook.Write(file);
-                }
-            }
-            if (rbWeek.Checked == true)
-            {
+                int lastColumnWithData = startColumnIndex;
                 lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
-                List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 1);
-                var sheetName = new List<string>();
-                foreach (string s in result)
-                {
-                    // MessageBox.Show(s);
-                    var dict = ClassifyAttendancy(s, sheet);
-                    var week = GetWeekString(sheet, s);
-                    sheetName.Add(week);
-                    FillSheetWithDict(dict, week, workbook, false);
-                    var byIdentity = AttendanceCountByIdentity(s, sheet);
-                    var calculateAverageResult = CalculateAverage(byIdentity);
-                    WriteToExcel(calculateAverageResult, workbook, week, 1, 0);
-                }
-                for (int i = 1; i < sheetName.Count; i++)
-                {
-                    // 取得當前表單和前一個表單的名稱
-                    string currentSheetName = sheetName[i];
-                    string previousSheetName = sheetName[i - 1];
+                                                                                        // ICell cell = row.GetCell(lastColumnWithData);
+                                                                                        // MessageBox.Show("從 '" + startColumnLetter + "' 列開始，共有資料筆數: " + (lastColumnWithData-startColumnIndex+1)+ " "+cell);
 
-                    CompareSheets(workbook, currentSheetName, previousSheetName);
-                }
-                using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                if (rbMonth.Checked == true)
                 {
-                    workbook.Write(file);
-                }
-            }
-            if (rbHalfYear.Checked == true)
-            {
-                lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
-                List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 26);
-                var sheetName = new List<string>();
-                foreach (string s in result)
-                {
-                    // MessageBox.Show(s);
-                    var dict = ClassifyAttendancy(s, sheet);
-                    sheetName.Add(s);
-                    FillSheetWithDict(dict, s, workbook, false);
-                    var byIdentity = AttendanceCountByIdentity(s, sheet);
-                    var calculateAverageResult = CalculateAverage(byIdentity);
-                    WriteToExcel(calculateAverageResult, workbook, s, 1, 0);
-                }
-                for (int i = 1; i < sheetName.Count; i++)
-                {
-                    // 取得當前表單和前一個表單的名稱
-                    string currentSheetName = sheetName[i];
-                    string previousSheetName = sheetName[i - 1];
+                    List<string> result = GroupByMonth(sheet);
+                    var sheetName = new List<string>();
+                    foreach (string s in result)
+                    {
+                        // MessageBox.Show(s);
+                        var dict = ClassifyAttendancy(s, sheet);
+                        var month = GetMonthString(sheet, s);
+                        sheetName.Add(month);
+                        FillSheetWithDict(dict, month, workbook, false);
+                        var byIdentity = AttendanceCountByIdentity(s, sheet);
+                        var calculateAverageResult = CalculateAverage(byIdentity);
+                        WriteToExcel(calculateAverageResult, workbook, month, 1, 0);
+                    }
+                    for (int i = 1; i < sheetName.Count; i++)
+                    {
+                        // 取得當前表單和前一個表單的名稱
+                        string currentSheetName = sheetName[i];
+                        string previousSheetName = sheetName[i - 1];
 
-                    CompareSheets(workbook, currentSheetName, previousSheetName);
+                        CompareSheets(workbook, currentSheetName, previousSheetName);
+                    }
+                    using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                    {
+                        workbook.Write(file);
+                    }
                 }
-                using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                if (rbWeek.Checked == true)
                 {
-                    workbook.Write(file);
+                    lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
+                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 1);
+                    var sheetName = new List<string>();
+                    foreach (string s in result)
+                    {
+                        // MessageBox.Show(s);
+                        var dict = ClassifyAttendancy(s, sheet);
+                        var week = GetWeekString(sheet, s);
+                        sheetName.Add(week);
+                        FillSheetWithDict(dict, week, workbook, false);
+                        var byIdentity = AttendanceCountByIdentity(s, sheet);
+                        var calculateAverageResult = CalculateAverage(byIdentity);
+                        WriteToExcel(calculateAverageResult, workbook, week, 1, 0);
+                    }
+                    for (int i = 1; i < sheetName.Count; i++)
+                    {
+                        // 取得當前表單和前一個表單的名稱
+                        string currentSheetName = sheetName[i];
+                        string previousSheetName = sheetName[i - 1];
+
+                        CompareSheets(workbook, currentSheetName, previousSheetName);
+                    }
+                    using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                    {
+                        workbook.Write(file);
+                    }
                 }
+                if (rbHalfYear.Checked == true)
+                {
+                    lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
+                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 26);
+                    var sheetName = new List<string>();
+                    foreach (string s in result)
+                    {
+                        // MessageBox.Show(s);
+                        var dict = ClassifyAttendancy(s, sheet);
+                        sheetName.Add(s);
+                        FillSheetWithDict(dict, s, workbook, false);
+                        var byIdentity = AttendanceCountByIdentity(s, sheet);
+                        var calculateAverageResult = CalculateAverage(byIdentity);
+                        WriteToExcel(calculateAverageResult, workbook, s, 1, 0);
+                    }
+                    for (int i = 1; i < sheetName.Count; i++)
+                    {
+                        // 取得當前表單和前一個表單的名稱
+                        string currentSheetName = sheetName[i];
+                        string previousSheetName = sheetName[i - 1];
+
+                        CompareSheets(workbook, currentSheetName, previousSheetName);
+                    }
+                    using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                    {
+                        workbook.Write(file);
+                    }
+                }
+                MessageBox.Show("Finished!");
             }
-            MessageBox.Show("Finished!");
+        }
+        catch (FileNotFoundException e)
+        {
+            MessageBox.Show("檔案不存在: " + e.Message);
+        }
+        catch (IOException e)
+        {
+            MessageBox.Show("檔案無法開啟: " + e.Message);
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show("發生錯誤: " + e.Message);
         }
     }
 
@@ -840,42 +878,6 @@ public partial class AttendForm : Form
         return false;
     }
 
-
-    private void textBox1_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    private void label4_Click(object sender, EventArgs e)
-    {
-
-    }
-
-    private void txtBoxStartColumn_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    private void label3_Click(object sender, EventArgs e)
-    {
-
-    }
-
-    private void txtbIgnoreLevel_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    private void txtBoxStartColumn_TextChanged_1(object sender, EventArgs e)
-    {
-
-    }
-
-    private void AttendForm_Load(object sender, EventArgs e)
-    {
-
-    }
-
     private void btnSelect2_Click(object sender, EventArgs e)
     {
         OpenFileDialog ofd = new OpenFileDialog();
@@ -884,12 +886,12 @@ public partial class AttendForm : Form
         //btnCalculateExcel1.Enabled = true;
     }
 
-    private void button2_Click(object sender, EventArgs e)
+    private void btnCalculateSheet3_Click(object sender, EventArgs e)
     {
         OpenExcelFile(txtBoxHome.Text, txtBoxOutputHome.Text);
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private void btnCalculateSheet2_Click(object sender, EventArgs e)
     {
         OpenExcelFile(txtBoxPray.Text, txtBoxOutputPray.Text);
     }
