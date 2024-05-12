@@ -387,6 +387,15 @@ public partial class AttendForm : Form
 
                         CompareSheets(workbook, currentSheetName, previousSheetName);
                     }
+                    
+                    IRow row0 = sheet.GetRow(0); // 取得第一列
+                    ICell cell = row0.GetCell(0); // 取得第一欄
+                    for (int i = 0; i < sheetName.Count; i++)
+                    {
+                        ISheet minor_sheet = workbook.GetSheet(sheetName[i]);
+                        FillSheetNameAndDataName(minor_sheet, sheetName[i] + " " + cell.ToString());
+                    }
+
                     using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
                     {
                         workbook.Write(file);
@@ -799,6 +808,28 @@ public partial class AttendForm : Form
         }
 
         MergeCells(sheet, 0);
+    }
+
+    private void FillSheetNameAndDataName(ISheet sheet, string inputString)
+    {
+        IRow row = sheet.GetRow(0); // 取得第一列
+
+        sheet.ShiftRows(0, sheet.LastRowNum, 1); // 將所有列向下移動一列
+
+        IRow newRow = sheet.CreateRow(0); // 在第一列插入新的列
+
+        int firstCellNum = row.FirstCellNum; // 取得第一列的第一個資料格子的索引
+        int lastCellNum = row.LastCellNum; // 取得第一列的最後一個資料格子的索引
+
+        sheet.AddMergedRegion(new CellRangeAddress(0, 0, firstCellNum, lastCellNum - 1)); // 合併新插入列的資料格子
+
+        ICell cell = newRow.CreateCell(firstCellNum); // 在新插入的列中創建一個資料格子
+        cell.SetCellValue(inputString); // 將輸入的字串設定為資料格子的值
+
+        ICellStyle style = sheet.Workbook.CreateCellStyle(); // 創建一個新的樣式
+        style.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center; // 設定樣式的對齊方式為水平置中
+
+        cell.CellStyle = style; // 將資料格子的樣式設定為剛創建的樣式
     }
 
 
