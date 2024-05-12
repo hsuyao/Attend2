@@ -17,6 +17,7 @@ using NPOI.HPSF;
 using System.Text;
 using System.Data;
 using System.Windows.Forms;
+using DocumentFormat.OpenXml.Presentation;
 
 namespace Attend;
 
@@ -360,7 +361,7 @@ public partial class AttendForm : Form
                 var row = sheet.GetRow(1); // 選擇第五行
 
                 int lastColumnWithData = startColumnIndex;
-                lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); 
+                lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex);
                 if (rbWeek.Checked == true)
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
@@ -387,7 +388,7 @@ public partial class AttendForm : Form
 
                         CompareSheets(workbook, currentSheetName, previousSheetName);
                     }
-                    
+
                     IRow row0 = sheet.GetRow(0); // 取得第一列
                     ICell cell = row0.GetCell(0); // 取得第一欄
                     for (int i = 0; i < sheetName.Count; i++)
@@ -431,7 +432,7 @@ public partial class AttendForm : Form
                         workbook.Write(file);
                     }
                 }
-                
+
                 if (rbHalfYear.Checked == true)
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
@@ -462,11 +463,11 @@ public partial class AttendForm : Form
                         workbook.Write(file);
                     }
                 }
-                dbvResult.Columns["所屬區"].Width = 70;
-                dbvResult.Columns["身份"].Width = 70;
-                dbvResult.Columns["人數"].Width = 30;
+                dbvResult.Columns["所屬區"].Width = 150;
+                dbvResult.Columns["身份"].Width = 120;
+                dbvResult.Columns["人數"].Width = 50;
                 MessageBox.Show("Finished!");
-                
+
 
             }
         }
@@ -1000,5 +1001,21 @@ public partial class AttendForm : Form
         OpenFileDialog ofd = new OpenFileDialog();
         ofd.ShowDialog();
         txtBoxHome.Text = ofd.FileName;
+    }
+
+    private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+    {
+
+    }
+
+    private void tabControl1_SizeChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    private void AttendForm_SizeChanged(object sender, EventArgs e)
+    {
+        if (WindowState == FormWindowState.Maximized) tabControl1.Dock = DockStyle.Fill;
+        else tabControl1.Dock = DockStyle.None;
     }
 }
