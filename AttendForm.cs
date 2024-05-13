@@ -24,6 +24,7 @@ namespace Attend;
 public partial class AttendForm : Form
 {
     HSSFWorkbook workbook;
+    string[] filenames = new string[] { "", "", "", "" };
     public AttendForm()
     {
         InitializeComponent();
@@ -134,13 +135,36 @@ public partial class AttendForm : Form
         }
         return false;
     }
+    private string ReadFirstCell(string filePath)
+    {
+        try
+        {
+            IWorkbook workbook;
 
+            using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                workbook = new HSSFWorkbook(file);
+            }
+
+            ISheet sheet = workbook.GetSheetAt(0); // 獲取第一個工作表
+            IRow row = sheet.GetRow(0); // 獲取第一列
+            ICell cell = row.GetCell(0); // 獲取第一欄
+
+            return cell.ToString(); // 讀取單元格的內容
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("讀取檔案時發生錯誤: " + ex.Message);
+            return null;
+        }
+    }
     private void btnSelect_Click(object sender, EventArgs e)
     {
         OpenFileDialog ofd = new OpenFileDialog();
         ofd.ShowDialog();
-        txtBoxLord.Text = ofd.FileName;
-        btnCalculateExcel1.Enabled = true;
+        filenames[0] = ofd.FileName;
+        txtBoxSelect1.Text = ReadFirstCell(filenames[0]);
+
     }
     private string GetMonthString(ISheet sheet, string input)
     {
@@ -354,6 +378,7 @@ public partial class AttendForm : Form
             int startColumnIndex = startColumnLetter.ToUpper()[0] - 'A'; // 轉換列名為索引
             if (false == ConvertHssfToXssf(inputFilePath, outputFilePath)) return;
 
+            var sheetName = new List<string>();
             using (var fs = new FileStream(outputFilePath, FileMode.Open, FileAccess.Read))
             {
                 var workbook = new XSSFWorkbook(fs);
@@ -366,7 +391,7 @@ public partial class AttendForm : Form
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
                     List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 1);
-                    var sheetName = new List<string>();
+                    //var sheetName = new List<string>();
                     foreach (string s in result)
                     {
                         // MessageBox.Show(s);
@@ -396,16 +421,11 @@ public partial class AttendForm : Form
                         ISheet minor_sheet = workbook.GetSheet(sheetName[i]);
                         FillSheetNameAndDataName(minor_sheet, sheetName[i] + " " + cell.ToString());
                     }
-
-                    using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
-                    {
-                        workbook.Write(file);
-                    }
                 }
                 if (rbMonth.Checked == true)
                 {
                     List<string> result = GroupByMonth(sheet);
-                    var sheetName = new List<string>();
+                    // var sheetName = new List<string>();
                     foreach (string s in result)
                     {
                         // MessageBox.Show(s);
@@ -427,17 +447,13 @@ public partial class AttendForm : Form
 
                         CompareSheets(workbook, currentSheetName, previousSheetName);
                     }
-                    using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
-                    {
-                        workbook.Write(file);
-                    }
                 }
 
                 if (rbHalfYear.Checked == true)
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
                     List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 26);
-                    var sheetName = new List<string>();
+
                     foreach (string s in result)
                     {
                         // MessageBox.Show(s);
@@ -447,8 +463,8 @@ public partial class AttendForm : Form
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
                         WriteToExcel(calculateAverageResult, workbook, s, 1, 0);
-                        DataTable dt = WriteToDataTable(calculateAverageResult);
-                        if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
+                        //  DataTable dt = WriteToDataTable(calculateAverageResult);
+                        // if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
                     }
                     for (int i = 1; i < sheetName.Count; i++)
                     {
@@ -458,16 +474,13 @@ public partial class AttendForm : Form
 
                         CompareSheets(workbook, currentSheetName, previousSheetName);
                     }
-                    using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
-                    {
-                        workbook.Write(file);
-                    }
                 }
-                dbvResult.Columns["所屬區"].Width = 150;
-                dbvResult.Columns["身份"].Width = 120;
-                dbvResult.Columns["人數"].Width = 50;
-                MessageBox.Show("Finished!");
-
+                using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    workbook.Write(file);
+                }
+                var sheetToShow = workbook.GetSheet(sheetName[sheetName.Count - 1]);
+                FillDataGridView(sheetToShow, dbvResult);
 
             }
         }
@@ -484,6 +497,70 @@ public partial class AttendForm : Form
             MessageBox.Show("發生錯誤: " + e.Message);
         }
     }
+
+    public void FillDataGridView(ISheet sheet, DataGridView dataGridView)
+    {
+        DataTable dt = new DataTable();
+
+        IRow headerRow = sheet.GetRow(0);
+        int cellCount = headerRow.LastCellNum;
+
+        for (int i = 0; i < cellCount; i++)
+        {
+            DataColumn column = new DataColumn(headerRow.GetCell(i).StringCellValue);
+            dt.Columns.Add(column);
+        }
+
+        int rowCount = sheet.LastRowNum;
+
+        for (int i = 1; i <= rowCount; i++)
+        {
+            IRow row = sheet.GetRow(i);
+            DataRow dataRow = dt.NewRow();
+
+            for (int j = 0; j < cellCount; j++)
+            {
+                ICell cell = row.GetCell(j);
+                if (cell == null || cell.CellType == CellType.Blank)
+                {
+                    dataRow[j] = "";
+                }
+                else if (cell.IsMergedCell)
+                {
+                    CellRangeAddress mergedRegion = GetMergedRegion(sheet, i, j);
+                    if (mergedRegion != null)
+                    {
+                        IRow mergedRow = sheet.GetRow(mergedRegion.FirstRow);
+                        ICell mergedCell = mergedRow.GetCell(mergedRegion.FirstColumn);
+                        dataRow[j] = mergedCell.ToString();
+                    }
+                }
+                else
+                {
+                    dataRow[j] = cell.ToString();
+                }
+            }
+
+            dt.Rows.Add(dataRow);
+        }
+
+        dataGridView.DataSource = dt;
+    }
+
+    private CellRangeAddress GetMergedRegion(ISheet sheet, int rowNumber, int columnNumber)
+    {
+        for (int i = 0; i < sheet.NumMergedRegions; i++)
+        {
+            CellRangeAddress mergedRegion = sheet.GetMergedRegion(i);
+            if (mergedRegion.IsInRange(rowNumber, columnNumber))
+            {
+                return mergedRegion;
+            }
+        }
+
+        return null;
+    }
+
 
     private List<string> GroupByMonth(ISheet sheet)
     {
@@ -982,25 +1059,28 @@ public partial class AttendForm : Form
     {
         OpenFileDialog ofd = new OpenFileDialog();
         ofd.ShowDialog();
-        txtBoxPray.Text = ofd.FileName;
-        //btnCalculateExcel1.Enabled = true;
+        filenames[1] = ofd.FileName;
+        txtBoxSelect2.Text = ReadFirstCell(filenames[1]);
     }
 
     private void btnCalculateSheet3_Click(object sender, EventArgs e)
     {
-        OpenExcelFile(txtBoxHome.Text, txtBoxOutputHome.Text, dgvResult3);
+        OpenExcelFile(filenames[2], txtBoxSelect3.Text + ".xlsx", dgvResult3);
+        MessageBox.Show("Finished!");
     }
 
     private void btnCalculateSheet2_Click(object sender, EventArgs e)
     {
-        OpenExcelFile(txtBoxPray.Text, txtBoxOutputPray.Text, dgvResult2);
+        OpenExcelFile(filenames[1], txtBoxSelect2.Text + ".xlsx", dgvResult2);
+        MessageBox.Show("Finished!");
     }
 
     private void btnSelect3_Click(object sender, EventArgs e)
     {
         OpenFileDialog ofd = new OpenFileDialog();
         ofd.ShowDialog();
-        txtBoxHome.Text = ofd.FileName;
+        filenames[2] = ofd.FileName;
+        txtBoxSelect3.Text = ReadFirstCell(filenames[2]);
     }
 
     private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
@@ -1017,5 +1097,33 @@ public partial class AttendForm : Form
     {
         if (WindowState == FormWindowState.Maximized) tabControl1.Dock = DockStyle.Fill;
         else tabControl1.Dock = DockStyle.None;
+    }
+
+    private void label4_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btnSelect4_Click(object sender, EventArgs e)
+    {
+        OpenFileDialog ofd = new OpenFileDialog();
+        ofd.ShowDialog();
+        filenames[3] = ofd.FileName;
+        txtBoxSelect4.Text = ReadFirstCell(filenames[3]);
+    }
+
+    private void btnCalculateExcel4_Click(object sender, EventArgs e)
+    {
+        OpenExcelFile(filenames[3], txtBoxSelect4.Text + ".xlsx", dgvResult4);
+        MessageBox.Show("Finished!");
+    }
+
+    private void btnCalculateAllExcel_Click(object sender, EventArgs e)
+    {
+        if (filenames[0].Length > 0) OpenExcelFile(filenames[0], txtBoxSelect1.Text + ".xlsx", dgvResult1);
+        if (filenames[1].Length > 0) OpenExcelFile(filenames[1], txtBoxSelect2.Text + ".xlsx", dgvResult2);
+        if (filenames[2].Length > 0) OpenExcelFile(filenames[2], txtBoxSelect3.Text + ".xlsx", dgvResult3);
+        if (filenames[3].Length > 0) OpenExcelFile(filenames[3], txtBoxSelect4.Text + ".xlsx", dgvResult4);
+        MessageBox.Show("Finished!");
     }
 }
