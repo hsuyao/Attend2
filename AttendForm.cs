@@ -205,7 +205,7 @@ public partial class AttendForm : Form
 
         return newCellValue;
     }
-    private void WriteToExcel(Dictionary<string, double> result, XSSFWorkbook workbook, string sheetName, int startRow, int startColumn)
+    private void WriteAvergeResultToSheet(Dictionary<string, double> result, XSSFWorkbook workbook, string sheetName, int startRow, int startColumn)
     {
         ISheet sheet = workbook.GetSheet(sheetName);
 
@@ -307,7 +307,7 @@ public partial class AttendForm : Form
             isLightBlue = !isLightBlue;
         }
 
-        MergeColumnCells(sheet, startColumn);
+       // MergeColumnCells(sheet, startColumn);
         sheet.SetColumnWidth(startColumn, 14 * 256);
         sheet.SetColumnWidth(startColumn + 1, 10 * 256);
         sheet.SetColumnWidth(startColumn + 2, 4 * 256);
@@ -369,6 +369,64 @@ public partial class AttendForm : Form
         return dt;
     }
 
+    private void RemoveZeroColumns(ISheet sheet, int startRow)
+    {
+        int lastColumnNum = sheet.GetRow(startRow).LastCellNum;
+
+        for (int columnNum = lastColumnNum - 1; columnNum >= 0; columnNum--)
+        {
+            bool allZeros = true;
+
+            for (int rowNum = startRow; rowNum <= sheet.LastRowNum; rowNum++)
+            {
+                IRow row = sheet.GetRow(rowNum);
+                if (row != null)
+                {
+                    ICell cell = row.GetCell(columnNum);
+                    if (cell != null && cell.NumericCellValue != 0)
+                    {
+                        allZeros = false;
+                        break;
+                    }
+                }
+            }
+
+            if (allZeros)
+            {
+                RemoveColumn(sheet, columnNum);
+            }
+            else
+                return;
+        }
+    }
+
+    private void RemoveColumn(ISheet sheet, int columnIndex)
+    {
+        for (int r = 0; r <= sheet.LastRowNum; r++)
+        {
+            IRow row = sheet.GetRow(r);
+            if (row != null)
+            {
+                for (int c = columnIndex; c < row.LastCellNum - 1; c++)
+                {
+                    ICell cell = row.GetCell(c);
+                    if (cell != null)
+                        row.RemoveCell(cell);
+
+                    ICell nextCell = row.GetCell(c + 1);
+                    if (nextCell != null)
+                    {
+                        ICell newCell = row.CreateCell(c, nextCell.CellType);
+                        newCell.CellStyle = nextCell.CellStyle;
+                        newCell.SetCellFormula(nextCell.CellFormula);
+                    }
+                }
+                ICell lastCell = row.GetCell(row.LastCellNum - 1);
+                if (lastCell != null)
+                    row.RemoveCell(lastCell);
+            }
+        }
+    }
 
     public void OpenExcelFile(string inputFilePath, string outputFilePath, DataGridView dbvResult)
     {
@@ -384,8 +442,11 @@ public partial class AttendForm : Form
                 var workbook = new XSSFWorkbook(fs);
                 var sheet = workbook.GetSheetAt(0); // 選擇第一個工作表
                 var row = sheet.GetRow(1); // 選擇第五行
-
                 int lastColumnWithData = startColumnIndex;
+                if (cbIgnoreNoData.Checked) 
+                {
+                   RemoveZeroColumns(sheet, 2);
+                }
                 lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex);
                 if (rbWeek.Checked == true)
                 {
@@ -401,9 +462,9 @@ public partial class AttendForm : Form
                         FillSheetWithDict(dict, week, workbook, false);
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
-                        WriteToExcel(calculateAverageResult, workbook, week, 1, 0);
-                        DataTable dt = WriteToDataTable(calculateAverageResult);
-                        if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
+                        WriteAvergeResultToSheet(calculateAverageResult, workbook, week, 1, 0);
+                       // DataTable dt = WriteToDataTable(calculateAverageResult);
+                       // if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
                     }
 
                 }
@@ -420,9 +481,9 @@ public partial class AttendForm : Form
                         FillSheetWithDict(dict, month, workbook, false);
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
-                        WriteToExcel(calculateAverageResult, workbook, month, 1, 0);
-                        DataTable dt = WriteToDataTable(calculateAverageResult);
-                        if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
+                        WriteAvergeResultToSheet(calculateAverageResult, workbook, month, 1, 0);
+                     //   DataTable dt = WriteToDataTable(calculateAverageResult);
+                     //   if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
                     }
                 }
 
@@ -439,7 +500,7 @@ public partial class AttendForm : Form
                         FillSheetWithDict(dict, s, workbook, false);
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
-                        WriteToExcel(calculateAverageResult, workbook, s, 1, 0);
+                        WriteAvergeResultToSheet(calculateAverageResult, workbook, s, 1, 0);
                     }
                 }
                 for (int i = 1; i < sheetName.Count; i++)
@@ -451,19 +512,21 @@ public partial class AttendForm : Form
                     CompareSheets(workbook, currentSheetName, previousSheetName);
                 }
 
+                var sheetToShow = workbook.GetSheet(sheetName[sheetName.Count - 1]);
+                DisplayExcelInDataGridView(sheetToShow, dbvResult);
+
                 IRow row0 = sheet.GetRow(0); // 取得第一列
                 ICell cell = row0.GetCell(0); // 取得第一欄
                 for (int i = 0; i < sheetName.Count; i++)
                 {
                     ISheet minor_sheet = workbook.GetSheet(sheetName[i]);
-                    FillSheetNameAndDataName(minor_sheet, sheetName[i] + " " + cell.ToString());
+                   // FillSheetNameAndDataName(minor_sheet, sheetName[i] + " " + cell.ToString());
                 }
                 using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
                 {
                     workbook.Write(file);
                 }
-                var sheetToShow = workbook.GetSheet(sheetName[sheetName.Count - 1]);
-                FillDataGridView(sheetToShow, dbvResult);
+                
 
             }
         }
@@ -481,69 +544,45 @@ public partial class AttendForm : Form
         }
     }
 
-    public void FillDataGridView(ISheet sheet, DataGridView dataGridView)
+    private void DisplayExcelInDataGridView(ISheet sheet, DataGridView dataGridView)
     {
-        DataTable dt = new DataTable();
-
-        IRow headerRow = sheet.GetRow(0);
+        var dt = new DataTable();
+        var headerRow = sheet.GetRow(0);
         int cellCount = headerRow.LastCellNum;
 
+        // Add columns with numeric names
         for (int i = 0; i < cellCount; i++)
         {
-            DataColumn column = new DataColumn(headerRow.GetCell(i).StringCellValue);
+            DataColumn column = new DataColumn(i.ToString());
             dt.Columns.Add(column);
         }
 
-        int rowCount = sheet.LastRowNum;
-
-        for (int i = 1; i <= rowCount; i++)
+        // Add rows
+        for (int i = 1; i <= sheet.LastRowNum; i++)
         {
-            IRow row = sheet.GetRow(i);
+            var row = sheet.GetRow(i);
             DataRow dataRow = dt.NewRow();
 
             for (int j = 0; j < cellCount; j++)
             {
-                ICell cell = row.GetCell(j);
-                if (cell == null || cell.CellType == CellType.Blank)
-                {
-                    dataRow[j] = "";
-                }
-                else if (cell.IsMergedCell)
-                {
-                    CellRangeAddress mergedRegion = GetMergedRegion(sheet, i, j);
-                    if (mergedRegion != null)
-                    {
-                        IRow mergedRow = sheet.GetRow(mergedRegion.FirstRow);
-                        ICell mergedCell = mergedRow.GetCell(mergedRegion.FirstColumn);
-                        dataRow[j] = mergedCell.ToString();
-                    }
-                }
-                else
-                {
-                    dataRow[j] = cell.ToString();
-                }
+                if (row.GetCell(j) != null)
+                    dataRow[j] = row.GetCell(j).ToString();
             }
 
             dt.Rows.Add(dataRow);
         }
 
         dataGridView.DataSource = dt;
-    }
 
-    private CellRangeAddress GetMergedRegion(ISheet sheet, int rowNumber, int columnNumber)
-    {
-        for (int i = 0; i < sheet.NumMergedRegions; i++)
+        // Set the column captions to the values from the second row
+        if (dt.Rows.Count > 0)
         {
-            CellRangeAddress mergedRegion = sheet.GetMergedRegion(i);
-            if (mergedRegion.IsInRange(rowNumber, columnNumber))
+            for (int i = 0; i < dataGridView.Columns.Count; i++)
             {
-                return mergedRegion;
+                dataGridView.Columns[i].HeaderText = dt.Rows[0][i].ToString();
             }
         }
-
-        return null;
     }
-
 
     private List<string> GroupByMonth(ISheet sheet)
     {
@@ -868,7 +907,7 @@ public partial class AttendForm : Form
             }
         }
 
-        MergeCells(sheet, 0);
+        //MergeCells(sheet, 0);
     }
 
     private void FillSheetNameAndDataName(ISheet sheet, string inputString)

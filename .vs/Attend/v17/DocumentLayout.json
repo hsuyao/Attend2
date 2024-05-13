@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\erichy_tsai\\Attend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|c:\\users\\erichy_tsai\\attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|c:\\users\\erichy_tsai\\attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\attendform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -51,15 +51,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AttendForm.cs [Design]",
+              "DocumentIndex": 1,
+              "Title": "AttendForm.cs [\u8A2D\u8A08]",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs",
               "RelativeDocumentMoniker": "AttendForm.cs",
-              "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs [Design]",
-              "RelativeToolTip": "AttendForm.cs [Design]",
+              "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs [\u8A2D\u8A08]*",
+              "RelativeToolTip": "AttendForm.cs [\u8A2D\u8A08]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-13T01:25:13.692Z",
-              "EditorCaption": " [Design]"
+              "EditorCaption": " [\u8A2D\u8A08]"
             },
             {
               "$type": "Document",
@@ -67,16 +67,16 @@
               "Title": "AttendForm.cs",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs",
               "RelativeDocumentMoniker": "AttendForm.cs",
-              "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs",
-              "RelativeToolTip": "AttendForm.cs",
-              "ViewState": "AQIAALgBAAAAAAAAAAAAAMsBAAARAAAA",
+              "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs*",
+              "RelativeToolTip": "AttendForm.cs*",
+              "ViewState": "AQIAAGEBAAAAAAAAAAAqwIoBAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-03T09:43:34.13Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "AttendForm.Designer.cs",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.Designer.cs",
               "RelativeDocumentMoniker": "AttendForm.Designer.cs",
@@ -84,7 +84,8 @@
               "RelativeToolTip": "AttendForm.Designer.cs",
               "ViewState": "AQIAAAACAAAAAAAAAIAwwBECAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-03T09:35:01.454Z"
+              "WhenOpened": "2024-05-03T09:35:01.454Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
