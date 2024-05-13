@@ -573,15 +573,7 @@ public partial class AttendForm : Form
         }
 
         dataGridView.DataSource = dt;
-
-        // Set the column captions to the values from the second row
-        // if (dt.Rows.Count > 0)
-        // {
-        //     for (int i = 0; i < dataGridView.Columns.Count; i++)
-        //     {
-        //         dataGridView.Columns[i].HeaderText = dt.Rows[0][i].ToString();
-        //     }
-        // }
+        dataGridView.ColumnHeadersVisible = false;
     }
 
     private List<string> GroupByMonth(ISheet sheet)
@@ -1098,6 +1090,7 @@ public partial class AttendForm : Form
     {
         if (WindowState == FormWindowState.Maximized) tabControl1.Dock = DockStyle.Fill;
         else tabControl1.Dock = DockStyle.None;
+        tabControl1.BringToFront();
     }
 
     private void btnSelect4_Click(object sender, EventArgs e)

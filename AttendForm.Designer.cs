@@ -37,6 +37,7 @@ partial class AttendForm
         rbMonth = new RadioButton();
         rbWeek = new RadioButton();
         groupBox2 = new GroupBox();
+        cbIgnoreNoData = new CheckBox();
         cbIgnoreElementarySchool = new CheckBox();
         ckbCompare = new CheckBox();
         label6 = new Label();
@@ -66,7 +67,6 @@ partial class AttendForm
         txtBoxSelect4 = new TextBox();
         btnSelect4 = new Button();
         btnCalculateAllExcel = new Button();
-        cbIgnoreNoData = new CheckBox();
         groupBox1.SuspendLayout();
         groupBox2.SuspendLayout();
         tabPage3.SuspendLayout();
@@ -83,7 +83,7 @@ partial class AttendForm
         // btnSelect1
         // 
         btnSelect1.Location = new Point(19, 17);
-        btnSelect1.Margin = new Padding(5, 5, 5, 5);
+        btnSelect1.Margin = new Padding(5);
         btnSelect1.Name = "btnSelect1";
         btnSelect1.Size = new Size(134, 38);
         btnSelect1.TabIndex = 0;
@@ -126,7 +126,7 @@ partial class AttendForm
         // 
         rbHalfYear.AutoSize = true;
         rbHalfYear.Location = new Point(25, 136);
-        rbHalfYear.Margin = new Padding(5, 5, 5, 5);
+        rbHalfYear.Margin = new Padding(5);
         rbHalfYear.Name = "rbHalfYear";
         rbHalfYear.Size = new Size(121, 27);
         rbHalfYear.TabIndex = 11;
@@ -137,7 +137,7 @@ partial class AttendForm
         // 
         rbMonth.AutoSize = true;
         rbMonth.Location = new Point(25, 89);
-        rbMonth.Margin = new Padding(5, 5, 5, 5);
+        rbMonth.Margin = new Padding(5);
         rbMonth.Name = "rbMonth";
         rbMonth.Size = new Size(137, 27);
         rbMonth.TabIndex = 10;
@@ -149,7 +149,7 @@ partial class AttendForm
         rbWeek.AutoSize = true;
         rbWeek.Checked = true;
         rbWeek.Location = new Point(25, 41);
-        rbWeek.Margin = new Padding(5, 5, 5, 5);
+        rbWeek.Margin = new Padding(5);
         rbWeek.Name = "rbWeek";
         rbWeek.Size = new Size(53, 27);
         rbWeek.TabIndex = 9;
@@ -171,13 +171,26 @@ partial class AttendForm
         groupBox2.Controls.Add(label1);
         groupBox2.Controls.Add(txtBoxStartColumn);
         groupBox2.Location = new Point(996, 17);
-        groupBox2.Margin = new Padding(5, 5, 5, 5);
+        groupBox2.Margin = new Padding(5);
         groupBox2.Name = "groupBox2";
-        groupBox2.Padding = new Padding(5, 5, 5, 5);
+        groupBox2.Padding = new Padding(5);
         groupBox2.Size = new Size(493, 196);
         groupBox2.TabIndex = 8;
         groupBox2.TabStop = false;
         groupBox2.Text = "統計參數";
+        // 
+        // cbIgnoreNoData
+        // 
+        cbIgnoreNoData.AutoSize = true;
+        cbIgnoreNoData.Checked = true;
+        cbIgnoreNoData.CheckState = CheckState.Checked;
+        cbIgnoreNoData.Location = new Point(283, 66);
+        cbIgnoreNoData.Margin = new Padding(5);
+        cbIgnoreNoData.Name = "cbIgnoreNoData";
+        cbIgnoreNoData.Size = new Size(162, 27);
+        cbIgnoreNoData.TabIndex = 15;
+        cbIgnoreNoData.Text = "忽略無紀錄日期";
+        cbIgnoreNoData.UseVisualStyleBackColor = true;
         // 
         // cbIgnoreElementarySchool
         // 
@@ -185,7 +198,7 @@ partial class AttendForm
         cbIgnoreElementarySchool.Checked = true;
         cbIgnoreElementarySchool.CheckState = CheckState.Checked;
         cbIgnoreElementarySchool.Location = new Point(283, 29);
-        cbIgnoreElementarySchool.Margin = new Padding(5, 5, 5, 5);
+        cbIgnoreElementarySchool.Margin = new Padding(5);
         cbIgnoreElementarySchool.Name = "cbIgnoreElementarySchool";
         cbIgnoreElementarySchool.Size = new Size(198, 27);
         cbIgnoreElementarySchool.TabIndex = 14;
@@ -198,7 +211,7 @@ partial class AttendForm
         ckbCompare.Checked = true;
         ckbCompare.CheckState = CheckState.Checked;
         ckbCompare.Location = new Point(24, 156);
-        ckbCompare.Margin = new Padding(5, 5, 5, 5);
+        ckbCompare.Margin = new Padding(5);
         ckbCompare.Name = "ckbCompare";
         ckbCompare.Size = new Size(180, 27);
         ckbCompare.TabIndex = 13;
@@ -282,7 +295,7 @@ partial class AttendForm
         // btnSelect2
         // 
         btnSelect2.Location = new Point(19, 63);
-        btnSelect2.Margin = new Padding(5, 5, 5, 5);
+        btnSelect2.Margin = new Padding(5);
         btnSelect2.Name = "btnSelect2";
         btnSelect2.Size = new Size(134, 38);
         btnSelect2.TabIndex = 14;
@@ -302,7 +315,7 @@ partial class AttendForm
         // btnSelect3
         // 
         btnSelect3.Location = new Point(19, 113);
-        btnSelect3.Margin = new Padding(5, 5, 5, 5);
+        btnSelect3.Margin = new Padding(5);
         btnSelect3.Name = "btnSelect3";
         btnSelect3.Size = new Size(134, 38);
         btnSelect3.TabIndex = 18;
@@ -315,7 +328,7 @@ partial class AttendForm
         tabPage3.Controls.Add(dgvResult3);
         tabPage3.Location = new Point(4, 32);
         tabPage3.Name = "tabPage3";
-        tabPage3.Padding = new Padding(3, 3, 3, 3);
+        tabPage3.Padding = new Padding(3);
         tabPage3.Size = new Size(1491, 643);
         tabPage3.TabIndex = 2;
         tabPage3.Text = "第三表單最新統計結果";
@@ -326,7 +339,7 @@ partial class AttendForm
         dgvResult3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dgvResult3.Dock = DockStyle.Fill;
         dgvResult3.Location = new Point(3, 3);
-        dgvResult3.Margin = new Padding(5, 5, 5, 5);
+        dgvResult3.Margin = new Padding(5);
         dgvResult3.Name = "dgvResult3";
         dgvResult3.RowHeadersWidth = 62;
         dgvResult3.Size = new Size(1485, 637);
@@ -337,7 +350,7 @@ partial class AttendForm
         tabPage2.Controls.Add(dgvResult2);
         tabPage2.Location = new Point(4, 32);
         tabPage2.Name = "tabPage2";
-        tabPage2.Padding = new Padding(3, 3, 3, 3);
+        tabPage2.Padding = new Padding(3);
         tabPage2.Size = new Size(1491, 643);
         tabPage2.TabIndex = 1;
         tabPage2.Text = "第二表單最新統計結果";
@@ -348,7 +361,7 @@ partial class AttendForm
         dgvResult2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dgvResult2.Dock = DockStyle.Fill;
         dgvResult2.Location = new Point(3, 3);
-        dgvResult2.Margin = new Padding(5, 5, 5, 5);
+        dgvResult2.Margin = new Padding(5);
         dgvResult2.Name = "dgvResult2";
         dgvResult2.RowHeadersWidth = 62;
         dgvResult2.Size = new Size(1485, 637);
@@ -359,7 +372,7 @@ partial class AttendForm
         tabPage1.Controls.Add(dgvResult1);
         tabPage1.Location = new Point(4, 32);
         tabPage1.Name = "tabPage1";
-        tabPage1.Padding = new Padding(3, 3, 3, 3);
+        tabPage1.Padding = new Padding(3);
         tabPage1.Size = new Size(1491, 643);
         tabPage1.TabIndex = 0;
         tabPage1.Text = "第一表單最新統計結果";
@@ -370,7 +383,7 @@ partial class AttendForm
         dgvResult1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dgvResult1.Dock = DockStyle.Fill;
         dgvResult1.Location = new Point(3, 3);
-        dgvResult1.Margin = new Padding(5, 5, 5, 5);
+        dgvResult1.Margin = new Padding(5);
         dgvResult1.Name = "dgvResult1";
         dgvResult1.RowHeadersWidth = 62;
         dgvResult1.Size = new Size(1485, 637);
@@ -392,9 +405,9 @@ partial class AttendForm
         // 
         tabPage4.Controls.Add(dgvResult4);
         tabPage4.Location = new Point(4, 32);
-        tabPage4.Margin = new Padding(5, 5, 5, 5);
+        tabPage4.Margin = new Padding(5);
         tabPage4.Name = "tabPage4";
-        tabPage4.Padding = new Padding(5, 5, 5, 5);
+        tabPage4.Padding = new Padding(5);
         tabPage4.Size = new Size(1491, 643);
         tabPage4.TabIndex = 3;
         tabPage4.Text = "第四表單最新統計結果";
@@ -405,7 +418,7 @@ partial class AttendForm
         dgvResult4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dgvResult4.Dock = DockStyle.Fill;
         dgvResult4.Location = new Point(5, 5);
-        dgvResult4.Margin = new Padding(5, 5, 5, 5);
+        dgvResult4.Margin = new Padding(5);
         dgvResult4.Name = "dgvResult4";
         dgvResult4.RowHeadersWidth = 62;
         dgvResult4.Size = new Size(1481, 633);
@@ -463,7 +476,7 @@ partial class AttendForm
         // btnSelect4
         // 
         btnSelect4.Location = new Point(19, 161);
-        btnSelect4.Margin = new Padding(5, 5, 5, 5);
+        btnSelect4.Margin = new Padding(5);
         btnSelect4.Name = "btnSelect4";
         btnSelect4.Size = new Size(134, 38);
         btnSelect4.TabIndex = 32;
@@ -481,19 +494,6 @@ partial class AttendForm
         btnCalculateAllExcel.Text = "統計";
         btnCalculateAllExcel.UseVisualStyleBackColor = false;
         btnCalculateAllExcel.Click += btnCalculateAllExcel_Click;
-        // 
-        // cbIgnoreNoData
-        // 
-        cbIgnoreNoData.AutoSize = true;
-        cbIgnoreNoData.Checked = true;
-        cbIgnoreNoData.CheckState = CheckState.Checked;
-        cbIgnoreNoData.Location = new Point(283, 66);
-        cbIgnoreNoData.Margin = new Padding(5);
-        cbIgnoreNoData.Name = "cbIgnoreNoData";
-        cbIgnoreNoData.Size = new Size(162, 27);
-        cbIgnoreNoData.TabIndex = 15;
-        cbIgnoreNoData.Text = "忽略無紀錄日期";
-        cbIgnoreNoData.UseVisualStyleBackColor = true;
         // 
         // AttendForm
         // 
@@ -516,7 +516,7 @@ partial class AttendForm
         Controls.Add(groupBox2);
         Controls.Add(groupBox1);
         Controls.Add(btnSelect1);
-        Margin = new Padding(5, 5, 5, 5);
+        Margin = new Padding(5);
         Name = "AttendForm";
         Text = "Form1";
         SizeChanged += AttendForm_SizeChanged;
