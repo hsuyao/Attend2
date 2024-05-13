@@ -452,7 +452,6 @@ public partial class AttendForm : Form
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
                     List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 1);
-                    //var sheetName = new List<string>();
                     foreach (string s in result)
                     {
                         // MessageBox.Show(s);
@@ -462,16 +461,13 @@ public partial class AttendForm : Form
                         FillSheetWithDict(dict, week, workbook, false);
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
-                        WriteAvergeResultToSheet(calculateAverageResult, workbook, week, 1, 0);
-                       // DataTable dt = WriteToDataTable(calculateAverageResult);
-                       // if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
+                        WriteAvergeResultToSheet(calculateAverageResult, workbook, week, 0, 0);
                     }
 
                 }
                 if (rbMonth.Checked == true)
                 {
                     List<string> result = GroupByMonth(sheet);
-                    // var sheetName = new List<string>();
                     foreach (string s in result)
                     {
                         // MessageBox.Show(s);
@@ -481,9 +477,7 @@ public partial class AttendForm : Form
                         FillSheetWithDict(dict, month, workbook, false);
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
-                        WriteAvergeResultToSheet(calculateAverageResult, workbook, month, 1, 0);
-                     //   DataTable dt = WriteToDataTable(calculateAverageResult);
-                     //   if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
+                        WriteAvergeResultToSheet(calculateAverageResult, workbook, month, 0, 0);
                     }
                 }
 
@@ -494,13 +488,12 @@ public partial class AttendForm : Form
 
                     foreach (string s in result)
                     {
-                        // MessageBox.Show(s);
                         var dict = ClassifyAttendancy(s, sheet);
                         sheetName.Add(s);
                         FillSheetWithDict(dict, s, workbook, false);
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
-                        WriteAvergeResultToSheet(calculateAverageResult, workbook, s, 1, 0);
+                        WriteAvergeResultToSheet(calculateAverageResult, workbook, s, 0, 0);
                     }
                 }
                 for (int i = 1; i < sheetName.Count; i++)
@@ -1071,30 +1064,34 @@ public partial class AttendForm : Form
 
                 if (!string.IsNullOrEmpty(mainCellValue) && !CellExistsInColumn(compareSheet, col, removeAfterBracket))
                 {
-                    // Create a new cell style and set the fill foreground color
-                    XSSFCellStyle style = (XSSFCellStyle)workbook.CreateCellStyle();
-
-                    // Highlight the cell with light green or light red color
-                    if (CellExistsInColumn(compareSheet, col + 1, removeAfterBracket) || CellExistsInColumn(compareSheet, col + 2, removeAfterBracket))
+                    // Check if the cell already has a color
+                    var existingColor = mainCell.CellStyle.FillForegroundColorColor;
+                    if (existingColor == null || (existingColor.RGB[0] == 255 && existingColor.RGB[1] == 255 && existingColor.RGB[2] == 255))
                     {
-                        // Green, if attendance getting better
-                        style.SetFillForegroundColor(lightGreen); // 使用自訂顏色
-                        style.FillPattern = FillPattern.SolidForeground;
-                    }
-                    else
-                    {
-                        // Red, if attendance getting worse
-                        style.SetFillForegroundColor(lightRed); // 使用自訂顏色
-                        style.FillPattern = FillPattern.SolidForeground;
-                    }
+                        // Create a new cell style and set the fill foreground color
+                        XSSFCellStyle style = (XSSFCellStyle)workbook.CreateCellStyle();
 
-                    // Apply the style to the cell
-                    mainCell.CellStyle = style;
+                        // Highlight the cell with light green or light red color
+                        if (CellExistsInColumn(compareSheet, col + 1, removeAfterBracket) || CellExistsInColumn(compareSheet, col + 2, removeAfterBracket))
+                        {
+                            // Green, if attendance getting better
+                            style.SetFillForegroundColor(lightGreen); // 使用自訂顏色
+                            style.FillPattern = FillPattern.SolidForeground;
+                        }
+                        else
+                        {
+                            // Red, if attendance getting worse
+                            style.SetFillForegroundColor(lightRed); // 使用自訂顏色
+                            style.FillPattern = FillPattern.SolidForeground;
+                        }
+
+                        // Apply the style to the cell
+                        mainCell.CellStyle = style;
+                    }
                 }
             }
         }
     }
-
     private bool CellExistsInColumn(ISheet sheet, int col, string value)
     {
         for (int row = 2; row <= sheet.LastRowNum; row++)
