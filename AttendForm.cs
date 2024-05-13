@@ -558,7 +558,7 @@ public partial class AttendForm : Form
         }
 
         // Add rows
-        for (int i = 1; i <= sheet.LastRowNum; i++)
+        for (int i = 0; i <= sheet.LastRowNum; i++)
         {
             var row = sheet.GetRow(i);
             DataRow dataRow = dt.NewRow();
@@ -575,13 +575,13 @@ public partial class AttendForm : Form
         dataGridView.DataSource = dt;
 
         // Set the column captions to the values from the second row
-        if (dt.Rows.Count > 0)
-        {
-            for (int i = 0; i < dataGridView.Columns.Count; i++)
-            {
-                dataGridView.Columns[i].HeaderText = dt.Rows[0][i].ToString();
-            }
-        }
+        // if (dt.Rows.Count > 0)
+        // {
+        //     for (int i = 0; i < dataGridView.Columns.Count; i++)
+        //     {
+        //         dataGridView.Columns[i].HeaderText = dt.Rows[0][i].ToString();
+        //     }
+        // }
     }
 
     private List<string> GroupByMonth(ISheet sheet)
