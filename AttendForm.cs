@@ -405,22 +405,7 @@ public partial class AttendForm : Form
                         DataTable dt = WriteToDataTable(calculateAverageResult);
                         if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
                     }
-                    for (int i = 1; i < sheetName.Count; i++)
-                    {
-                        // 取得當前表單和前一個表單的名稱
-                        string currentSheetName = sheetName[i];
-                        string previousSheetName = sheetName[i - 1];
 
-                        CompareSheets(workbook, currentSheetName, previousSheetName);
-                    }
-
-                    IRow row0 = sheet.GetRow(0); // 取得第一列
-                    ICell cell = row0.GetCell(0); // 取得第一欄
-                    for (int i = 0; i < sheetName.Count; i++)
-                    {
-                        ISheet minor_sheet = workbook.GetSheet(sheetName[i]);
-                        FillSheetNameAndDataName(minor_sheet, sheetName[i] + " " + cell.ToString());
-                    }
                 }
                 if (rbMonth.Checked == true)
                 {
@@ -439,14 +424,6 @@ public partial class AttendForm : Form
                         DataTable dt = WriteToDataTable(calculateAverageResult);
                         if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
                     }
-                    for (int i = 1; i < sheetName.Count; i++)
-                    {
-                        // 取得當前表單和前一個表單的名稱
-                        string currentSheetName = sheetName[i];
-                        string previousSheetName = sheetName[i - 1];
-
-                        CompareSheets(workbook, currentSheetName, previousSheetName);
-                    }
                 }
 
                 if (rbHalfYear.Checked == true)
@@ -463,17 +440,23 @@ public partial class AttendForm : Form
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
                         WriteToExcel(calculateAverageResult, workbook, s, 1, 0);
-                        //  DataTable dt = WriteToDataTable(calculateAverageResult);
-                        // if (dt != null && dt.Rows.Count > 0) dbvResult.DataSource = dt;
                     }
-                    for (int i = 1; i < sheetName.Count; i++)
-                    {
-                        // 取得當前表單和前一個表單的名稱
-                        string currentSheetName = sheetName[i];
-                        string previousSheetName = sheetName[i - 1];
+                }
+                for (int i = 1; i < sheetName.Count; i++)
+                {
+                    // 取得當前表單和前一個表單的名稱
+                    string currentSheetName = sheetName[i];
+                    string previousSheetName = sheetName[i - 1];
 
-                        CompareSheets(workbook, currentSheetName, previousSheetName);
-                    }
+                    CompareSheets(workbook, currentSheetName, previousSheetName);
+                }
+
+                IRow row0 = sheet.GetRow(0); // 取得第一列
+                ICell cell = row0.GetCell(0); // 取得第一欄
+                for (int i = 0; i < sheetName.Count; i++)
+                {
+                    ISheet minor_sheet = workbook.GetSheet(sheetName[i]);
+                    FillSheetNameAndDataName(minor_sheet, sheetName[i] + " " + cell.ToString());
                 }
                 using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
                 {
@@ -1063,18 +1046,6 @@ public partial class AttendForm : Form
         txtBoxSelect2.Text = ReadFirstCell(filenames[1]);
     }
 
-    private void btnCalculateSheet3_Click(object sender, EventArgs e)
-    {
-        OpenExcelFile(filenames[2], txtBoxSelect3.Text + ".xlsx", dgvResult3);
-        MessageBox.Show("Finished!");
-    }
-
-    private void btnCalculateSheet2_Click(object sender, EventArgs e)
-    {
-        OpenExcelFile(filenames[1], txtBoxSelect2.Text + ".xlsx", dgvResult2);
-        MessageBox.Show("Finished!");
-    }
-
     private void btnSelect3_Click(object sender, EventArgs e)
     {
         OpenFileDialog ofd = new OpenFileDialog();
@@ -1083,25 +1054,11 @@ public partial class AttendForm : Form
         txtBoxSelect3.Text = ReadFirstCell(filenames[2]);
     }
 
-    private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
-    {
-
-    }
-
-    private void tabControl1_SizeChanged(object sender, EventArgs e)
-    {
-
-    }
 
     private void AttendForm_SizeChanged(object sender, EventArgs e)
     {
         if (WindowState == FormWindowState.Maximized) tabControl1.Dock = DockStyle.Fill;
         else tabControl1.Dock = DockStyle.None;
-    }
-
-    private void label4_Click(object sender, EventArgs e)
-    {
-
     }
 
     private void btnSelect4_Click(object sender, EventArgs e)
@@ -1112,18 +1069,13 @@ public partial class AttendForm : Form
         txtBoxSelect4.Text = ReadFirstCell(filenames[3]);
     }
 
-    private void btnCalculateExcel4_Click(object sender, EventArgs e)
-    {
-        OpenExcelFile(filenames[3], txtBoxSelect4.Text + ".xlsx", dgvResult4);
-        MessageBox.Show("Finished!");
-    }
-
     private void btnCalculateAllExcel_Click(object sender, EventArgs e)
     {
         if (filenames[0].Length > 0) OpenExcelFile(filenames[0], txtBoxSelect1.Text + ".xlsx", dgvResult1);
         if (filenames[1].Length > 0) OpenExcelFile(filenames[1], txtBoxSelect2.Text + ".xlsx", dgvResult2);
         if (filenames[2].Length > 0) OpenExcelFile(filenames[2], txtBoxSelect3.Text + ".xlsx", dgvResult3);
         if (filenames[3].Length > 0) OpenExcelFile(filenames[3], txtBoxSelect4.Text + ".xlsx", dgvResult4);
-        MessageBox.Show("Finished!");
+        if (filenames[0].Length == 0 && filenames[1].Length == 0 && filenames[2].Length == 0 && filenames[3].Length == 0)
+            MessageBox.Show("請選擇檔案");
     }
 }
