@@ -566,15 +566,54 @@ public partial class AttendForm : Form
             for (int j = 0; j < cellCount; j++)
             {
                 if (row.GetCell(j) != null)
+                {
                     dataRow[j] = row.GetCell(j).ToString();
+                }
             }
 
             dt.Rows.Add(dataRow);
         }
 
         dataGridView.DataSource = dt;
+        dataGridView.AutoResizeColumns();
+        dataGridView.AutoResizeRows();
         dataGridView.ColumnHeadersVisible = false;
+
+        // Set the column captions to the values from the second row
+        if (dt.Rows.Count > 0)
+        {
+            for (int i = 0; i < dataGridView.Columns.Count; i++)
+            {
+                dataGridView.Columns[i].HeaderText = dt.Rows[0][i].ToString();
+            }
+        }
+
+        // Set cell colors
+        for (int i = 0; i <= sheet.LastRowNum; i++)
+        {
+            var row = sheet.GetRow(i);
+
+            for (int j = 0; j < cellCount; j++)
+            {
+                if (row.GetCell(j) != null)
+                {
+                    // Get the color of the cell in Excel
+                    var color = row.GetCell(j).CellStyle.FillForegroundColorColor;
+
+                    if (color != null)
+                    {
+                        // Convert the color to System.Drawing.Color
+                        var drawingColor = System.Drawing.Color.FromArgb(color.RGB[0], color.RGB[1], color.RGB[2]);
+
+                        // Set the background color of the corresponding cell in DataGridView
+                        dataGridView.Rows[i].Cells[j].Style.BackColor = drawingColor;
+                    }
+                }
+            }
+        }
     }
+
+
 
     private List<string> GroupByMonth(ISheet sheet)
     {
