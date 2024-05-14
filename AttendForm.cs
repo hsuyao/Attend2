@@ -307,7 +307,7 @@ public partial class AttendForm : Form
             isLightBlue = !isLightBlue;
         }
 
-       // MergeColumnCells(sheet, startColumn);
+        MergeColumnCells(sheet, startColumn);
         sheet.SetColumnWidth(startColumn, 14 * 256);
         sheet.SetColumnWidth(startColumn + 1, 10 * 256);
         sheet.SetColumnWidth(startColumn + 2, 4 * 256);
@@ -407,23 +407,34 @@ public partial class AttendForm : Form
             IRow row = sheet.GetRow(r);
             if (row != null)
             {
-                for (int c = columnIndex; c < row.LastCellNum - 1; c++)
+                if (columnIndex < row.LastCellNum) // 檢查要移除的列是否存在
                 {
-                    ICell cell = row.GetCell(c);
-                    if (cell != null)
-                        row.RemoveCell(cell);
-
-                    ICell nextCell = row.GetCell(c + 1);
-                    if (nextCell != null)
+                    for (int c = columnIndex; c < row.LastCellNum - 1; c++)
                     {
-                        ICell newCell = row.CreateCell(c, nextCell.CellType);
-                        newCell.CellStyle = nextCell.CellStyle;
-                        newCell.SetCellFormula(nextCell.CellFormula);
+                        ICell cell = row.GetCell(c);
+                        if (cell != null)
+                            row.RemoveCell(cell);
+
+                        ICell nextCell = row.GetCell(c + 1);
+                        if (nextCell != null)
+                        {
+                            ICell newCell = row.CreateCell(c, nextCell.CellType);
+                            newCell.CellStyle = nextCell.CellStyle;
+                            if (nextCell.CellType == CellType.Formula)
+                            {
+                                newCell.SetCellFormula(nextCell.CellFormula);
+                            }
+                            else
+                            {
+                                newCell.SetCellValue(nextCell.ToString());
+                            }
+                        }
                     }
+
+                    ICell lastCell = row.GetCell(row.LastCellNum - 1);
+                    if (lastCell != null)
+                        row.RemoveCell(lastCell);
                 }
-                ICell lastCell = row.GetCell(row.LastCellNum - 1);
-                if (lastCell != null)
-                    row.RemoveCell(lastCell);
             }
         }
     }
@@ -581,7 +592,7 @@ public partial class AttendForm : Form
             }
         }
 
-        // Set cell colors
+        // Set cell colors and handle merged cells
         for (int i = 0; i <= sheet.LastRowNum; i++)
         {
             var row = sheet.GetRow(i);
@@ -600,6 +611,16 @@ public partial class AttendForm : Form
 
                         // Set the background color of the corresponding cell in DataGridView
                         dataGridView.Rows[i].Cells[j].Style.BackColor = drawingColor;
+                    }
+
+                    // Handle merged cells
+                    foreach (var range in sheet.MergedRegions)
+                    {
+                        if (range.IsInRange(i, j))
+                        {
+                            dataGridView.Rows[i].Cells[j].Value = sheet.GetRow(range.FirstRow).GetCell(range.FirstColumn).ToString();
+                            break;
+                        }
                     }
                 }
             }
@@ -704,11 +725,24 @@ public partial class AttendForm : Form
 
             for (int j = startColumn; j <= endColumn; j++)
             {
-                if (row.GetCell(j)?.NumericCellValue == 1)
-                    attendanceCount++;
+                ICell cell = row.GetCell(j);
+                if (cell != null)
+                {
+                    switch (cell.CellType)
+                    {
+                        case CellType.Numeric:
+                            if (cell.NumericCellValue == 1)
+                                attendanceCount++;
+                            break;
+                        case CellType.String:
+                            if (cell.StringCellValue == "1")
+                                attendanceCount++;
+                            break;
+                            // 你可以根據需要添加更多的 case
+                    }
+                }
                 weekCount++;
             }
-
             double attendanceRate = (double)attendanceCount / weekCount;
             string category;
 
@@ -749,7 +783,25 @@ public partial class AttendForm : Form
 
             for (int j = startColumn; j <= endColumn; j++)
             {
-                int weekAttendance = (int)row.GetCell(j)?.NumericCellValue;
+                ICell cell = row.GetCell(j);
+                int weekAttendance = 0;
+
+                if (cell != null)
+                {
+                    switch (cell.CellType)
+                    {
+                        case CellType.Numeric:
+                            weekAttendance = (int)cell.NumericCellValue;
+                            break;
+                        case CellType.String:
+                            if (int.TryParse(cell.StringCellValue, out int numericValue))
+                            {
+                                weekAttendance = numericValue;
+                            }
+                            break;
+                            // 你可以根據需要添加更多的 case
+                    }
+                }
 
                 if (weekAttendance == 1)
                 {
@@ -773,6 +825,7 @@ public partial class AttendForm : Form
                     }
                 }
             }
+
         }
 
         // 把 dict2 的內容添加到 dict 的最後面
@@ -931,7 +984,7 @@ public partial class AttendForm : Form
             }
         }
 
-        //MergeCells(sheet, 0);
+        MergeCells(sheet, 0);
     }
 
     private void FillSheetNameAndDataName(ISheet sheet, string inputString)
