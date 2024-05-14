@@ -643,9 +643,8 @@ public partial class AttendForm : Form
                 int j = 0;
                 while (sheet.GetRow(1).GetCell(i + j + 1) != null && (sheet.GetRow(1).GetCell(i + j).ToString() == "第一週" || sheet.GetRow(1).GetCell(i + j).ToString() == "第二週" ||
                     sheet.GetRow(1).GetCell(i + j).ToString() == "第三週" || sheet.GetRow(1).GetCell(i + j).ToString() == "第四週" || sheet.GetRow(1).GetCell(i + j).ToString() == "第五週"))
-
                 {
-                    if (sheet.GetRow(1).GetCell(i + j + 1).ToString() == "第一週" || sheet.GetRow(1).GetCell(i + j + 1).ToString() == "")
+                    if (sheet.GetRow(1).GetCell(i + j + 1) == null || sheet.GetRow(1).GetCell(i + j + 1).ToString() == "" || sheet.GetRow(1).GetCell(i + j + 1).ToString() == "第一週")
                     {
                         break;
                     }
@@ -659,6 +658,7 @@ public partial class AttendForm : Form
         }
         return result;
     }
+
 
     private int GetLastColumnWithData(ISheet sheet, int rowIndex, int startColumnIndex)
     {
