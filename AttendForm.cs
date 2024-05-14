@@ -466,7 +466,7 @@ public partial class AttendForm : Form
                     foreach (string s in result)
                     {
                         // MessageBox.Show(s);
-                        var dict = ClassifyAttendancy(s, sheet);
+                        var dict = ClassifyAttendancy(s, sheet, new[] {"本週到會", "未到會" });
                         var week = GetWeekString(sheet, s);
                         sheetName.Add(week);
                         FillSheetWithDict(dict, week, workbook, false);
@@ -480,9 +480,10 @@ public partial class AttendForm : Form
                 {
                     List<string> result = GroupByMonth(sheet);
                     foreach (string s in result)
+
                     {
                         // MessageBox.Show(s);
-                        var dict = ClassifyAttendancy(s, sheet);
+                        var dict = ClassifyAttendancy(s, sheet, new[] { "穩定聚會", "不穩定","本月無紀錄" });
                         var month = GetMonthString(sheet, s);
                         sheetName.Add(month);
                         FillSheetWithDict(dict, month, workbook, false);
@@ -499,7 +500,7 @@ public partial class AttendForm : Form
 
                     foreach (string s in result)
                     {
-                        var dict = ClassifyAttendancy(s, sheet);
+                        var dict = ClassifyAttendancy(s, sheet, new[] { "穩定聚會", "不穩定","半年無紀錄" });
                         sheetName.Add(s);
                         FillSheetWithDict(dict, s, workbook, false);
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
@@ -693,7 +694,7 @@ public partial class AttendForm : Form
 
         return groups;
     }
-    private Dictionary<string, List<string>> ClassifyAttendancy(string columnRange, ISheet sheet)
+    private Dictionary<string, List<string>> ClassifyAttendancy(string columnRange, ISheet sheet, string[] categories)
     {
         var dict = new Dictionary<string, List<string>>();
 
@@ -709,8 +710,6 @@ public partial class AttendForm : Form
 
             if (string.IsNullOrEmpty(groupName))
                 continue;
-
-            string[] categories = startColumn == endColumn ? new[] { "本週到會", "未到會  " } : new[] { "正常聚會", "不穩定", "無紀錄" };
 
             foreach (var _category in categories)
             {
@@ -746,10 +745,11 @@ public partial class AttendForm : Form
             double attendanceRate = (double)attendanceCount / weekCount;
             string category;
 
-            if (startColumn == endColumn)
-                category = attendanceRate > double.Parse(txtBoxStable.Text) / 100 ? "本週到會" : "未到會  ";
-            else
-                category = attendanceRate > double.Parse(txtBoxStable.Text) / 100 ? "正常聚會" : attendanceRate > 0 ? "不穩定" : "無紀錄";
+            if (categories.Length == 2)
+                category = attendanceRate > double.Parse(txtBoxStable.Text) / 100 ? categories[0] : categories[1];
+            else 
+                category = attendanceRate > double.Parse(txtBoxStable.Text) / 100 ? categories[0] : attendanceRate > 0 ? categories[1] : categories[2];
+            
 
             string key = groupName + "_" + category;
 
@@ -761,6 +761,7 @@ public partial class AttendForm : Form
 
         return dict;
     }
+
     private Dictionary<string, List<int>> AttendanceCountByIdentity(string columnRange, ISheet sheet)
     {
         var dict = new Dictionary<string, List<int>>();
