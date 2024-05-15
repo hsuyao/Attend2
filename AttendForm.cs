@@ -18,6 +18,7 @@ using System.Text;
 using System.Data;
 using System.Windows.Forms;
 using DocumentFormat.OpenXml.Presentation;
+using Newtonsoft.Json;
 
 namespace Attend;
 
@@ -441,14 +442,14 @@ public partial class AttendForm : Form
 
     void SetTabText(ISheet sheet, string inputString)
     {
- 
+
         if (inputString == filenames[0])
         {
-            tabPage1.Text = sheet.SheetName +" " +txtBoxSelect1.Text;
+            tabPage1.Text = sheet.SheetName + " " + txtBoxSelect1.Text;
         }
         if (inputString == filenames[1])
         {
-            tabPage2.Text = sheet.SheetName +" " + txtBoxSelect2.Text;
+            tabPage2.Text = sheet.SheetName + " " + txtBoxSelect2.Text;
         }
         if (inputString == filenames[2])
         {
@@ -540,7 +541,7 @@ public partial class AttendForm : Form
 
                 var sheetToShow = workbook.GetSheet(sheetName[sheetName.Count - 1]);
                 DisplayExcelInDataGridView(sheetToShow, dbvResult);
-                
+
                 IRow row0 = sheet.GetRow(0); // 取得第一列
                 ICell cell = row0.GetCell(0); // 取得第一欄
                 for (int i = 0; i < sheetName.Count; i++)
@@ -1262,6 +1263,103 @@ public partial class AttendForm : Form
             return new string[] { };
         }
     }
+
+    private void AttendForm_Load(object sender, EventArgs e)
+    {
+        ControlState controlState;
+        if (File.Exists("controlState.json"))
+        {
+            var json = File.ReadAllText("controlState.json");
+            controlState = JsonConvert.DeserializeObject<ControlState>(json);
+            rbWeek.Checked = controlState.RbWeek;
+            rbHalfYear.Checked = controlState.RbHalfYear;
+            rbMonth.Checked = controlState.RbMonth;
+            tabPage1.Text = controlState.TabPage1Text;
+            tabPage2.Text = controlState.TabPage2Text;
+            tabPage3.Text = controlState.TabPage3Text;
+            tabPage4.Text = controlState.TabPage4Text;
+            txtBoxSelect1.Text = controlState.TextBoxSelect1;
+            txtBoxSelect2.Text = controlState.TextBoxSelect2;
+            txtBoxSelect3.Text = controlState.TextBoxSelect3;
+            txtBoxSelect4.Text = controlState.TextBoxSelect4;
+            txtbIgnoreLevel.Text = controlState.TxtbIgnoreLevel;
+            txtBoxStable.Text = controlState.TxtBoxStable;
+            txtBoxStartColumn.Text = controlState.TxtBoxStartColumn;
+            tbSheet1WeekCat2.Text = controlState.TbSheet1WeekCat2;
+            tbSheet1WeekCat1.Text = controlState.TbSheet1WeekCat1;
+            tbSheet4Cat3.Text = controlState.TbSheet4Cat3;
+            tbSheet3Cat3.Text = controlState.TbSheet3Cat3;
+            tbSheet2Cat3.Text = controlState.TbSheet2Cat3;
+            tbSheet1Cat3.Text = controlState.TbSheet1Cat3;
+            tbSheet4Cat2.Text = controlState.TbSheet4Cat2;
+            tbSheet4Cat1.Text = controlState.TbSheet4Cat1;
+            tbSheet3Cat2.Text = controlState.TbSheet3Cat2;
+            tbSheet3Cat1.Text = controlState.TbSheet3Cat1;
+            tbSheet2Cat2.Text = controlState.TbSheet2Cat2;
+            tbSheet2Cat1.Text = controlState.TbSheet2Cat1;
+            tbSheet1Cat2.Text = controlState.TbSheet1Cat2;
+            tbSheet1Cat1.Text = controlState.TbSheet1Cat1;
+            tbSheet4WeekCat2.Text = controlState.TbSheet4WeekCat2;
+            tbSheet4WeekCat1.Text = controlState.TbSheet4WeekCat1;
+            tbSheet3WeekCat2.Text = controlState.TbSheet3WeekCat2;
+            tbSheet3WeekCat1.Text = controlState.TbSheet3WeekCat1;
+            tbSheet2WeekCat2.Text = controlState.TbSheet2WeekCat2;
+            tbSheet2WeekCat1.Text = controlState.TbSheet2WeekCat1;
+            cbIgnoreNoData.Checked = controlState.CbIgnoreNoData;
+            cbIgnoreElementarySchool.Checked = controlState.CbIgnoreElementarySchool;
+            ckbCompare.Checked = controlState.CkbCompare;
+            // ... 其他控件
+        }      
+    }
+
+    private void AttendForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        var controlState = new ControlState
+        {
+            RbWeek = rbWeek.Checked,
+            RbHalfYear = rbHalfYear.Checked,
+            RbMonth = rbMonth.Checked,
+            TabPage1Text = tabPage1.Text,
+            TabPage2Text = tabPage2.Text,
+            TabPage3Text = tabPage3.Text,
+            TabPage4Text = tabPage4.Text,
+            TextBoxSelect1 = txtBoxSelect1.Text,
+            TextBoxSelect2 = txtBoxSelect2.Text,
+            TextBoxSelect3 = txtBoxSelect3.Text,
+            TextBoxSelect4 = txtBoxSelect4.Text,
+            TxtbIgnoreLevel = txtbIgnoreLevel.Text,
+            TxtBoxStable = txtBoxStable.Text,
+            TxtBoxStartColumn = txtBoxStartColumn.Text,
+            TbSheet1WeekCat2 = tbSheet1WeekCat2.Text,
+            TbSheet1WeekCat1 = tbSheet1WeekCat1.Text,
+            TbSheet4Cat3 = tbSheet4Cat3.Text,
+            TbSheet3Cat3 = tbSheet3Cat3.Text,
+            TbSheet2Cat3 = tbSheet2Cat3.Text,
+            TbSheet1Cat3 = tbSheet1Cat3.Text,
+            TbSheet4Cat2 = tbSheet4Cat2.Text,
+            TbSheet4Cat1 = tbSheet4Cat1.Text,
+            TbSheet3Cat2 = tbSheet3Cat2.Text,
+            TbSheet3Cat1 = tbSheet3Cat1.Text,
+            TbSheet2Cat2 = tbSheet2Cat2.Text,
+            TbSheet2Cat1 = tbSheet2Cat1.Text,
+            TbSheet1Cat2 = tbSheet1Cat2.Text,
+            TbSheet1Cat1 = tbSheet1Cat1.Text,
+            TbSheet4WeekCat2 = tbSheet4WeekCat2.Text,
+            TbSheet4WeekCat1 = tbSheet4WeekCat1.Text,
+            TbSheet3WeekCat2 = tbSheet3WeekCat2.Text,
+            TbSheet3WeekCat1 = tbSheet3WeekCat1.Text,
+            TbSheet2WeekCat2 = tbSheet2WeekCat2.Text,
+            TbSheet2WeekCat1 = tbSheet2WeekCat1.Text,
+            CbIgnoreNoData = cbIgnoreNoData.Checked,
+            CbIgnoreElementarySchool = cbIgnoreElementarySchool.Checked,
+            CkbCompare = ckbCompare.Checked,
+            // ... 其他控件
+        };
+
+        var json = JsonConvert.SerializeObject(controlState);
+        File.WriteAllText("controlState.json", json);
+    }
+
 }
 
 
