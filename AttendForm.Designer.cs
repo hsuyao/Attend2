@@ -121,11 +121,9 @@ partial class AttendForm
         groupBox1.Controls.Add(rbHalfYear);
         groupBox1.Controls.Add(rbMonth);
         groupBox1.Controls.Add(rbWeek);
-        groupBox1.Location = new Point(317, 12);
-        groupBox1.Margin = new Padding(2);
+        groupBox1.Location = new Point(498, 18);
         groupBox1.Name = "groupBox1";
-        groupBox1.Padding = new Padding(2);
-        groupBox1.Size = new Size(110, 146);
+        groupBox1.Size = new Size(173, 224);
         groupBox1.TabIndex = 7;
         groupBox1.TabStop = false;
         groupBox1.Text = "統計單位";
@@ -133,9 +131,10 @@ partial class AttendForm
         // rbHalfYear
         // 
         rbHalfYear.AutoSize = true;
-        rbHalfYear.Location = new Point(16, 77);
+        rbHalfYear.Location = new Point(25, 118);
+        rbHalfYear.Margin = new Padding(5, 5, 5, 5);
         rbHalfYear.Name = "rbHalfYear";
-        rbHalfYear.Size = new Size(83, 19);
+        rbHalfYear.Size = new Size(121, 27);
         rbHalfYear.TabIndex = 11;
         rbHalfYear.Text = "半年(26週)";
         rbHalfYear.UseVisualStyleBackColor = true;
@@ -143,9 +142,10 @@ partial class AttendForm
         // rbMonth
         // 
         rbMonth.AutoSize = true;
-        rbMonth.Location = new Point(16, 52);
+        rbMonth.Location = new Point(25, 80);
+        rbMonth.Margin = new Padding(5, 5, 5, 5);
         rbMonth.Name = "rbMonth";
-        rbMonth.Size = new Size(93, 19);
+        rbMonth.Size = new Size(137, 27);
         rbMonth.TabIndex = 10;
         rbMonth.Text = "月(四到五週)";
         rbMonth.UseVisualStyleBackColor = true;
@@ -154,9 +154,10 @@ partial class AttendForm
         // 
         rbWeek.AutoSize = true;
         rbWeek.Checked = true;
-        rbWeek.Location = new Point(16, 27);
+        rbWeek.Location = new Point(25, 41);
+        rbWeek.Margin = new Padding(5, 5, 5, 5);
         rbWeek.Name = "rbWeek";
-        rbWeek.Size = new Size(37, 19);
+        rbWeek.Size = new Size(53, 27);
         rbWeek.TabIndex = 9;
         rbWeek.TabStop = true;
         rbWeek.Text = "週";
@@ -165,11 +166,10 @@ partial class AttendForm
         // tabPage3
         // 
         tabPage3.Controls.Add(dgvResult3);
-        tabPage3.Location = new Point(4, 24);
-        tabPage3.Margin = new Padding(2);
+        tabPage3.Location = new Point(4, 32);
         tabPage3.Name = "tabPage3";
-        tabPage3.Padding = new Padding(2);
-        tabPage3.Size = new Size(995, 462);
+        tabPage3.Padding = new Padding(3, 3, 3, 3);
+        tabPage3.Size = new Size(1568, 715);
         tabPage3.TabIndex = 2;
         tabPage3.Text = "第三表單最新統計結果";
         tabPage3.UseVisualStyleBackColor = true;
@@ -178,20 +178,20 @@ partial class AttendForm
         // 
         dgvResult3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dgvResult3.Dock = DockStyle.Fill;
-        dgvResult3.Location = new Point(2, 2);
+        dgvResult3.Location = new Point(3, 3);
+        dgvResult3.Margin = new Padding(5, 5, 5, 5);
         dgvResult3.Name = "dgvResult3";
         dgvResult3.RowHeadersWidth = 62;
-        dgvResult3.Size = new Size(991, 458);
+        dgvResult3.Size = new Size(1562, 709);
         dgvResult3.TabIndex = 4;
         // 
         // tabPage2
         // 
         tabPage2.Controls.Add(dgvResult2);
-        tabPage2.Location = new Point(4, 24);
-        tabPage2.Margin = new Padding(2);
+        tabPage2.Location = new Point(4, 32);
         tabPage2.Name = "tabPage2";
-        tabPage2.Padding = new Padding(2);
-        tabPage2.Size = new Size(995, 462);
+        tabPage2.Padding = new Padding(3, 3, 3, 3);
+        tabPage2.Size = new Size(1568, 715);
         tabPage2.TabIndex = 1;
         tabPage2.Text = "第二表單最新統計結果";
         tabPage2.UseVisualStyleBackColor = true;
@@ -200,20 +200,20 @@ partial class AttendForm
         // 
         dgvResult2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dgvResult2.Dock = DockStyle.Fill;
-        dgvResult2.Location = new Point(2, 2);
+        dgvResult2.Location = new Point(3, 3);
+        dgvResult2.Margin = new Padding(5, 5, 5, 5);
         dgvResult2.Name = "dgvResult2";
         dgvResult2.RowHeadersWidth = 62;
-        dgvResult2.Size = new Size(991, 458);
+        dgvResult2.Size = new Size(1562, 709);
         dgvResult2.TabIndex = 2;
         // 
         // tabPage1
         // 
         tabPage1.Controls.Add(dgvResult1);
-        tabPage1.Location = new Point(4, 24);
-        tabPage1.Margin = new Padding(2);
+        tabPage1.Location = new Point(4, 32);
         tabPage1.Name = "tabPage1";
-        tabPage1.Padding = new Padding(2);
-        tabPage1.Size = new Size(995, 462);
+        tabPage1.Padding = new Padding(3, 3, 3, 3);
+        tabPage1.Size = new Size(1568, 715);
         tabPage1.TabIndex = 0;
         tabPage1.Text = "第一表單最新統計結果";
         tabPage1.UseVisualStyleBackColor = true;
@@ -222,10 +222,11 @@ partial class AttendForm
         // 
         dgvResult1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dgvResult1.Dock = DockStyle.Fill;
-        dgvResult1.Location = new Point(2, 2);
+        dgvResult1.Location = new Point(3, 3);
+        dgvResult1.Margin = new Padding(5, 5, 5, 5);
         dgvResult1.Name = "dgvResult1";
         dgvResult1.RowHeadersWidth = 62;
-        dgvResult1.Size = new Size(991, 458);
+        dgvResult1.Size = new Size(1562, 709);
         dgvResult1.TabIndex = 1;
         // 
         // tabControl1
@@ -234,20 +235,20 @@ partial class AttendForm
         tabControl1.Controls.Add(tabPage2);
         tabControl1.Controls.Add(tabPage3);
         tabControl1.Controls.Add(tabPage4);
-        tabControl1.Location = new Point(0, 174);
-        tabControl1.Margin = new Padding(2);
+        tabControl1.Location = new Point(0, 267);
         tabControl1.Name = "tabControl1";
         tabControl1.SelectedIndex = 0;
-        tabControl1.Size = new Size(1003, 490);
+        tabControl1.Size = new Size(1576, 751);
         tabControl1.TabIndex = 28;
         // 
         // tabPage4
         // 
         tabPage4.Controls.Add(dgvResult4);
-        tabPage4.Location = new Point(4, 24);
+        tabPage4.Location = new Point(4, 32);
+        tabPage4.Margin = new Padding(5, 5, 5, 5);
         tabPage4.Name = "tabPage4";
-        tabPage4.Padding = new Padding(3);
-        tabPage4.Size = new Size(995, 462);
+        tabPage4.Padding = new Padding(5, 5, 5, 5);
+        tabPage4.Size = new Size(1568, 715);
         tabPage4.TabIndex = 3;
         tabPage4.Text = "第四表單最新統計結果";
         tabPage4.UseVisualStyleBackColor = true;
@@ -256,20 +257,20 @@ partial class AttendForm
         // 
         dgvResult4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dgvResult4.Dock = DockStyle.Fill;
-        dgvResult4.Location = new Point(3, 3);
+        dgvResult4.Location = new Point(5, 5);
+        dgvResult4.Margin = new Padding(5, 5, 5, 5);
         dgvResult4.Name = "dgvResult4";
         dgvResult4.RowHeadersWidth = 62;
-        dgvResult4.Size = new Size(989, 456);
+        dgvResult4.Size = new Size(1558, 705);
         dgvResult4.TabIndex = 2;
         // 
         // btnCalculateAllExcel
         // 
         btnCalculateAllExcel.BackColor = SystemColors.ActiveCaption;
         btnCalculateAllExcel.Font = new Font("Microsoft JhengHei UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 136);
-        btnCalculateAllExcel.Location = new Point(266, 16);
-        btnCalculateAllExcel.Margin = new Padding(2);
+        btnCalculateAllExcel.Location = new Point(418, 25);
         btnCalculateAllExcel.Name = "btnCalculateAllExcel";
-        btnCalculateAllExcel.Size = new Size(38, 137);
+        btnCalculateAllExcel.Size = new Size(60, 210);
         btnCalculateAllExcel.TabIndex = 36;
         btnCalculateAllExcel.Text = "統計已選擇檔案";
         btnCalculateAllExcel.UseVisualStyleBackColor = false;
@@ -278,9 +279,10 @@ partial class AttendForm
         // btnSelect1
         // 
         btnSelect1.BackColor = SystemColors.ActiveCaption;
-        btnSelect1.Location = new Point(12, 20);
+        btnSelect1.Location = new Point(19, 31);
+        btnSelect1.Margin = new Padding(5, 5, 5, 5);
         btnSelect1.Name = "btnSelect1";
-        btnSelect1.Size = new Size(100, 25);
+        btnSelect1.Size = new Size(157, 38);
         btnSelect1.TabIndex = 0;
         btnSelect1.Text = "選擇報表1檔案";
         btnSelect1.UseVisualStyleBackColor = false;
@@ -289,20 +291,20 @@ partial class AttendForm
         // txtBoxSelect1
         // 
         txtBoxSelect1.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxSelect1.Location = new Point(188, 20);
-        txtBoxSelect1.Margin = new Padding(2);
+        txtBoxSelect1.Location = new Point(295, 31);
         txtBoxSelect1.Name = "txtBoxSelect1";
         txtBoxSelect1.ReadOnly = true;
-        txtBoxSelect1.Size = new Size(74, 24);
+        txtBoxSelect1.Size = new Size(114, 33);
         txtBoxSelect1.TabIndex = 13;
         txtBoxSelect1.TextAlign = HorizontalAlignment.Center;
         // 
         // btnSelect2
         // 
         btnSelect2.BackColor = SystemColors.ActiveCaption;
-        btnSelect2.Location = new Point(12, 55);
+        btnSelect2.Location = new Point(19, 84);
+        btnSelect2.Margin = new Padding(5, 5, 5, 5);
         btnSelect2.Name = "btnSelect2";
-        btnSelect2.Size = new Size(100, 25);
+        btnSelect2.Size = new Size(157, 38);
         btnSelect2.TabIndex = 14;
         btnSelect2.Text = "選擇報表2檔案";
         btnSelect2.UseVisualStyleBackColor = false;
@@ -311,20 +313,20 @@ partial class AttendForm
         // txtBoxSelect2
         // 
         txtBoxSelect2.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxSelect2.Location = new Point(188, 55);
-        txtBoxSelect2.Margin = new Padding(2);
+        txtBoxSelect2.Location = new Point(295, 84);
         txtBoxSelect2.Name = "txtBoxSelect2";
         txtBoxSelect2.ReadOnly = true;
-        txtBoxSelect2.Size = new Size(74, 24);
+        txtBoxSelect2.Size = new Size(114, 33);
         txtBoxSelect2.TabIndex = 17;
         txtBoxSelect2.TextAlign = HorizontalAlignment.Center;
         // 
         // btnSelect3
         // 
         btnSelect3.BackColor = SystemColors.ActiveCaption;
-        btnSelect3.Location = new Point(12, 90);
+        btnSelect3.Location = new Point(19, 138);
+        btnSelect3.Margin = new Padding(5, 5, 5, 5);
         btnSelect3.Name = "btnSelect3";
-        btnSelect3.Size = new Size(100, 25);
+        btnSelect3.Size = new Size(157, 38);
         btnSelect3.TabIndex = 18;
         btnSelect3.Text = "選擇報表3檔案";
         btnSelect3.UseVisualStyleBackColor = false;
@@ -333,47 +335,50 @@ partial class AttendForm
         // txtBoxSelect3
         // 
         txtBoxSelect3.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxSelect3.Location = new Point(188, 89);
-        txtBoxSelect3.Margin = new Padding(2);
+        txtBoxSelect3.Location = new Point(295, 136);
         txtBoxSelect3.Name = "txtBoxSelect3";
         txtBoxSelect3.ReadOnly = true;
-        txtBoxSelect3.Size = new Size(74, 24);
+        txtBoxSelect3.Size = new Size(114, 33);
         txtBoxSelect3.TabIndex = 21;
         txtBoxSelect3.TextAlign = HorizontalAlignment.Center;
         // 
         // label4
         // 
         label4.AutoSize = true;
-        label4.Location = new Point(118, 25);
+        label4.Location = new Point(185, 38);
+        label4.Margin = new Padding(5, 0, 5, 0);
         label4.Name = "label4";
-        label4.Size = new Size(65, 15);
+        label4.Size = new Size(96, 23);
         label4.TabIndex = 29;
         label4.Text = "報表1類別:";
         // 
         // label7
         // 
         label7.AutoSize = true;
-        label7.Location = new Point(118, 93);
+        label7.Location = new Point(185, 143);
+        label7.Margin = new Padding(5, 0, 5, 0);
         label7.Name = "label7";
-        label7.Size = new Size(65, 15);
+        label7.Size = new Size(96, 23);
         label7.TabIndex = 30;
         label7.Text = "報表3類別:";
         // 
         // label8
         // 
         label8.AutoSize = true;
-        label8.Location = new Point(118, 59);
+        label8.Location = new Point(185, 90);
+        label8.Margin = new Padding(5, 0, 5, 0);
         label8.Name = "label8";
-        label8.Size = new Size(65, 15);
+        label8.Size = new Size(96, 23);
         label8.TabIndex = 31;
         label8.Text = "報表2類別:";
         // 
         // btnSelect4
         // 
         btnSelect4.BackColor = SystemColors.ActiveCaption;
-        btnSelect4.Location = new Point(12, 128);
+        btnSelect4.Location = new Point(19, 196);
+        btnSelect4.Margin = new Padding(5, 5, 5, 5);
         btnSelect4.Name = "btnSelect4";
-        btnSelect4.Size = new Size(100, 25);
+        btnSelect4.Size = new Size(157, 38);
         btnSelect4.TabIndex = 32;
         btnSelect4.Text = "選擇報表4檔案";
         btnSelect4.UseVisualStyleBackColor = false;
@@ -382,20 +387,20 @@ partial class AttendForm
         // txtBoxSelect4
         // 
         txtBoxSelect4.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxSelect4.Location = new Point(188, 127);
-        txtBoxSelect4.Margin = new Padding(2);
+        txtBoxSelect4.Location = new Point(295, 195);
         txtBoxSelect4.Name = "txtBoxSelect4";
         txtBoxSelect4.ReadOnly = true;
-        txtBoxSelect4.Size = new Size(74, 24);
+        txtBoxSelect4.Size = new Size(114, 33);
         txtBoxSelect4.TabIndex = 33;
         txtBoxSelect4.TextAlign = HorizontalAlignment.Center;
         // 
         // label9
         // 
         label9.AutoSize = true;
-        label9.Location = new Point(118, 131);
+        label9.Location = new Point(185, 201);
+        label9.Margin = new Padding(5, 0, 5, 0);
         label9.Name = "label9";
-        label9.Size = new Size(65, 15);
+        label9.Size = new Size(96, 23);
         label9.TabIndex = 35;
         label9.Text = "報表4類別:";
         // 
@@ -403,10 +408,11 @@ partial class AttendForm
         // 
         tabControl2.Controls.Add(tabPage5);
         tabControl2.Controls.Add(tabPage6);
-        tabControl2.Location = new Point(446, 3);
+        tabControl2.Location = new Point(701, 5);
+        tabControl2.Margin = new Padding(5, 5, 5, 5);
         tabControl2.Name = "tabControl2";
         tabControl2.SelectedIndex = 0;
-        tabControl2.Size = new Size(546, 155);
+        tabControl2.Size = new Size(858, 238);
         tabControl2.TabIndex = 38;
         // 
         // tabPage5
@@ -422,10 +428,11 @@ partial class AttendForm
         tabPage5.Controls.Add(label2);
         tabPage5.Controls.Add(label1);
         tabPage5.Controls.Add(txtBoxStartColumn);
-        tabPage5.Location = new Point(4, 24);
+        tabPage5.Location = new Point(4, 32);
+        tabPage5.Margin = new Padding(5, 5, 5, 5);
         tabPage5.Name = "tabPage5";
-        tabPage5.Padding = new Padding(3);
-        tabPage5.Size = new Size(538, 127);
+        tabPage5.Padding = new Padding(5, 5, 5, 5);
+        tabPage5.Size = new Size(850, 202);
         tabPage5.TabIndex = 0;
         tabPage5.Text = "參數";
         tabPage5.UseVisualStyleBackColor = true;
@@ -435,9 +442,10 @@ partial class AttendForm
         cbIgnoreNoData.AutoSize = true;
         cbIgnoreNoData.Checked = true;
         cbIgnoreNoData.CheckState = CheckState.Checked;
-        cbIgnoreNoData.Location = new Point(170, 34);
+        cbIgnoreNoData.Location = new Point(267, 52);
+        cbIgnoreNoData.Margin = new Padding(5, 5, 5, 5);
         cbIgnoreNoData.Name = "cbIgnoreNoData";
-        cbIgnoreNoData.Size = new Size(110, 19);
+        cbIgnoreNoData.Size = new Size(162, 27);
         cbIgnoreNoData.TabIndex = 26;
         cbIgnoreNoData.Text = "忽略無紀錄日期";
         cbIgnoreNoData.UseVisualStyleBackColor = true;
@@ -447,9 +455,10 @@ partial class AttendForm
         cbIgnoreElementarySchool.AutoSize = true;
         cbIgnoreElementarySchool.Checked = true;
         cbIgnoreElementarySchool.CheckState = CheckState.Checked;
-        cbIgnoreElementarySchool.Location = new Point(170, 10);
+        cbIgnoreElementarySchool.Location = new Point(267, 15);
+        cbIgnoreElementarySchool.Margin = new Padding(5, 5, 5, 5);
         cbIgnoreElementarySchool.Name = "cbIgnoreElementarySchool";
-        cbIgnoreElementarySchool.Size = new Size(134, 19);
+        cbIgnoreElementarySchool.Size = new Size(198, 27);
         cbIgnoreElementarySchool.TabIndex = 25;
         cbIgnoreElementarySchool.Text = "小學未受浸納入總計";
         cbIgnoreElementarySchool.UseVisualStyleBackColor = true;
@@ -459,9 +468,10 @@ partial class AttendForm
         ckbCompare.AutoSize = true;
         ckbCompare.Checked = true;
         ckbCompare.CheckState = CheckState.Checked;
-        ckbCompare.Location = new Point(170, 64);
+        ckbCompare.Location = new Point(267, 98);
+        ckbCompare.Margin = new Padding(5, 5, 5, 5);
         ckbCompare.Name = "ckbCompare";
-        ckbCompare.Size = new Size(122, 19);
+        ckbCompare.Size = new Size(180, 27);
         ckbCompare.TabIndex = 24;
         ckbCompare.Text = "比較前後統計週期";
         ckbCompare.UseVisualStyleBackColor = true;
@@ -469,30 +479,27 @@ partial class AttendForm
         // label6
         // 
         label6.AutoSize = true;
-        label6.Location = new Point(101, 44);
-        label6.Margin = new Padding(2, 0, 2, 0);
+        label6.Location = new Point(159, 67);
         label6.Name = "label6";
-        label6.Size = new Size(45, 15);
+        label6.Size = new Size(67, 23);
         label6.TabIndex = 23;
         label6.Text = "% 剔除";
         // 
         // label5
         // 
         label5.AutoSize = true;
-        label5.Location = new Point(135, 12);
-        label5.Margin = new Padding(2, 0, 2, 0);
+        label5.Location = new Point(212, 18);
         label5.Name = "label5";
-        label5.Size = new Size(18, 15);
+        label5.Size = new Size(26, 23);
         label5.TabIndex = 22;
         label5.Text = "%";
         // 
         // txtbIgnoreLevel
         // 
         txtbIgnoreLevel.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtbIgnoreLevel.Location = new Point(73, 42);
-        txtbIgnoreLevel.Margin = new Padding(2);
+        txtbIgnoreLevel.Location = new Point(115, 64);
         txtbIgnoreLevel.Name = "txtbIgnoreLevel";
-        txtbIgnoreLevel.Size = new Size(31, 23);
+        txtbIgnoreLevel.Size = new Size(46, 30);
         txtbIgnoreLevel.TabIndex = 21;
         txtbIgnoreLevel.Text = "40";
         txtbIgnoreLevel.TextAlign = HorizontalAlignment.Center;
@@ -500,20 +507,18 @@ partial class AttendForm
         // label3
         // 
         label3.AutoSize = true;
-        label3.Location = new Point(5, 44);
-        label3.Margin = new Padding(2, 0, 2, 0);
+        label3.Location = new Point(8, 67);
         label3.Name = "label3";
-        label3.Size = new Size(67, 15);
+        label3.Size = new Size(100, 23);
         label3.TabIndex = 20;
         label3.Text = "低於中位數";
         // 
         // txtBoxStable
         // 
         txtBoxStable.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxStable.Location = new Point(103, 10);
-        txtBoxStable.Margin = new Padding(2);
+        txtBoxStable.Location = new Point(162, 15);
         txtBoxStable.Name = "txtBoxStable";
-        txtBoxStable.Size = new Size(29, 23);
+        txtBoxStable.Size = new Size(43, 30);
         txtBoxStable.TabIndex = 19;
         txtBoxStable.Text = "40";
         txtBoxStable.TextAlign = HorizontalAlignment.Center;
@@ -521,30 +526,27 @@ partial class AttendForm
         // label2
         // 
         label2.AutoSize = true;
-        label2.Location = new Point(5, 12);
-        label2.Margin = new Padding(2, 0, 2, 0);
+        label2.Location = new Point(8, 18);
         label2.Name = "label2";
-        label2.Size = new Size(94, 15);
+        label2.Size = new Size(140, 23);
         label2.TabIndex = 18;
         label2.Text = "穩定聚會出席率:";
         // 
         // label1
         // 
         label1.AutoSize = true;
-        label1.Location = new Point(5, 70);
-        label1.Margin = new Padding(2, 0, 2, 0);
+        label1.Location = new Point(8, 107);
         label1.Name = "label1";
-        label1.Size = new Size(106, 15);
+        label1.Size = new Size(158, 23);
         label1.TabIndex = 16;
         label1.Text = "出席紀錄開始欄位:";
         // 
         // txtBoxStartColumn
         // 
         txtBoxStartColumn.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxStartColumn.Location = new Point(115, 66);
-        txtBoxStartColumn.Margin = new Padding(2);
+        txtBoxStartColumn.Location = new Point(181, 101);
         txtBoxStartColumn.Name = "txtBoxStartColumn";
-        txtBoxStartColumn.Size = new Size(41, 24);
+        txtBoxStartColumn.Size = new Size(62, 33);
         txtBoxStartColumn.TabIndex = 17;
         txtBoxStartColumn.Text = "I";
         txtBoxStartColumn.TextAlign = HorizontalAlignment.Center;
@@ -553,10 +555,11 @@ partial class AttendForm
         // 
         tabPage6.Controls.Add(groupBox2);
         tabPage6.Controls.Add(groupBox3);
-        tabPage6.Location = new Point(4, 24);
+        tabPage6.Location = new Point(4, 32);
+        tabPage6.Margin = new Padding(5, 5, 5, 5);
         tabPage6.Name = "tabPage6";
-        tabPage6.Padding = new Padding(3);
-        tabPage6.Size = new Size(538, 127);
+        tabPage6.Padding = new Padding(5, 5, 5, 5);
+        tabPage6.Size = new Size(850, 202);
         tabPage6.TabIndex = 1;
         tabPage6.Text = "分類文字";
         tabPage6.UseVisualStyleBackColor = true;
@@ -579,142 +582,160 @@ partial class AttendForm
         groupBox2.Controls.Add(label17);
         groupBox2.Controls.Add(tbSheet1Cat2);
         groupBox2.Controls.Add(tbSheet1Cat1);
-        groupBox2.Location = new Point(221, 6);
+        groupBox2.Location = new Point(347, 9);
+        groupBox2.Margin = new Padding(5, 5, 5, 5);
         groupBox2.Name = "groupBox2";
-        groupBox2.Size = new Size(307, 119);
+        groupBox2.Padding = new Padding(5, 5, 5, 5);
+        groupBox2.Size = new Size(482, 182);
         groupBox2.TabIndex = 40;
         groupBox2.TabStop = false;
         groupBox2.Text = "週以上";
         // 
         // tbSheet4Cat3
         // 
-        tbSheet4Cat3.Location = new Point(221, 93);
+        tbSheet4Cat3.Location = new Point(347, 143);
+        tbSheet4Cat3.Margin = new Padding(5, 5, 5, 5);
         tbSheet4Cat3.Name = "tbSheet4Cat3";
-        tbSheet4Cat3.Size = new Size(75, 23);
+        tbSheet4Cat3.Size = new Size(116, 30);
         tbSheet4Cat3.TabIndex = 43;
         tbSheet4Cat3.Text = "無紀錄";
         // 
         // tbSheet3Cat3
         // 
-        tbSheet3Cat3.Location = new Point(221, 67);
+        tbSheet3Cat3.Location = new Point(347, 103);
+        tbSheet3Cat3.Margin = new Padding(5, 5, 5, 5);
         tbSheet3Cat3.Name = "tbSheet3Cat3";
-        tbSheet3Cat3.Size = new Size(75, 23);
+        tbSheet3Cat3.Size = new Size(116, 30);
         tbSheet3Cat3.TabIndex = 42;
         tbSheet3Cat3.Text = "無紀錄";
         // 
         // tbSheet2Cat3
         // 
-        tbSheet2Cat3.Location = new Point(221, 42);
+        tbSheet2Cat3.Location = new Point(347, 64);
+        tbSheet2Cat3.Margin = new Padding(5, 5, 5, 5);
         tbSheet2Cat3.Name = "tbSheet2Cat3";
-        tbSheet2Cat3.Size = new Size(75, 23);
+        tbSheet2Cat3.Size = new Size(116, 30);
         tbSheet2Cat3.TabIndex = 41;
         tbSheet2Cat3.Text = "無紀錄";
         // 
         // tbSheet1Cat3
         // 
-        tbSheet1Cat3.Location = new Point(221, 16);
+        tbSheet1Cat3.Location = new Point(347, 25);
+        tbSheet1Cat3.Margin = new Padding(5, 5, 5, 5);
         tbSheet1Cat3.Name = "tbSheet1Cat3";
-        tbSheet1Cat3.Size = new Size(75, 23);
+        tbSheet1Cat3.Size = new Size(116, 30);
         tbSheet1Cat3.TabIndex = 40;
         tbSheet1Cat3.Text = "無紀錄";
         // 
         // label14
         // 
         label14.AutoSize = true;
-        label14.Location = new Point(6, 97);
+        label14.Location = new Point(9, 149);
+        label14.Margin = new Padding(5, 0, 5, 0);
         label14.Name = "label14";
-        label14.Size = new Size(41, 15);
+        label14.Size = new Size(60, 23);
         label14.TabIndex = 39;
         label14.Text = "報表4:";
         // 
         // tbSheet4Cat2
         // 
-        tbSheet4Cat2.Location = new Point(133, 93);
+        tbSheet4Cat2.Location = new Point(209, 143);
+        tbSheet4Cat2.Margin = new Padding(5, 5, 5, 5);
         tbSheet4Cat2.Name = "tbSheet4Cat2";
-        tbSheet4Cat2.Size = new Size(82, 23);
+        tbSheet4Cat2.Size = new Size(127, 30);
         tbSheet4Cat2.TabIndex = 38;
         tbSheet4Cat2.Text = "不穩定";
         // 
         // tbSheet4Cat1
         // 
-        tbSheet4Cat1.Location = new Point(53, 94);
+        tbSheet4Cat1.Location = new Point(83, 144);
+        tbSheet4Cat1.Margin = new Padding(5, 5, 5, 5);
         tbSheet4Cat1.Name = "tbSheet4Cat1";
-        tbSheet4Cat1.Size = new Size(74, 23);
+        tbSheet4Cat1.Size = new Size(114, 30);
         tbSheet4Cat1.TabIndex = 37;
         tbSheet4Cat1.Text = "穩定";
         // 
         // label15
         // 
         label15.AutoSize = true;
-        label15.Location = new Point(6, 71);
+        label15.Location = new Point(9, 109);
+        label15.Margin = new Padding(5, 0, 5, 0);
         label15.Name = "label15";
-        label15.Size = new Size(41, 15);
+        label15.Size = new Size(60, 23);
         label15.TabIndex = 36;
         label15.Text = "報表3:";
         // 
         // tbSheet3Cat2
         // 
-        tbSheet3Cat2.Location = new Point(133, 67);
+        tbSheet3Cat2.Location = new Point(209, 103);
+        tbSheet3Cat2.Margin = new Padding(5, 5, 5, 5);
         tbSheet3Cat2.Name = "tbSheet3Cat2";
-        tbSheet3Cat2.Size = new Size(82, 23);
+        tbSheet3Cat2.Size = new Size(127, 30);
         tbSheet3Cat2.TabIndex = 35;
         tbSheet3Cat2.Text = "不穩定";
         // 
         // tbSheet3Cat1
         // 
-        tbSheet3Cat1.Location = new Point(53, 68);
+        tbSheet3Cat1.Location = new Point(83, 104);
+        tbSheet3Cat1.Margin = new Padding(5, 5, 5, 5);
         tbSheet3Cat1.Name = "tbSheet3Cat1";
-        tbSheet3Cat1.Size = new Size(74, 23);
+        tbSheet3Cat1.Size = new Size(114, 30);
         tbSheet3Cat1.TabIndex = 34;
         tbSheet3Cat1.Text = "穩定聚會";
         // 
         // label16
         // 
         label16.AutoSize = true;
-        label16.Location = new Point(6, 46);
+        label16.Location = new Point(9, 71);
+        label16.Margin = new Padding(5, 0, 5, 0);
         label16.Name = "label16";
-        label16.Size = new Size(41, 15);
+        label16.Size = new Size(60, 23);
         label16.TabIndex = 33;
         label16.Text = "報表2:";
         // 
         // tbSheet2Cat2
         // 
-        tbSheet2Cat2.Location = new Point(133, 42);
+        tbSheet2Cat2.Location = new Point(209, 64);
+        tbSheet2Cat2.Margin = new Padding(5, 5, 5, 5);
         tbSheet2Cat2.Name = "tbSheet2Cat2";
-        tbSheet2Cat2.Size = new Size(82, 23);
+        tbSheet2Cat2.Size = new Size(127, 30);
         tbSheet2Cat2.TabIndex = 32;
         tbSheet2Cat2.Text = "不穩定";
         // 
         // tbSheet2Cat1
         // 
-        tbSheet2Cat1.Location = new Point(53, 43);
+        tbSheet2Cat1.Location = new Point(83, 66);
+        tbSheet2Cat1.Margin = new Padding(5, 5, 5, 5);
         tbSheet2Cat1.Name = "tbSheet2Cat1";
-        tbSheet2Cat1.Size = new Size(74, 23);
+        tbSheet2Cat1.Size = new Size(114, 30);
         tbSheet2Cat1.TabIndex = 31;
         tbSheet2Cat1.Text = "穩定聚會";
         // 
         // label17
         // 
         label17.AutoSize = true;
-        label17.Location = new Point(6, 20);
+        label17.Location = new Point(9, 31);
+        label17.Margin = new Padding(5, 0, 5, 0);
         label17.Name = "label17";
-        label17.Size = new Size(41, 15);
+        label17.Size = new Size(60, 23);
         label17.TabIndex = 30;
         label17.Text = "報表1:";
         // 
         // tbSheet1Cat2
         // 
-        tbSheet1Cat2.Location = new Point(133, 16);
+        tbSheet1Cat2.Location = new Point(209, 25);
+        tbSheet1Cat2.Margin = new Padding(5, 5, 5, 5);
         tbSheet1Cat2.Name = "tbSheet1Cat2";
-        tbSheet1Cat2.Size = new Size(82, 23);
+        tbSheet1Cat2.Size = new Size(127, 30);
         tbSheet1Cat2.TabIndex = 2;
         tbSheet1Cat2.Text = "不穩定";
         // 
         // tbSheet1Cat1
         // 
-        tbSheet1Cat1.Location = new Point(53, 17);
+        tbSheet1Cat1.Location = new Point(83, 26);
+        tbSheet1Cat1.Margin = new Padding(5, 5, 5, 5);
         tbSheet1Cat1.Name = "tbSheet1Cat1";
-        tbSheet1Cat1.Size = new Size(74, 23);
+        tbSheet1Cat1.Size = new Size(114, 30);
         tbSheet1Cat1.TabIndex = 0;
         tbSheet1Cat1.Text = "穩定聚會";
         // 
@@ -732,9 +753,11 @@ partial class AttendForm
         groupBox3.Controls.Add(label10);
         groupBox3.Controls.Add(tbSheet1WeekCat2);
         groupBox3.Controls.Add(tbSheet1WeekCat1);
-        groupBox3.Location = new Point(6, 5);
+        groupBox3.Location = new Point(9, 8);
+        groupBox3.Margin = new Padding(5, 5, 5, 5);
         groupBox3.Name = "groupBox3";
-        groupBox3.Size = new Size(209, 119);
+        groupBox3.Padding = new Padding(5, 5, 5, 5);
+        groupBox3.Size = new Size(328, 182);
         groupBox3.TabIndex = 38;
         groupBox3.TabStop = false;
         groupBox3.Text = "週";
@@ -742,108 +765,120 @@ partial class AttendForm
         // label13
         // 
         label13.AutoSize = true;
-        label13.Location = new Point(6, 97);
+        label13.Location = new Point(9, 149);
+        label13.Margin = new Padding(5, 0, 5, 0);
         label13.Name = "label13";
-        label13.Size = new Size(41, 15);
+        label13.Size = new Size(60, 23);
         label13.TabIndex = 39;
         label13.Text = "報表4:";
         // 
         // tbSheet4WeekCat2
         // 
-        tbSheet4WeekCat2.Location = new Point(124, 94);
+        tbSheet4WeekCat2.Location = new Point(195, 144);
+        tbSheet4WeekCat2.Margin = new Padding(5, 5, 5, 5);
         tbSheet4WeekCat2.Name = "tbSheet4WeekCat2";
-        tbSheet4WeekCat2.Size = new Size(60, 23);
+        tbSheet4WeekCat2.Size = new Size(92, 30);
         tbSheet4WeekCat2.TabIndex = 38;
         tbSheet4WeekCat2.Text = "無紀錄";
         // 
         // tbSheet4WeekCat1
         // 
-        tbSheet4WeekCat1.Location = new Point(53, 94);
+        tbSheet4WeekCat1.Location = new Point(83, 144);
+        tbSheet4WeekCat1.Margin = new Padding(5, 5, 5, 5);
         tbSheet4WeekCat1.Name = "tbSheet4WeekCat1";
-        tbSheet4WeekCat1.Size = new Size(65, 23);
+        tbSheet4WeekCat1.Size = new Size(100, 30);
         tbSheet4WeekCat1.TabIndex = 37;
         tbSheet4WeekCat1.Text = "本週有紀錄";
         // 
         // label12
         // 
         label12.AutoSize = true;
-        label12.Location = new Point(6, 71);
+        label12.Location = new Point(9, 109);
+        label12.Margin = new Padding(5, 0, 5, 0);
         label12.Name = "label12";
-        label12.Size = new Size(41, 15);
+        label12.Size = new Size(60, 23);
         label12.TabIndex = 36;
         label12.Text = "報表3:";
         // 
         // tbSheet3WeekCat2
         // 
-        tbSheet3WeekCat2.Location = new Point(124, 68);
+        tbSheet3WeekCat2.Location = new Point(195, 104);
+        tbSheet3WeekCat2.Margin = new Padding(5, 5, 5, 5);
         tbSheet3WeekCat2.Name = "tbSheet3WeekCat2";
-        tbSheet3WeekCat2.Size = new Size(60, 23);
+        tbSheet3WeekCat2.Size = new Size(92, 30);
         tbSheet3WeekCat2.TabIndex = 35;
         tbSheet3WeekCat2.Text = "未到會";
         // 
         // tbSheet3WeekCat1
         // 
-        tbSheet3WeekCat1.Location = new Point(53, 68);
+        tbSheet3WeekCat1.Location = new Point(83, 104);
+        tbSheet3WeekCat1.Margin = new Padding(5, 5, 5, 5);
         tbSheet3WeekCat1.Name = "tbSheet3WeekCat1";
-        tbSheet3WeekCat1.Size = new Size(65, 23);
+        tbSheet3WeekCat1.Size = new Size(100, 30);
         tbSheet3WeekCat1.TabIndex = 34;
         tbSheet3WeekCat1.Text = "本週到會";
         // 
         // label11
         // 
         label11.AutoSize = true;
-        label11.Location = new Point(6, 46);
+        label11.Location = new Point(9, 71);
+        label11.Margin = new Padding(5, 0, 5, 0);
         label11.Name = "label11";
-        label11.Size = new Size(41, 15);
+        label11.Size = new Size(60, 23);
         label11.TabIndex = 33;
         label11.Text = "報表2:";
         // 
         // tbSheet2WeekCat2
         // 
-        tbSheet2WeekCat2.Location = new Point(124, 43);
+        tbSheet2WeekCat2.Location = new Point(195, 66);
+        tbSheet2WeekCat2.Margin = new Padding(5, 5, 5, 5);
         tbSheet2WeekCat2.Name = "tbSheet2WeekCat2";
-        tbSheet2WeekCat2.Size = new Size(60, 23);
+        tbSheet2WeekCat2.Size = new Size(92, 30);
         tbSheet2WeekCat2.TabIndex = 32;
         tbSheet2WeekCat2.Text = "未到會";
         // 
         // tbSheet2WeekCat1
         // 
-        tbSheet2WeekCat1.Location = new Point(53, 43);
+        tbSheet2WeekCat1.Location = new Point(83, 66);
+        tbSheet2WeekCat1.Margin = new Padding(5, 5, 5, 5);
         tbSheet2WeekCat1.Name = "tbSheet2WeekCat1";
-        tbSheet2WeekCat1.Size = new Size(65, 23);
+        tbSheet2WeekCat1.Size = new Size(100, 30);
         tbSheet2WeekCat1.TabIndex = 31;
         tbSheet2WeekCat1.Text = "本週到會";
         // 
         // label10
         // 
         label10.AutoSize = true;
-        label10.Location = new Point(6, 20);
+        label10.Location = new Point(9, 31);
+        label10.Margin = new Padding(5, 0, 5, 0);
         label10.Name = "label10";
-        label10.Size = new Size(41, 15);
+        label10.Size = new Size(60, 23);
         label10.TabIndex = 30;
         label10.Text = "報表1:";
         // 
         // tbSheet1WeekCat2
         // 
-        tbSheet1WeekCat2.Location = new Point(124, 17);
+        tbSheet1WeekCat2.Location = new Point(195, 26);
+        tbSheet1WeekCat2.Margin = new Padding(5, 5, 5, 5);
         tbSheet1WeekCat2.Name = "tbSheet1WeekCat2";
-        tbSheet1WeekCat2.Size = new Size(60, 23);
+        tbSheet1WeekCat2.Size = new Size(92, 30);
         tbSheet1WeekCat2.TabIndex = 2;
         tbSheet1WeekCat2.Text = "未到會";
         // 
         // tbSheet1WeekCat1
         // 
-        tbSheet1WeekCat1.Location = new Point(53, 17);
+        tbSheet1WeekCat1.Location = new Point(83, 26);
+        tbSheet1WeekCat1.Margin = new Padding(5, 5, 5, 5);
         tbSheet1WeekCat1.Name = "tbSheet1WeekCat1";
-        tbSheet1WeekCat1.Size = new Size(65, 23);
+        tbSheet1WeekCat1.Size = new Size(100, 30);
         tbSheet1WeekCat1.TabIndex = 0;
         tbSheet1WeekCat1.Text = "本週到會";
         // 
         // AttendForm
         // 
-        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleDimensions = new SizeF(11F, 23F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1004, 663);
+        ClientSize = new Size(1578, 1017);
         Controls.Add(tabControl2);
         Controls.Add(btnCalculateAllExcel);
         Controls.Add(label9);
@@ -860,8 +895,9 @@ partial class AttendForm
         Controls.Add(txtBoxSelect1);
         Controls.Add(groupBox1);
         Controls.Add(btnSelect1);
+        Margin = new Padding(5, 5, 5, 5);
         Name = "AttendForm";
-        Text = "Form1";
+        Text = "點名系統表單整理小幫手";
         SizeChanged += AttendForm_SizeChanged;
         groupBox1.ResumeLayout(false);
         groupBox1.PerformLayout();
