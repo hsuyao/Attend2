@@ -454,9 +454,9 @@ public partial class AttendForm : Form
                 var sheet = workbook.GetSheetAt(0); // 選擇第一個工作表
                 var row = sheet.GetRow(1); // 選擇第五行
                 int lastColumnWithData = startColumnIndex;
-                if (cbIgnoreNoData.Checked) 
+                if (cbIgnoreNoData.Checked)
                 {
-                   RemoveZeroColumns(sheet, 2);
+                    RemoveZeroColumns(sheet, 2);
                 }
                 lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex);
                 if (rbWeek.Checked == true)
@@ -466,7 +466,7 @@ public partial class AttendForm : Form
                     foreach (string s in result)
                     {
                         // MessageBox.Show(s);
-                        var dict = ClassifyAttendancy(s, sheet, new[] {"本週到會", "未到會" });
+                        var dict = ClassifyAttendancy(s, sheet, CatagoryArray(inputFilePath));
                         var week = GetWeekString(sheet, s);
                         sheetName.Add(week);
                         FillSheetWithDict(dict, week, workbook, false);
@@ -483,7 +483,7 @@ public partial class AttendForm : Form
 
                     {
                         // MessageBox.Show(s);
-                        var dict = ClassifyAttendancy(s, sheet, new[] { "穩定聚會", "不穩定","本月無紀錄" });
+                        var dict = ClassifyAttendancy(s, sheet, CatagoryArray(inputFilePath));
                         var month = GetMonthString(sheet, s);
                         sheetName.Add(month);
                         FillSheetWithDict(dict, month, workbook, false);
@@ -500,7 +500,7 @@ public partial class AttendForm : Form
 
                     foreach (string s in result)
                     {
-                        var dict = ClassifyAttendancy(s, sheet, new[] { "穩定聚會", "不穩定","半年無紀錄" });
+                        var dict = ClassifyAttendancy(s, sheet, CatagoryArray(inputFilePath));
                         sheetName.Add(s);
                         FillSheetWithDict(dict, s, workbook, false);
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
@@ -525,13 +525,13 @@ public partial class AttendForm : Form
                 for (int i = 0; i < sheetName.Count; i++)
                 {
                     ISheet minor_sheet = workbook.GetSheet(sheetName[i]);
-                   // FillSheetNameAndDataName(minor_sheet, sheetName[i] + " " + cell.ToString());
+                    // FillSheetNameAndDataName(minor_sheet, sheetName[i] + " " + cell.ToString());
                 }
                 using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
                 {
                     workbook.Write(file);
                 }
-                
+
 
             }
         }
@@ -747,9 +747,9 @@ public partial class AttendForm : Form
 
             if (categories.Length == 2)
                 category = attendanceRate > double.Parse(txtBoxStable.Text) / 100 ? categories[0] : categories[1];
-            else 
+            else
                 category = attendanceRate > double.Parse(txtBoxStable.Text) / 100 ? categories[0] : attendanceRate > 0 ? categories[1] : categories[2];
-            
+
 
             string key = groupName + "_" + category;
 
@@ -1200,4 +1200,45 @@ public partial class AttendForm : Form
         if (filenames[0].Length == 0 && filenames[1].Length == 0 && filenames[2].Length == 0 && filenames[3].Length == 0)
             MessageBox.Show("請選擇檔案");
     }
+    private string[] CatagoryArray(string input)
+    {
+        if (input == filenames[0] && rbWeek.Checked)
+        {
+            return new string[] { tbSheet1WeekCat1.Text, tbSheet1WeekCat2.Text };
+        }
+        else if (input == filenames[0] && !rbWeek.Checked)
+        {
+            return new string[] { tbSheet1Cat1.Text, tbSheet1Cat2.Text, tbSheet1Cat3.Text };
+        }
+        else if (input == filenames[1] && rbWeek.Checked)
+        {
+            return new string[] { tbSheet2WeekCat1.Text, tbSheet2WeekCat2.Text };
+        }
+        else if (input == filenames[1] && !rbWeek.Checked)
+        {
+            return new string[] { tbSheet2Cat1.Text, tbSheet2Cat2.Text, tbSheet2Cat3.Text };
+        }
+        else if (input == filenames[2] && rbWeek.Checked)
+        {
+            return new string[] { tbSheet3WeekCat1.Text, tbSheet3WeekCat2.Text };
+        }
+        else if (input == filenames[2] && !rbWeek.Checked)
+        {
+            return new string[] { tbSheet3Cat1.Text, tbSheet3Cat2.Text, tbSheet3Cat3.Text };
+        }
+        else if (input == filenames[3] && rbWeek.Checked)
+        {
+            return new string[] { tbSheet4WeekCat1.Text, tbSheet4WeekCat2.Text };
+        }
+        else if (input == filenames[3] && !rbWeek.Checked)
+        {
+            return new string[] { tbSheet4Cat1.Text, tbSheet4Cat2.Text, tbSheet4Cat3.Text };
+        }
+        else
+        {
+            return new string[] { };
+        }
+    }
 }
+
+
