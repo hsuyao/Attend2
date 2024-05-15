@@ -439,7 +439,28 @@ public partial class AttendForm : Form
         }
     }
 
-    public void OpenExcelFile(string inputFilePath, string outputFilePath, DataGridView dbvResult)
+    void SetTabText(ISheet sheet, string inputString)
+    {
+ 
+        if (inputString == filenames[0])
+        {
+            tabPage1.Text = sheet.SheetName +" " +txtBoxSelect1.Text;
+        }
+        if (inputString == filenames[1])
+        {
+            tabPage2.Text = sheet.SheetName +" " + txtBoxSelect2.Text;
+        }
+        if (inputString == filenames[2])
+        {
+            tabPage3.Text = sheet.SheetName + " " + txtBoxSelect3.Text;
+        }
+        if (inputString == filenames[3])
+        {
+            tabPage4.Text = sheet.SheetName + " " + txtBoxSelect4.Text;
+        }
+
+    }
+    private void OpenExcelFile(string inputFilePath, string outputFilePath, DataGridView dbvResult)
     {
         try
         {
@@ -519,14 +540,16 @@ public partial class AttendForm : Form
 
                 var sheetToShow = workbook.GetSheet(sheetName[sheetName.Count - 1]);
                 DisplayExcelInDataGridView(sheetToShow, dbvResult);
-
+                
                 IRow row0 = sheet.GetRow(0); // 取得第一列
                 ICell cell = row0.GetCell(0); // 取得第一欄
                 for (int i = 0; i < sheetName.Count; i++)
                 {
                     ISheet minor_sheet = workbook.GetSheet(sheetName[i]);
-                    // FillSheetNameAndDataName(minor_sheet, sheetName[i] + " " + cell.ToString());
+                    FillSheetNameAndDataName(minor_sheet, sheetName[i] + " " + cell.ToString());
                 }
+
+                SetTabText(sheetToShow, inputFilePath);
                 using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
                 {
                     workbook.Write(file);
