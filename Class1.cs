@@ -52,10 +52,10 @@ namespace Attend
         public bool CkbCompare { get; set; }
         // ... 其他控件
     }
-    internal class DataGridViewState
+    internal class DataGridViewData
     {
-        public DataTable Data { get; set; }
-        public List<string> RowColors { get; set; }
+        public string[,] CellValues { get; set; }
+        public string[,] CellColors { get; set; }
     }
 
 }

@@ -315,63 +315,7 @@ public partial class AttendForm : Form
         sheet.SetColumnWidth(startColumn + 1, 10 * 256);
         sheet.SetColumnWidth(startColumn + 2, 4 * 256);
     }
-    private DataTable WriteToDataTable(Dictionary<string, double> result)
-    {
-        DataTable dt = new DataTable();
-        dt.Columns.Add("所屬區");
-        dt.Columns.Add("身份");
-        dt.Columns.Add("人數");
-
-        var districtSums = new Dictionary<string, double>();
-        var districtIdentitySums = new Dictionary<string, double>();
-
-        foreach (var key in result.Keys)
-        {
-            var parts = key.Split('|');
-            var district = parts[0];
-            var identity = parts[1];
-
-            if (identity == "年長" || identity == "中壯" || identity == "青壯" || identity == "青職")
-            {
-                identity = "青職以上";
-                if (!districtIdentitySums.ContainsKey(district + "|" + identity))
-                {
-                    districtIdentitySums[district + "|" + identity] = 0;
-                }
-                districtIdentitySums[district + "|" + identity] += result[key];
-            }
-            else
-            {
-                if (!districtIdentitySums.ContainsKey(district + "|" + identity))
-                {
-                    districtIdentitySums[district + "|" + identity] = 0;
-                }
-
-                districtIdentitySums[district + "|" + identity] += result[key];
-            }
-
-            if (!districtSums.ContainsKey(district))
-            {
-                districtSums[district] = 0;
-            }
-            if (identity != "學齡前")
-                districtSums[district] += result[key];
-        }
-
-        foreach (var district in districtSums.Keys)
-        {
-            var identities = new List<string> { "青職以上", "大專", "中學", "小學", "學齡前", "總計" };
-            foreach (var identity in identities)
-            {
-                dt.Rows.Add(district, identity,
-                    identity == "總計" ? districtSums[district] :
-                    (districtIdentitySums.ContainsKey(district + "|" + identity) ? districtIdentitySums[district + "|" + identity] : 0));
-            }
-        }
-
-        return dt;
-    }
-
+    
     private void RemoveZeroColumns(ISheet sheet, int startRow)
     {
         int lastColumnNum = sheet.GetRow(startRow).LastCellNum;
@@ -609,6 +553,7 @@ public partial class AttendForm : Form
         dataGridView.AutoResizeColumns();
         dataGridView.AutoResizeRows();
         dataGridView.ColumnHeadersVisible = false;
+        dataGridView.Columns[0].Visible = false;
 
         // Set the column captions to the values from the second row
         if (dt.Rows.Count > 0)
@@ -1219,10 +1164,28 @@ public partial class AttendForm : Form
 
     private void btnCalculateAllExcel_Click(object sender, EventArgs e)
     {
-        if (filenames[0].Length > 0) OpenExcelFile(filenames[0], txtBoxSelect1.Text + ".xlsx", dgvResult1);
-        if (filenames[1].Length > 0) OpenExcelFile(filenames[1], txtBoxSelect2.Text + ".xlsx", dgvResult2);
-        if (filenames[2].Length > 0) OpenExcelFile(filenames[2], txtBoxSelect3.Text + ".xlsx", dgvResult3);
-        if (filenames[3].Length > 0) OpenExcelFile(filenames[3], txtBoxSelect4.Text + ".xlsx", dgvResult4);
+
+        if (filenames[3].Length > 0)
+        {
+            tabControl1.SelectedTab = tabPage4;
+            OpenExcelFile(filenames[3], txtBoxSelect4.Text + ".xlsx", dgvResult4);
+        }
+        if (filenames[2].Length > 0)
+        {
+            tabControl1.SelectedTab = tabPage3;
+            OpenExcelFile(filenames[2], txtBoxSelect3.Text + ".xlsx", dgvResult3);
+        }
+        if (filenames[1].Length > 0)
+        {
+            tabControl1.SelectedTab = tabPage2;
+            OpenExcelFile(filenames[1], txtBoxSelect2.Text + ".xlsx", dgvResult2);
+        }
+        if (filenames[0].Length > 0)
+        {
+            tabControl1.SelectedTab = tabPage1;
+            OpenExcelFile(filenames[0], txtBoxSelect1.Text + ".xlsx", dgvResult1);
+        }
+
         if (filenames[0].Length == 0 && filenames[1].Length == 0 && filenames[2].Length == 0 && filenames[3].Length == 0)
             MessageBox.Show("請選擇檔案");
     }
@@ -1313,10 +1276,7 @@ public partial class AttendForm : Form
             // ... 其他控件
         }
 
-        if (File.Exists("dgvResult1.json")) LoadDataGridViewState(dgvResult1, "dgvResult1.json");
-        if (File.Exists("dgvResult2.json")) LoadDataGridViewState(dgvResult1, "dgvResult2.json");
-        if (File.Exists("dgvResult3.json")) LoadDataGridViewState(dgvResult1, "dgvResult3.json");
-        if (File.Exists("dgvResult4.json")) LoadDataGridViewState(dgvResult1, "dgvResult4.json");
+      //  LoadDataGridViews();
 
     }
 
@@ -1366,54 +1326,69 @@ public partial class AttendForm : Form
 
         var json = JsonConvert.SerializeObject(controlState);
         File.WriteAllText("controlState.json", json);
-        SaveDataGridViewState(dgvResult1, "dgvResult1.json");
-        SaveDataGridViewState(dgvResult2, "dgvResult2.json");
-        SaveDataGridViewState(dgvResult3, "dgvResult3.json");
-        SaveDataGridViewState(dgvResult4, "dgvResult4.json");
+       // SaveDataGridViews();
     }
 
-    private void LoadDataGridViewState(DataGridView dgv, string fileName)
+    private void SaveDataGridViews()
     {
-        if (File.Exists(fileName))
+        DataGridView[] dataGridViews = new DataGridView[] { dgvResult1, dgvResult2, dgvResult3, dgvResult4 };
+
+        foreach (var dgv in dataGridViews)
         {
-            var json = File.ReadAllText(fileName);
-            var state = JsonConvert.DeserializeObject<DataGridViewState>(json);
-
-            dgv.Columns.Clear();
-            foreach (DataColumn column in state.Data.Columns)
+            DataGridViewData data = new DataGridViewData
             {
-                dgv.Columns.Add(column.ColumnName, column.ColumnName);
+                CellValues = new string[dgv.Rows.Count, dgv.Columns.Count],
+                CellColors = new string[dgv.Rows.Count, dgv.Columns.Count]
+            };
+
+            for (int i = 0; i < dgv.Rows.Count; i++)
+            {
+                for (int j = 0; j < dgv.Columns.Count; j++)
+                {
+                    if (dgv.Rows[i].Cells[j].Value != null)
+                    {
+                        data.CellValues[i, j] = dgv.Rows[i].Cells[j].Value.ToString();
+                    }
+                    data.CellColors[i, j] = dgv.Rows[i].Cells[j].Style.BackColor.ToArgb().ToString();
+                }
             }
 
-            for (int i = 0; i < state.Data.Rows.Count; i++)
-            {
-                dgv.Rows.Add(state.Data.Rows[i].ItemArray);
-                dgv.Rows[i].DefaultCellStyle.BackColor = ColorTranslator.FromHtml(state.RowColors[i]);
-            }
+            File.WriteAllText($"{dgv.Name}.json", JsonConvert.SerializeObject(data));
         }
     }
-    private void SaveDataGridViewState(DataGridView dgv, string fileName)
+
+    private void LoadDataGridViews()
     {
-        var dt = new DataTable();
-        foreach (DataGridViewColumn column in dgv.Columns)
-        {
-            dt.Columns.Add(column.Name, typeof(string));
-        }
+        DataGridView[] dataGridViews = new DataGridView[] { dgvResult1, dgvResult2, dgvResult3, dgvResult4 };
 
-        var rowColors = new List<string>();
-        foreach (DataGridViewRow row in dgv.Rows)
+        foreach (var dgv in dataGridViews)
         {
-            dt.Rows.Add();
-            foreach (DataGridViewCell cell in row.Cells)
+            if (File.Exists($"{dgv.Name}.json"))
             {
-                dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value?.ToString();
-            }
-            rowColors.Add(ColorTranslator.ToHtml(row.DefaultCellStyle.BackColor));
-        }
+                DataGridViewData data = JsonConvert.DeserializeObject<DataGridViewData>(File.ReadAllText($"{dgv.Name}.json"));
 
-        var state = new DataGridViewState { Data = dt, RowColors = rowColors };
-        var json = JsonConvert.SerializeObject(state);
-        File.WriteAllText(fileName, json);
+                dgv.Rows.Clear();
+                dgv.Columns.Clear();
+
+                int rowCount = data.CellValues.GetLength(0);
+                int colCount = data.CellValues.GetLength(1);
+
+                for (int i = 0; i < colCount; i++)
+                {
+                    dgv.Columns.Add(new DataGridViewTextBoxColumn());
+                }
+
+                for (int i = 0; i < rowCount; i++)
+                {
+                    dgv.Rows.Add();
+                    for (int j = 0; j < colCount; j++)
+                    {
+                        dgv.Rows[i].Cells[j].Value = data.CellValues[i, j];
+                        dgv.Rows[i].Cells[j].Style.BackColor = System.Drawing.Color.FromArgb(int.Parse(data.CellColors[i, j]));
+                    }
+                }
+            }
+        }
     }
 }
 
