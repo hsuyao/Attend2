@@ -20,10 +20,10 @@ namespace Attend
         public string TabPage3Text { get; set; }
         public string TabPage4Text { get; set; }
 
-        public string TextBoxSelect1 { get; set; }
-        public string TextBoxSelect2 { get; set; }
-        public string TextBoxSelect3 { get; set; }
-        public string TextBoxSelect4 { get; set; }
+        // public string TextBoxSelect1 { get; set; }
+        // public string TextBoxSelect2 { get; set; }
+        // public string TextBoxSelect3 { get; set; }
+        // public string TextBoxSelect4 { get; set; }
         public string TxtbIgnoreLevel { get; set; }
         public string TxtBoxStable { get; set; }
         public string TxtBoxStartColumn { get; set; }
@@ -52,4 +52,10 @@ namespace Attend
         public bool CkbCompare { get; set; }
         // ... 其他控件
     }
+    internal class DataGridViewState
+    {
+        public DataTable Data { get; set; }
+        public List<string> RowColors { get; set; }
+    }
+
 }

@@ -19,8 +19,10 @@ using System.Data;
 using System.Windows.Forms;
 using DocumentFormat.OpenXml.Presentation;
 using Newtonsoft.Json;
+using System.Drawing;
 
 namespace Attend;
+
 
 public partial class AttendForm : Form
 {
@@ -1278,10 +1280,10 @@ public partial class AttendForm : Form
             tabPage2.Text = controlState.TabPage2Text;
             tabPage3.Text = controlState.TabPage3Text;
             tabPage4.Text = controlState.TabPage4Text;
-            txtBoxSelect1.Text = controlState.TextBoxSelect1;
-            txtBoxSelect2.Text = controlState.TextBoxSelect2;
-            txtBoxSelect3.Text = controlState.TextBoxSelect3;
-            txtBoxSelect4.Text = controlState.TextBoxSelect4;
+            //txtBoxSelect1.Text = controlState.TextBoxSelect1;
+            //txtBoxSelect2.Text = controlState.TextBoxSelect2;
+            //txtBoxSelect3.Text = controlState.TextBoxSelect3;
+            //txtBoxSelect4.Text = controlState.TextBoxSelect4;
             txtbIgnoreLevel.Text = controlState.TxtbIgnoreLevel;
             txtBoxStable.Text = controlState.TxtBoxStable;
             txtBoxStartColumn.Text = controlState.TxtBoxStartColumn;
@@ -1309,7 +1311,13 @@ public partial class AttendForm : Form
             cbIgnoreElementarySchool.Checked = controlState.CbIgnoreElementarySchool;
             ckbCompare.Checked = controlState.CkbCompare;
             // ... 其他控件
-        }      
+        }
+
+        if (File.Exists("dgvResult1.json")) LoadDataGridViewState(dgvResult1, "dgvResult1.json");
+        if (File.Exists("dgvResult2.json")) LoadDataGridViewState(dgvResult1, "dgvResult2.json");
+        if (File.Exists("dgvResult3.json")) LoadDataGridViewState(dgvResult1, "dgvResult3.json");
+        if (File.Exists("dgvResult4.json")) LoadDataGridViewState(dgvResult1, "dgvResult4.json");
+
     }
 
     private void AttendForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -1323,10 +1331,10 @@ public partial class AttendForm : Form
             TabPage2Text = tabPage2.Text,
             TabPage3Text = tabPage3.Text,
             TabPage4Text = tabPage4.Text,
-            TextBoxSelect1 = txtBoxSelect1.Text,
-            TextBoxSelect2 = txtBoxSelect2.Text,
-            TextBoxSelect3 = txtBoxSelect3.Text,
-            TextBoxSelect4 = txtBoxSelect4.Text,
+            // TextBoxSelect1 = txtBoxSelect1.Text,
+            // TextBoxSelect2 = txtBoxSelect2.Text,
+            // TextBoxSelect3 = txtBoxSelect3.Text,
+            // TextBoxSelect4 = txtBoxSelect4.Text,
             TxtbIgnoreLevel = txtbIgnoreLevel.Text,
             TxtBoxStable = txtBoxStable.Text,
             TxtBoxStartColumn = txtBoxStartColumn.Text,
@@ -1358,8 +1366,55 @@ public partial class AttendForm : Form
 
         var json = JsonConvert.SerializeObject(controlState);
         File.WriteAllText("controlState.json", json);
+        SaveDataGridViewState(dgvResult1, "dgvResult1.json");
+        SaveDataGridViewState(dgvResult2, "dgvResult2.json");
+        SaveDataGridViewState(dgvResult3, "dgvResult3.json");
+        SaveDataGridViewState(dgvResult4, "dgvResult4.json");
     }
 
+    private void LoadDataGridViewState(DataGridView dgv, string fileName)
+    {
+        if (File.Exists(fileName))
+        {
+            var json = File.ReadAllText(fileName);
+            var state = JsonConvert.DeserializeObject<DataGridViewState>(json);
+
+            dgv.Columns.Clear();
+            foreach (DataColumn column in state.Data.Columns)
+            {
+                dgv.Columns.Add(column.ColumnName, column.ColumnName);
+            }
+
+            for (int i = 0; i < state.Data.Rows.Count; i++)
+            {
+                dgv.Rows.Add(state.Data.Rows[i].ItemArray);
+                dgv.Rows[i].DefaultCellStyle.BackColor = ColorTranslator.FromHtml(state.RowColors[i]);
+            }
+        }
+    }
+    private void SaveDataGridViewState(DataGridView dgv, string fileName)
+    {
+        var dt = new DataTable();
+        foreach (DataGridViewColumn column in dgv.Columns)
+        {
+            dt.Columns.Add(column.Name, typeof(string));
+        }
+
+        var rowColors = new List<string>();
+        foreach (DataGridViewRow row in dgv.Rows)
+        {
+            dt.Rows.Add();
+            foreach (DataGridViewCell cell in row.Cells)
+            {
+                dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value?.ToString();
+            }
+            rowColors.Add(ColorTranslator.ToHtml(row.DefaultCellStyle.BackColor));
+        }
+
+        var state = new DataGridViewState { Data = dt, RowColors = rowColors };
+        var json = JsonConvert.SerializeObject(state);
+        File.WriteAllText(fileName, json);
+    }
 }
 
 
