@@ -20,6 +20,7 @@ using System.Windows.Forms;
 using DocumentFormat.OpenXml.Presentation;
 using Newtonsoft.Json;
 using System.Drawing;
+using NPOI.SS.Formula.Functions;
 
 namespace Attend;
 
@@ -265,6 +266,15 @@ public partial class AttendForm : Form
         }
 
         // 寫入每個第一資訊的 "青職以上" 和總和
+        IRow row0 = sheet.GetRow(startRow);
+        if (row0 == null)
+        {
+            row0 = sheet.CreateRow(startRow);
+        }
+        row0.CreateCell(startColumn).SetCellValue("所屬區");
+        row0.CreateCell(startColumn + 1).SetCellValue("身分");
+        row0.CreateCell(startColumn + 2).SetCellValue("人數");
+        startRow += 1;
         foreach (var district in districtSums.Keys)
         {
             var identities = new List<string> { "青職以上", "大專", "中學", "小學", "學齡前", "總計" };
@@ -305,6 +315,14 @@ public partial class AttendForm : Form
                     row.GetCell(i).CellStyle = style;
                 }
             }
+            XSSFCellStyle style0 = (XSSFCellStyle)workbook.CreateCellStyle();
+            style0.VerticalAlignment = VerticalAlignment.Center;
+            style0.SetFillForegroundColor(navyBlue);
+            style0.FillPattern = FillPattern.SolidForeground;
+            for (int i = startColumn; i <= startColumn + 2; i++)
+            {
+                row0.GetCell(i).CellStyle = style0;
+            }
 
             // 切換顏色
             isLightBlue = !isLightBlue;
@@ -315,7 +333,7 @@ public partial class AttendForm : Form
         sheet.SetColumnWidth(startColumn + 1, 10 * 256);
         sheet.SetColumnWidth(startColumn + 2, 4 * 256);
     }
-    
+
     private void RemoveZeroColumns(ISheet sheet, int startRow)
     {
         int lastColumnNum = sheet.GetRow(startRow).LastCellNum;
@@ -553,7 +571,7 @@ public partial class AttendForm : Form
         dataGridView.AutoResizeColumns();
         dataGridView.AutoResizeRows();
         dataGridView.ColumnHeadersVisible = false;
-        dataGridView.Columns[0].Visible = false;
+        dataGridView.RowHeadersVisible = false;
 
         // Set the column captions to the values from the second row
         if (dt.Rows.Count > 0)
@@ -1276,7 +1294,7 @@ public partial class AttendForm : Form
             // ... 其他控件
         }
 
-      //  LoadDataGridViews();
+        //  LoadDataGridViews();
 
     }
 
@@ -1326,7 +1344,7 @@ public partial class AttendForm : Form
 
         var json = JsonConvert.SerializeObject(controlState);
         File.WriteAllText("controlState.json", json);
-       // SaveDataGridViews();
+        // SaveDataGridViews();
     }
 
     private void SaveDataGridViews()
@@ -1389,6 +1407,18 @@ public partial class AttendForm : Form
                 }
             }
         }
+    }
+
+    private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        // 將所有的tabpage的前景顏色設為淺灰色
+        foreach (TabPage tp in tabControl1.TabPages)
+        {
+            tp.ForeColor = System.Drawing.Color.LightGray;
+        }
+
+        // 將被選擇的tabpage的前景顏色設為黑色
+        tabControl1.SelectedTab.ForeColor = System.Drawing.Color.Black;
     }
 }
 
