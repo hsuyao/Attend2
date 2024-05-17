@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\erichy_tsai\\Attend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|c:\\users\\erichy_tsai\\attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\attendform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\attendform.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}",
-      "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}"
+      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\properties\\publishprofiles\\folderprofile.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:properties\\publishprofiles\\folderprofile.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -25,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\properties\\publishprofiles\\folderprofile.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:properties\\publishprofiles\\folderprofile.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,7 +42,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "AttendForm.cs [\u8A2D\u8A08]",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs",
               "RelativeDocumentMoniker": "AttendForm.cs",
@@ -58,13 +54,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AttendForm.cs",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs",
               "RelativeDocumentMoniker": "AttendForm.cs",
               "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs*",
               "RelativeToolTip": "AttendForm.cs*",
-              "ViewState": "AQIAAB4BAAAAAAAAAAAAAEABAAASAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-15T10:42:32.55Z",
               "EditorCaption": ""
@@ -75,9 +71,9 @@
               "Title": "AttendForm.Designer.cs",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.Designer.cs",
               "RelativeDocumentMoniker": "AttendForm.Designer.cs",
-              "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.Designer.cs",
-              "RelativeToolTip": "AttendForm.Designer.cs",
-              "ViewState": "AQIAACIDAAAAAAAAAIAwwD0DAAAiAAAA",
+              "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.Designer.cs*",
+              "RelativeToolTip": "AttendForm.Designer.cs*",
+              "ViewState": "AQIAAL0DAAAAAAAAAIAwwAUEAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-15T10:45:25.372Z",
               "EditorCaption": ""
@@ -85,18 +81,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "AttendForm.resx",
-              "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.resx",
-              "RelativeDocumentMoniker": "AttendForm.resx",
-              "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.resx",
-              "RelativeToolTip": "AttendForm.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2024-05-15T10:45:22.753Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
               "Title": "FolderProfile.pubxml",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\Properties\\PublishProfiles\\FolderProfile.pubxml",
               "RelativeDocumentMoniker": "Properties\\PublishProfiles\\FolderProfile.pubxml",

@@ -89,15 +89,6 @@ partial class AttendForm
         txtBoxSelect2 = new TextBox();
         btnSelect3 = new Button();
         txtBoxSelect3 = new TextBox();
-        tabPage4 = new TabPage();
-        dgvResult4 = new DataGridView();
-        tabPage3 = new TabPage();
-        dgvResult3 = new DataGridView();
-        tabPage2 = new TabPage();
-        dgvResult2 = new DataGridView();
-        tabPage1 = new TabPage();
-        dgvResult1 = new DataGridView();
-        tabControl1 = new TabControl();
         btnSelect4 = new Button();
         txtBoxSelect4 = new TextBox();
         btnCalculateAllExcel = new Button();
@@ -105,28 +96,41 @@ partial class AttendForm
         label7 = new Label();
         label8 = new Label();
         label9 = new Label();
+        tableLayoutPanel1 = new TableLayoutPanel();
+        tabControl1 = new TabControl();
+        tabPage1 = new TabPage();
+        dgvResult1 = new DataGridView();
+        tabPage2 = new TabPage();
+        dgvResult2 = new DataGridView();
+        tabPage3 = new TabPage();
+        dgvResult3 = new DataGridView();
+        tabPage4 = new TabPage();
+        dgvResult4 = new DataGridView();
+        panel1 = new Panel();
         tabControl2.SuspendLayout();
         tabPage5.SuspendLayout();
         tabPage6.SuspendLayout();
         groupBox2.SuspendLayout();
         groupBox3.SuspendLayout();
         groupBox1.SuspendLayout();
-        tabPage4.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)dgvResult4).BeginInit();
-        tabPage3.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)dgvResult3).BeginInit();
-        tabPage2.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)dgvResult2).BeginInit();
+        tableLayoutPanel1.SuspendLayout();
+        tabControl1.SuspendLayout();
         tabPage1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)dgvResult1).BeginInit();
-        tabControl1.SuspendLayout();
+        tabPage2.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)dgvResult2).BeginInit();
+        tabPage3.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)dgvResult3).BeginInit();
+        tabPage4.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)dgvResult4).BeginInit();
+        panel1.SuspendLayout();
         SuspendLayout();
         // 
         // tabControl2
         // 
         tabControl2.Controls.Add(tabPage5);
         tabControl2.Controls.Add(tabPage6);
-        tabControl2.Location = new Point(446, 3);
+        tabControl2.Location = new Point(437, 3);
         tabControl2.Name = "tabControl2";
         tabControl2.SelectedIndex = 0;
         tabControl2.Size = new Size(546, 155);
@@ -565,7 +569,7 @@ partial class AttendForm
         // btnSelect1
         // 
         btnSelect1.BackColor = SystemColors.ActiveCaption;
-        btnSelect1.Location = new Point(12, 20);
+        btnSelect1.Location = new Point(3, 20);
         btnSelect1.Name = "btnSelect1";
         btnSelect1.Size = new Size(100, 25);
         btnSelect1.TabIndex = 0;
@@ -610,7 +614,7 @@ partial class AttendForm
         groupBox1.Controls.Add(rbHalfYear);
         groupBox1.Controls.Add(rbMonth);
         groupBox1.Controls.Add(rbWeek);
-        groupBox1.Location = new Point(317, 12);
+        groupBox1.Location = new Point(308, 12);
         groupBox1.Margin = new Padding(2);
         groupBox1.Name = "groupBox1";
         groupBox1.Padding = new Padding(2);
@@ -622,7 +626,7 @@ partial class AttendForm
         // txtBoxSelect1
         // 
         txtBoxSelect1.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxSelect1.Location = new Point(188, 20);
+        txtBoxSelect1.Location = new Point(179, 20);
         txtBoxSelect1.Margin = new Padding(2);
         txtBoxSelect1.Name = "txtBoxSelect1";
         txtBoxSelect1.ReadOnly = true;
@@ -633,7 +637,7 @@ partial class AttendForm
         // btnSelect2
         // 
         btnSelect2.BackColor = SystemColors.ActiveCaption;
-        btnSelect2.Location = new Point(12, 55);
+        btnSelect2.Location = new Point(3, 55);
         btnSelect2.Name = "btnSelect2";
         btnSelect2.Size = new Size(100, 25);
         btnSelect2.TabIndex = 14;
@@ -644,7 +648,7 @@ partial class AttendForm
         // txtBoxSelect2
         // 
         txtBoxSelect2.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxSelect2.Location = new Point(188, 55);
+        txtBoxSelect2.Location = new Point(179, 55);
         txtBoxSelect2.Margin = new Padding(2);
         txtBoxSelect2.Name = "txtBoxSelect2";
         txtBoxSelect2.ReadOnly = true;
@@ -655,7 +659,7 @@ partial class AttendForm
         // btnSelect3
         // 
         btnSelect3.BackColor = SystemColors.ActiveCaption;
-        btnSelect3.Location = new Point(12, 90);
+        btnSelect3.Location = new Point(3, 90);
         btnSelect3.Name = "btnSelect3";
         btnSelect3.Size = new Size(100, 25);
         btnSelect3.TabIndex = 18;
@@ -666,7 +670,7 @@ partial class AttendForm
         // txtBoxSelect3
         // 
         txtBoxSelect3.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxSelect3.Location = new Point(188, 89);
+        txtBoxSelect3.Location = new Point(179, 89);
         txtBoxSelect3.Margin = new Padding(2);
         txtBoxSelect3.Name = "txtBoxSelect3";
         txtBoxSelect3.ReadOnly = true;
@@ -674,19 +678,149 @@ partial class AttendForm
         txtBoxSelect3.TabIndex = 21;
         txtBoxSelect3.TextAlign = HorizontalAlignment.Center;
         // 
-        // tabPage4
+        // btnSelect4
         // 
-        tabPage4.Controls.Add(dgvResult4);
-        tabPage4.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        tabPage4.Location = new Point(4, 29);
-        tabPage4.Name = "tabPage4";
-        tabPage4.Padding = new Padding(3);
-        tabPage4.Size = new Size(995, 457);
-        tabPage4.TabIndex = 3;
-        tabPage4.Text = "第四表單最新統計結果";
-        tabPage4.UseVisualStyleBackColor = true;
+        btnSelect4.BackColor = SystemColors.ActiveCaption;
+        btnSelect4.Location = new Point(3, 128);
+        btnSelect4.Name = "btnSelect4";
+        btnSelect4.Size = new Size(100, 25);
+        btnSelect4.TabIndex = 32;
+        btnSelect4.Text = "選擇報表4檔案";
+        btnSelect4.UseVisualStyleBackColor = false;
+        btnSelect4.Click += btnSelect4_Click;
         // 
-        // dgvResult4
+        // txtBoxSelect4
+        // 
+        txtBoxSelect4.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        txtBoxSelect4.Location = new Point(179, 127);
+        txtBoxSelect4.Margin = new Padding(2);
+        txtBoxSelect4.Name = "txtBoxSelect4";
+        txtBoxSelect4.ReadOnly = true;
+        txtBoxSelect4.Size = new Size(74, 24);
+        txtBoxSelect4.TabIndex = 33;
+        txtBoxSelect4.TextAlign = HorizontalAlignment.Center;
+        // 
+        // btnCalculateAllExcel
+        // 
+        btnCalculateAllExcel.BackColor = SystemColors.ActiveCaption;
+        btnCalculateAllExcel.Font = new Font("Microsoft JhengHei UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 136);
+        btnCalculateAllExcel.Location = new Point(263, 16);
+        btnCalculateAllExcel.Margin = new Padding(2);
+        btnCalculateAllExcel.Name = "btnCalculateAllExcel";
+        btnCalculateAllExcel.Size = new Size(36, 137);
+        btnCalculateAllExcel.TabIndex = 36;
+        btnCalculateAllExcel.Text = "統計已選擇檔案";
+        btnCalculateAllExcel.UseVisualStyleBackColor = false;
+        btnCalculateAllExcel.Click += btnCalculateAllExcel_Click;
+        // 
+        // label4
+        // 
+        label4.AutoSize = true;
+        label4.Location = new Point(109, 25);
+        label4.Name = "label4";
+        label4.Size = new Size(65, 15);
+        label4.TabIndex = 29;
+        label4.Text = "報表1類別:";
+        // 
+        // label7
+        // 
+        label7.AutoSize = true;
+        label7.Location = new Point(109, 93);
+        label7.Name = "label7";
+        label7.Size = new Size(65, 15);
+        label7.TabIndex = 30;
+        label7.Text = "報表3類別:";
+        // 
+        // label8
+        // 
+        label8.AutoSize = true;
+        label8.Location = new Point(109, 59);
+        label8.Name = "label8";
+        label8.Size = new Size(65, 15);
+        label8.TabIndex = 31;
+        label8.Text = "報表2類別:";
+        // 
+        // label9
+        // 
+        label9.AutoSize = true;
+        label9.Location = new Point(109, 131);
+        label9.Name = "label9";
+        label9.Size = new Size(65, 15);
+        label9.TabIndex = 35;
+        label9.Text = "報表4類別:";
+        // 
+        // tableLayoutPanel1
+        // 
+        tableLayoutPanel1.AutoSize = true;
+        tableLayoutPanel1.ColumnCount = 1;
+        tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        tableLayoutPanel1.Controls.Add(tabControl1, 0, 1);
+        tableLayoutPanel1.Controls.Add(panel1, 0, 0);
+        tableLayoutPanel1.Dock = DockStyle.Fill;
+        tableLayoutPanel1.Location = new Point(0, 0);
+        tableLayoutPanel1.Name = "tableLayoutPanel1";
+        tableLayoutPanel1.RowCount = 2;
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 180F));
+        tableLayoutPanel1.RowStyles.Add(new RowStyle());
+        tableLayoutPanel1.Size = new Size(1020, 898);
+        tableLayoutPanel1.TabIndex = 39;
+        // 
+        // tabControl1
+        // 
+        tabControl1.Appearance = TabAppearance.FlatButtons;
+        tabControl1.Controls.Add(tabPage1);
+        tabControl1.Controls.Add(tabPage2);
+        tabControl1.Controls.Add(tabPage3);
+        tabControl1.Controls.Add(tabPage4);
+        tabControl1.Dock = DockStyle.Fill;
+        tabControl1.Font = new Font("Microsoft JhengHei UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        tabControl1.Location = new Point(2, 182);
+        tabControl1.Margin = new Padding(2);
+        tabControl1.Name = "tabControl1";
+        tabControl1.SelectedIndex = 0;
+        tabControl1.Size = new Size(1016, 714);
+        tabControl1.SizeMode = TabSizeMode.Fixed;
+        tabControl1.TabIndex = 29;
+        // 
+        // tabPage1
+        // 
+        tabPage1.Controls.Add(dgvResult1);
+        tabPage1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        tabPage1.ForeColor = SystemColors.ControlText;
+        tabPage1.Location = new Point(4, 29);
+        tabPage1.Margin = new Padding(2);
+        tabPage1.Name = "tabPage1";
+        tabPage1.Padding = new Padding(2);
+        tabPage1.Size = new Size(1008, 681);
+        tabPage1.TabIndex = 0;
+        tabPage1.Text = "第一表單最新統計結果";
+        tabPage1.UseVisualStyleBackColor = true;
+        // 
+        // dgvResult1
+        // 
+        dgvResult1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+        dgvResult1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dgvResult1.Dock = DockStyle.Fill;
+        dgvResult1.Location = new Point(2, 2);
+        dgvResult1.Name = "dgvResult1";
+        dgvResult1.RowHeadersWidth = 62;
+        dgvResult1.Size = new Size(1004, 677);
+        dgvResult1.TabIndex = 1;
+        // 
+        // tabPage2
+        // 
+        tabPage2.Controls.Add(dgvResult2);
+        tabPage2.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        tabPage2.Location = new Point(4, 29);
+        tabPage2.Margin = new Padding(2);
+        tabPage2.Name = "tabPage2";
+        tabPage2.Padding = new Padding(2);
+        tabPage2.Size = new Size(1008, 681);
+        tabPage2.TabIndex = 1;
+        tabPage2.Text = "第二表單最新統計結果";
+        tabPage2.UseVisualStyleBackColor = true;
+        // 
+        // dgvResult2
         // 
         dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
         dataGridViewCellStyle1.BackColor = SystemColors.Control;
@@ -695,8 +829,8 @@ partial class AttendForm
         dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
         dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
         dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-        dgvResult4.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-        dgvResult4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dgvResult2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+        dgvResult2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
         dataGridViewCellStyle2.BackColor = SystemColors.Window;
         dataGridViewCellStyle2.Font = new Font("Microsoft JhengHei UI", 9F);
@@ -704,23 +838,23 @@ partial class AttendForm
         dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
         dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
         dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-        dgvResult4.DefaultCellStyle = dataGridViewCellStyle2;
-        dgvResult4.Dock = DockStyle.Fill;
-        dgvResult4.Location = new Point(3, 3);
-        dgvResult4.Name = "dgvResult4";
-        dgvResult4.RowHeadersWidth = 62;
-        dgvResult4.Size = new Size(989, 451);
-        dgvResult4.TabIndex = 2;
+        dgvResult2.DefaultCellStyle = dataGridViewCellStyle2;
+        dgvResult2.Dock = DockStyle.Fill;
+        dgvResult2.Location = new Point(2, 2);
+        dgvResult2.Name = "dgvResult2";
+        dgvResult2.RowHeadersWidth = 62;
+        dgvResult2.Size = new Size(1004, 677);
+        dgvResult2.TabIndex = 2;
         // 
         // tabPage3
         // 
         tabPage3.Controls.Add(dgvResult3);
-        tabPage3.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        tabPage3.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
         tabPage3.Location = new Point(4, 29);
         tabPage3.Margin = new Padding(2);
         tabPage3.Name = "tabPage3";
         tabPage3.Padding = new Padding(2);
-        tabPage3.Size = new Size(995, 457);
+        tabPage3.Size = new Size(1008, 681);
         tabPage3.TabIndex = 2;
         tabPage3.Text = "第三表單最新統計結果";
         tabPage3.UseVisualStyleBackColor = true;
@@ -748,23 +882,22 @@ partial class AttendForm
         dgvResult3.Location = new Point(2, 2);
         dgvResult3.Name = "dgvResult3";
         dgvResult3.RowHeadersWidth = 62;
-        dgvResult3.Size = new Size(991, 453);
+        dgvResult3.Size = new Size(1004, 677);
         dgvResult3.TabIndex = 4;
         // 
-        // tabPage2
+        // tabPage4
         // 
-        tabPage2.Controls.Add(dgvResult2);
-        tabPage2.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        tabPage2.Location = new Point(4, 29);
-        tabPage2.Margin = new Padding(2);
-        tabPage2.Name = "tabPage2";
-        tabPage2.Padding = new Padding(2);
-        tabPage2.Size = new Size(995, 457);
-        tabPage2.TabIndex = 1;
-        tabPage2.Text = "第二表單最新統計結果";
-        tabPage2.UseVisualStyleBackColor = true;
+        tabPage4.Controls.Add(dgvResult4);
+        tabPage4.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        tabPage4.Location = new Point(4, 29);
+        tabPage4.Name = "tabPage4";
+        tabPage4.Padding = new Padding(3);
+        tabPage4.Size = new Size(1008, 681);
+        tabPage4.TabIndex = 3;
+        tabPage4.Text = "第四表單最新統計結果";
+        tabPage4.UseVisualStyleBackColor = true;
         // 
-        // dgvResult2
+        // dgvResult4
         // 
         dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
         dataGridViewCellStyle5.BackColor = SystemColors.Control;
@@ -773,8 +906,8 @@ partial class AttendForm
         dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
         dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
         dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-        dgvResult2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
-        dgvResult2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dgvResult4.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+        dgvResult4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
         dataGridViewCellStyle6.BackColor = SystemColors.Window;
         dataGridViewCellStyle6.Font = new Font("Microsoft JhengHei UI", 9F);
@@ -782,148 +915,45 @@ partial class AttendForm
         dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
         dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
         dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-        dgvResult2.DefaultCellStyle = dataGridViewCellStyle6;
-        dgvResult2.Dock = DockStyle.Fill;
-        dgvResult2.Location = new Point(2, 2);
-        dgvResult2.Name = "dgvResult2";
-        dgvResult2.RowHeadersWidth = 62;
-        dgvResult2.Size = new Size(991, 453);
-        dgvResult2.TabIndex = 2;
+        dgvResult4.DefaultCellStyle = dataGridViewCellStyle6;
+        dgvResult4.Dock = DockStyle.Fill;
+        dgvResult4.Location = new Point(3, 3);
+        dgvResult4.Name = "dgvResult4";
+        dgvResult4.RowHeadersWidth = 62;
+        dgvResult4.Size = new Size(1002, 675);
+        dgvResult4.TabIndex = 2;
         // 
-        // tabPage1
+        // panel1
         // 
-        tabPage1.Controls.Add(dgvResult1);
-        tabPage1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        tabPage1.ForeColor = SystemColors.ControlText;
-        tabPage1.Location = new Point(4, 29);
-        tabPage1.Margin = new Padding(2);
-        tabPage1.Name = "tabPage1";
-        tabPage1.Padding = new Padding(2);
-        tabPage1.Size = new Size(995, 457);
-        tabPage1.TabIndex = 0;
-        tabPage1.Text = "第一表單最新統計結果";
-        tabPage1.UseVisualStyleBackColor = true;
-        // 
-        // dgvResult1
-        // 
-        dgvResult1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        dgvResult1.Dock = DockStyle.Fill;
-        dgvResult1.Location = new Point(2, 2);
-        dgvResult1.Name = "dgvResult1";
-        dgvResult1.RowHeadersWidth = 62;
-        dgvResult1.Size = new Size(991, 453);
-        dgvResult1.TabIndex = 1;
-        // 
-        // tabControl1
-        // 
-        tabControl1.Appearance = TabAppearance.FlatButtons;
-        tabControl1.Controls.Add(tabPage1);
-        tabControl1.Controls.Add(tabPage2);
-        tabControl1.Controls.Add(tabPage3);
-        tabControl1.Controls.Add(tabPage4);
-        tabControl1.Font = new Font("Microsoft JhengHei UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        tabControl1.Location = new Point(0, 174);
-        tabControl1.Margin = new Padding(2);
-        tabControl1.Name = "tabControl1";
-        tabControl1.SelectedIndex = 0;
-        tabControl1.Size = new Size(1003, 490);
-        tabControl1.TabIndex = 28;
-        tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
-        // 
-        // btnSelect4
-        // 
-        btnSelect4.BackColor = SystemColors.ActiveCaption;
-        btnSelect4.Location = new Point(12, 128);
-        btnSelect4.Name = "btnSelect4";
-        btnSelect4.Size = new Size(100, 25);
-        btnSelect4.TabIndex = 32;
-        btnSelect4.Text = "選擇報表4檔案";
-        btnSelect4.UseVisualStyleBackColor = false;
-        btnSelect4.Click += btnSelect4_Click;
-        // 
-        // txtBoxSelect4
-        // 
-        txtBoxSelect4.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        txtBoxSelect4.Location = new Point(188, 127);
-        txtBoxSelect4.Margin = new Padding(2);
-        txtBoxSelect4.Name = "txtBoxSelect4";
-        txtBoxSelect4.ReadOnly = true;
-        txtBoxSelect4.Size = new Size(74, 24);
-        txtBoxSelect4.TabIndex = 33;
-        txtBoxSelect4.TextAlign = HorizontalAlignment.Center;
-        // 
-        // btnCalculateAllExcel
-        // 
-        btnCalculateAllExcel.BackColor = SystemColors.ActiveCaption;
-        btnCalculateAllExcel.Font = new Font("Microsoft JhengHei UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 136);
-        btnCalculateAllExcel.Location = new Point(272, 16);
-        btnCalculateAllExcel.Margin = new Padding(2);
-        btnCalculateAllExcel.Name = "btnCalculateAllExcel";
-        btnCalculateAllExcel.Size = new Size(36, 137);
-        btnCalculateAllExcel.TabIndex = 36;
-        btnCalculateAllExcel.Text = "統計已選擇檔案";
-        btnCalculateAllExcel.UseVisualStyleBackColor = false;
-        btnCalculateAllExcel.Click += btnCalculateAllExcel_Click;
-        // 
-        // label4
-        // 
-        label4.AutoSize = true;
-        label4.Location = new Point(118, 25);
-        label4.Name = "label4";
-        label4.Size = new Size(65, 15);
-        label4.TabIndex = 29;
-        label4.Text = "報表1類別:";
-        // 
-        // label7
-        // 
-        label7.AutoSize = true;
-        label7.Location = new Point(118, 93);
-        label7.Name = "label7";
-        label7.Size = new Size(65, 15);
-        label7.TabIndex = 30;
-        label7.Text = "報表3類別:";
-        // 
-        // label8
-        // 
-        label8.AutoSize = true;
-        label8.Location = new Point(118, 59);
-        label8.Name = "label8";
-        label8.Size = new Size(65, 15);
-        label8.TabIndex = 31;
-        label8.Text = "報表2類別:";
-        // 
-        // label9
-        // 
-        label9.AutoSize = true;
-        label9.Location = new Point(118, 131);
-        label9.Name = "label9";
-        label9.Size = new Size(65, 15);
-        label9.TabIndex = 35;
-        label9.Text = "報表4類別:";
+        panel1.Controls.Add(btnSelect1);
+        panel1.Controls.Add(tabControl2);
+        panel1.Controls.Add(groupBox1);
+        panel1.Controls.Add(btnCalculateAllExcel);
+        panel1.Controls.Add(txtBoxSelect1);
+        panel1.Controls.Add(label9);
+        panel1.Controls.Add(btnSelect2);
+        panel1.Controls.Add(txtBoxSelect4);
+        panel1.Controls.Add(txtBoxSelect2);
+        panel1.Controls.Add(btnSelect4);
+        panel1.Controls.Add(btnSelect3);
+        panel1.Controls.Add(label8);
+        panel1.Controls.Add(txtBoxSelect3);
+        panel1.Controls.Add(label7);
+        panel1.Controls.Add(label4);
+        panel1.Dock = DockStyle.Fill;
+        panel1.Location = new Point(3, 3);
+        panel1.Name = "panel1";
+        panel1.Size = new Size(1014, 174);
+        panel1.TabIndex = 0;
         // 
         // AttendForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1004, 663);
-        Controls.Add(tabControl2);
-        Controls.Add(btnCalculateAllExcel);
-        Controls.Add(label9);
-        Controls.Add(txtBoxSelect4);
-        Controls.Add(btnSelect4);
-        Controls.Add(label8);
-        Controls.Add(label7);
-        Controls.Add(label4);
-        Controls.Add(tabControl1);
-        Controls.Add(txtBoxSelect3);
-        Controls.Add(btnSelect3);
-        Controls.Add(txtBoxSelect2);
-        Controls.Add(btnSelect2);
-        Controls.Add(txtBoxSelect1);
-        Controls.Add(groupBox1);
-        Controls.Add(btnSelect1);
+        ClientSize = new Size(1020, 898);
+        Controls.Add(tableLayoutPanel1);
         Name = "AttendForm";
-        Text = "點名系統表單整理小幫手";
+        Text = "點名系統表單整理小幫手 v1.0 20240517";
         FormClosing += AttendForm_FormClosing;
         Load += AttendForm_Load;
         SizeChanged += AttendForm_SizeChanged;
@@ -937,15 +967,18 @@ partial class AttendForm
         groupBox3.PerformLayout();
         groupBox1.ResumeLayout(false);
         groupBox1.PerformLayout();
-        tabPage4.ResumeLayout(false);
-        ((System.ComponentModel.ISupportInitialize)dgvResult4).EndInit();
-        tabPage3.ResumeLayout(false);
-        ((System.ComponentModel.ISupportInitialize)dgvResult3).EndInit();
-        tabPage2.ResumeLayout(false);
-        ((System.ComponentModel.ISupportInitialize)dgvResult2).EndInit();
+        tableLayoutPanel1.ResumeLayout(false);
+        tabControl1.ResumeLayout(false);
         tabPage1.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)dgvResult1).EndInit();
-        tabControl1.ResumeLayout(false);
+        tabPage2.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)dgvResult2).EndInit();
+        tabPage3.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)dgvResult3).EndInit();
+        tabPage4.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)dgvResult4).EndInit();
+        panel1.ResumeLayout(false);
+        panel1.PerformLayout();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -1011,15 +1044,6 @@ partial class AttendForm
     private TextBox txtBoxSelect2;
     private Button btnSelect3;
     private TextBox txtBoxSelect3;
-    private TabPage tabPage4;
-    private DataGridView dgvResult4;
-    private TabPage tabPage3;
-    private DataGridView dgvResult3;
-    private TabPage tabPage2;
-    private DataGridView dgvResult2;
-    private TabPage tabPage1;
-    private DataGridView dgvResult1;
-    private TabControl tabControl1;
     private Button btnSelect4;
     private TextBox txtBoxSelect4;
     private Button btnCalculateAllExcel;
@@ -1027,4 +1051,15 @@ partial class AttendForm
     private Label label7;
     private Label label8;
     private Label label9;
+    private TableLayoutPanel tableLayoutPanel1;
+    private Panel panel1;
+    private TabControl tabControl1;
+    private TabPage tabPage1;
+    private DataGridView dgvResult1;
+    private TabPage tabPage2;
+    private DataGridView dgvResult2;
+    private TabPage tabPage3;
+    private DataGridView dgvResult3;
+    private TabPage tabPage4;
+    private DataGridView dgvResult4;
 }
