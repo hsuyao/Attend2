@@ -43,6 +43,7 @@ namespace Attend
         public bool CbIgnoreNoData { get; set; }
         public bool CbIgnoreElementarySchool { get; set; }
         public bool CkbCompare { get; set; }
+        public bool CkbFwdBwd { get; set; }
         // ... 其他控件
     }
     internal class DataGridViewData

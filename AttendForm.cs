@@ -237,7 +237,8 @@ public partial class AttendForm : Form
             }
             newCellValue = newCellValue + "~" + cellValue2 + cellValue3;
         }
-        return newCellValue;
+        return ShortenDateRange(newCellValue);
+        // return newCellValue;
     }
     private void WriteAvergeResultToSheet(Dictionary<string, double> result, XSSFWorkbook workbook, string sheetName, int startRow, int startColumn)
     {
@@ -478,7 +479,7 @@ public partial class AttendForm : Form
                 if (rbWeek.Checked == true)
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
-                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 1, true);
+                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 1, ckbFwdBwd.Checked);
                     foreach (string s in result)
                     {
                         // MessageBox.Show(s);
@@ -512,7 +513,7 @@ public partial class AttendForm : Form
                 if (rbHalfYear.Checked == true)
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
-                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 26, true);
+                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 26, ckbFwdBwd.Checked);
 
                     foreach (string s in result)
                     {
@@ -528,7 +529,7 @@ public partial class AttendForm : Form
                 if (rbSelfDef.Checked == true)
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
-                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, int.Parse(tbSelfDefWeek.Text), true);
+                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, int.Parse(tbSelfDefWeek.Text), ckbFwdBwd.Checked);
 
                     foreach (string s in result)
                     {
@@ -1363,6 +1364,7 @@ public partial class AttendForm : Form
             cbIgnoreNoData.Checked = controlState.CbIgnoreNoData;
             cbIgnoreElementarySchool.Checked = controlState.CbIgnoreElementarySchool;
             ckbCompare.Checked = controlState.CkbCompare;
+            ckbFwdBwd.Checked = controlState.CkbFwdBwd;
             // ... 其他控件
         }
 
@@ -1405,6 +1407,7 @@ public partial class AttendForm : Form
             CbIgnoreNoData = cbIgnoreNoData.Checked,
             CbIgnoreElementarySchool = cbIgnoreElementarySchool.Checked,
             CkbCompare = ckbCompare.Checked,
+            CkbFwdBwd = ckbFwdBwd.Checked,
             // ... 其他控件
         };
 
@@ -1474,6 +1477,41 @@ public partial class AttendForm : Form
             }
         }
     }
+    private string ShortenDateRange(string input)
+    {
+        var parts = input.Split('~');
+        if (parts.Length != 2) return input; // Return original input if format is not as expected
+
+        var startParts = parts[0].Split('年', '月', '週');
+        var endParts = parts[1].Split('年', '月', '週');
+
+        if (startParts.Length < 3 || endParts.Length < 3) return input; // Return original input if format is not as expected
+
+        string year1 = startParts[0];
+        string month1 = startParts[1];
+        string week1 = startParts[2];
+
+        string year2 = endParts[0];
+        string month2 = endParts[1];
+        string week2 = endParts[2];
+
+        if (year1 == year2)
+        {
+            if (month1 == month2)
+            {
+                return $"{year1}年{month1}月{week1}週~{week2}週";
+            }
+            else
+            {
+                return $"{year1}年{month1}月{week1}週~{month2}月{week2}週";
+            }
+        }
+        else
+        {
+            return input; // If years are different, return original input
+        }
+    }
+
 
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
     {
