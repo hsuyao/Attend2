@@ -181,12 +181,13 @@ public partial class AttendForm : Form
     }
     private string GetWeekString(ISheet sheet, string input)
     {
-        int columnIndex = int.Parse(input.Split('-')[0]);
+        int columnIndex1 = int.Parse(input.Split('-')[0]);
+        int columnIndex2 = int.Parse(input.Split('-')[1]);
 
         IRow row0 = sheet.GetRow(0);
         IRow row1 = sheet.GetRow(1);
-        ICell cell0 = row0?.GetCell(columnIndex);
-        ICell cell1 = row1?.GetCell(columnIndex);
+        ICell cell0 = row0?.GetCell(columnIndex1);
+        ICell cell1 = row1?.GetCell(columnIndex1);
 
         string cellValue0 = cell0?.StringCellValue ?? string.Empty;
         string cellValue1 = cell1?.StringCellValue ?? string.Empty;
@@ -194,7 +195,7 @@ public partial class AttendForm : Form
         // 如果Row(0)內容是空的，往前面的column搜尋以取得該column的Row(0)內容
         if (string.IsNullOrEmpty(cellValue0))
         {
-            for (int i = columnIndex - 1; i >= 0; i--)
+            for (int i = columnIndex1 - 1; i >= 0; i--)
             {
                 cellValue0 = row0.GetCell(i)?.StringCellValue ?? string.Empty;
                 if (!string.IsNullOrEmpty(cellValue0))
@@ -207,6 +208,28 @@ public partial class AttendForm : Form
         // 將Row(0) 與 Row(1) 組成新的字串
         string newCellValue = cellValue0 + cellValue1;
 
+        if (columnIndex1 != columnIndex2)
+        {
+            ICell cell2 = row0?.GetCell(columnIndex2);
+            ICell cell3 = row1?.GetCell(columnIndex2);
+
+            string cellValue2 = cell2?.StringCellValue ?? string.Empty;
+            string cellValue3 = cell3?.StringCellValue ?? string.Empty;
+
+            // 如果Row(0)內容是空的，往前面的column搜尋以取得該column的Row(0)內容
+            if (string.IsNullOrEmpty(cellValue2))
+            {
+                for (int i = columnIndex2 - 1; i >= 0; i--)
+                {
+                    cellValue2 = row0.GetCell(i)?.StringCellValue ?? string.Empty;
+                    if (!string.IsNullOrEmpty(cellValue2))
+                    {
+                        break;
+                    }
+                }
+            }
+            newCellValue = newCellValue + "~" + cellValue2 + cellValue3;
+        }
         return newCellValue;
     }
     private void WriteAvergeResultToSheet(Dictionary<string, double> result, XSSFWorkbook workbook, string sheetName, int startRow, int startColumn)
@@ -487,11 +510,12 @@ public partial class AttendForm : Form
                     foreach (string s in result)
                     {
                         var dict = ClassifyAttendancy(s, sheet, CatagoryArray(inputFilePath));
-                        sheetName.Add(s);
-                        FillSheetWithDict(dict, s, workbook, false);
+                        var week = GetWeekString(sheet, s);
+                        sheetName.Add(week);
+                        FillSheetWithDict(dict, week, workbook, false);
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
-                        WriteAvergeResultToSheet(calculateAverageResult, workbook, s, 0, 0);
+                        WriteAvergeResultToSheet(calculateAverageResult, workbook, week, 0, 0);
                     }
                 }
                 if (rbSelfDef.Checked == true)
@@ -502,11 +526,12 @@ public partial class AttendForm : Form
                     foreach (string s in result)
                     {
                         var dict = ClassifyAttendancy(s, sheet, CatagoryArray(inputFilePath));
-                        sheetName.Add(s);
-                        FillSheetWithDict(dict, s, workbook, false);
+                        var week = GetWeekString(sheet, s);
+                        sheetName.Add(week);
+                        FillSheetWithDict(dict, week, workbook, false);
                         var byIdentity = AttendanceCountByIdentity(s, sheet);
                         var calculateAverageResult = CalculateAverage(byIdentity);
-                        WriteAvergeResultToSheet(calculateAverageResult, workbook, s, 0, 0);
+                        WriteAvergeResultToSheet(calculateAverageResult, workbook, week, 0, 0);
                     }
                 }
                 for (int i = 1; i < sheetName.Count; i++)

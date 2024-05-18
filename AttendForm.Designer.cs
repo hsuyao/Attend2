@@ -804,7 +804,6 @@ partial class AttendForm
         tabControl1.Name = "tabControl1";
         tabControl1.SelectedIndex = 0;
         tabControl1.Size = new Size(1016, 714);
-        tabControl1.SizeMode = TabSizeMode.Fixed;
         tabControl1.TabIndex = 29;
         // 
         // tabPage1
