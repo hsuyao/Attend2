@@ -494,6 +494,21 @@ public partial class AttendForm : Form
                         WriteAvergeResultToSheet(calculateAverageResult, workbook, s, 0, 0);
                     }
                 }
+                if (rbSelfDef.Checked == true)
+                {
+                    lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
+                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, int.Parse(tbSelfDefWeek.Text));
+
+                    foreach (string s in result)
+                    {
+                        var dict = ClassifyAttendancy(s, sheet, CatagoryArray(inputFilePath));
+                        sheetName.Add(s);
+                        FillSheetWithDict(dict, s, workbook, false);
+                        var byIdentity = AttendanceCountByIdentity(s, sheet);
+                        var calculateAverageResult = CalculateAverage(byIdentity);
+                        WriteAvergeResultToSheet(calculateAverageResult, workbook, s, 0, 0);
+                    }
+                }
                 for (int i = 1; i < sheetName.Count; i++)
                 {
                     // 取得當前表單和前一個表單的名稱

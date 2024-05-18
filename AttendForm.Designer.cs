@@ -84,6 +84,8 @@ partial class AttendForm
         rbMonth = new RadioButton();
         rbHalfYear = new RadioButton();
         groupBox1 = new GroupBox();
+        tbSelfDefWeek = new TextBox();
+        rbSelfDef = new RadioButton();
         txtBoxSelect1 = new TextBox();
         btnSelect2 = new Button();
         txtBoxSelect2 = new TextBox();
@@ -611,6 +613,8 @@ partial class AttendForm
         // 
         // groupBox1
         // 
+        groupBox1.Controls.Add(tbSelfDefWeek);
+        groupBox1.Controls.Add(rbSelfDef);
         groupBox1.Controls.Add(rbHalfYear);
         groupBox1.Controls.Add(rbMonth);
         groupBox1.Controls.Add(rbWeek);
@@ -622,6 +626,27 @@ partial class AttendForm
         groupBox1.TabIndex = 7;
         groupBox1.TabStop = false;
         groupBox1.Text = "統計單位";
+        // 
+        // tbSelfDefWeek
+        // 
+        tbSelfDefWeek.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        tbSelfDefWeek.Location = new Point(63, 98);
+        tbSelfDefWeek.Margin = new Padding(2);
+        tbSelfDefWeek.Name = "tbSelfDefWeek";
+        tbSelfDefWeek.Size = new Size(19, 23);
+        tbSelfDefWeek.TabIndex = 27;
+        tbSelfDefWeek.Text = "8";
+        tbSelfDefWeek.TextAlign = HorizontalAlignment.Center;
+        // 
+        // rbSelfDef
+        // 
+        rbSelfDef.AutoSize = true;
+        rbSelfDef.Location = new Point(16, 102);
+        rbSelfDef.Name = "rbSelfDef";
+        rbSelfDef.Size = new Size(88, 19);
+        rbSelfDef.TabIndex = 12;
+        rbSelfDef.Text = "自訂         週";
+        rbSelfDef.UseVisualStyleBackColor = true;
         // 
         // txtBoxSelect1
         // 
@@ -1062,4 +1087,6 @@ partial class AttendForm
     private DataGridView dgvResult3;
     private TabPage tabPage4;
     private DataGridView dgvResult4;
+    private TextBox tbSelfDefWeek;
+    private RadioButton rbSelfDef;
 }

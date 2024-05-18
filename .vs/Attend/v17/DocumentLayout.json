@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "C:\\Users\\erichy_tsai\\Attend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|c:\\users\\erichy_tsai\\attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|C:\\Users\\erichy_tsai\\Attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|c:\\users\\erichy_tsai\\attend\\attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6C8A375-644A-4CFA-8C15-4B6C2DD4CB16}|Attend.csproj|solutionrelative:attendform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -60,7 +60,7 @@
               "RelativeDocumentMoniker": "AttendForm.cs",
               "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs*",
               "RelativeToolTip": "AttendForm.cs*",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAeAAAA",
+              "ViewState": "AQIAAMsBAAAAAAAAAAAwwOABAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-15T10:42:32.55Z",
               "EditorCaption": ""
