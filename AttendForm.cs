@@ -29,9 +29,16 @@ public partial class AttendForm : Form
 {
     HSSFWorkbook workbook;
     string[] filenames = new string[] { "", "", "", "" };
+    Size originalFormSize;
+    Size originalTabControlSize;
+    Size originalDataGridViewSize;
     public AttendForm()
     {
         InitializeComponent();
+        // 記錄原始的大小
+        originalFormSize = this.Size;
+        originalTabControlSize = tabControl1.Size;
+        originalDataGridViewSize = dgvResult1.Size;
     }
 
     public bool ConvertHssfToXssf(string inputFileName, string outputFileName)
@@ -1207,9 +1214,26 @@ public partial class AttendForm : Form
 
     private void AttendForm_SizeChanged(object sender, EventArgs e)
     {
-        if (WindowState == FormWindowState.Maximized) tabControl1.Dock = DockStyle.Fill;
-        else tabControl1.Dock = DockStyle.None;
-        tabControl1.BringToFront();
+        // 計算 Form 大小的變化比例
+        float widthRatio = (float)this.Width / originalFormSize.Width;
+        float heightRatio = (float)this.Height / originalFormSize.Height;
+
+        // 根據比例調整 TabControl 的大小
+        tabControl1.Width = (int)(originalTabControlSize.Width * widthRatio);
+        tabControl1.Height = (int)(originalTabControlSize.Height * heightRatio);
+
+        // 根據比例調整 DataGridView 的大小
+        foreach (TabPage tabPage in tabControl1.TabPages)
+        {
+            foreach (System.Windows.Forms.Control control in tabPage.Controls)
+            {
+                if (control is DataGridView)
+                {
+                    control.Width = (int)(originalDataGridViewSize.Width * widthRatio);
+                    control.Height = (int)(originalDataGridViewSize.Height * heightRatio);
+                }
+            }
+        }
     }
 
     private void btnSelect4_Click(object sender, EventArgs e)
