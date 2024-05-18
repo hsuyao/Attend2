@@ -1297,14 +1297,7 @@ public partial class AttendForm : Form
             rbWeek.Checked = controlState.RbWeek;
             rbHalfYear.Checked = controlState.RbHalfYear;
             rbMonth.Checked = controlState.RbMonth;
-            tabPage1.Text = controlState.TabPage1Text;
-            tabPage2.Text = controlState.TabPage2Text;
-            tabPage3.Text = controlState.TabPage3Text;
-            tabPage4.Text = controlState.TabPage4Text;
-            //txtBoxSelect1.Text = controlState.TextBoxSelect1;
-            //txtBoxSelect2.Text = controlState.TextBoxSelect2;
-            //txtBoxSelect3.Text = controlState.TextBoxSelect3;
-            //txtBoxSelect4.Text = controlState.TextBoxSelect4;
+            rbSelfDef.Checked = controlState.RbSelfDef;
             txtbIgnoreLevel.Text = controlState.TxtbIgnoreLevel;
             txtBoxStable.Text = controlState.TxtBoxStable;
             txtBoxStartColumn.Text = controlState.TxtBoxStartColumn;
@@ -1328,6 +1321,7 @@ public partial class AttendForm : Form
             tbSheet3WeekCat1.Text = controlState.TbSheet3WeekCat1;
             tbSheet2WeekCat2.Text = controlState.TbSheet2WeekCat2;
             tbSheet2WeekCat1.Text = controlState.TbSheet2WeekCat1;
+            tbSelfDefWeek.Text = controlState.TbSelfDefWeek;
             cbIgnoreNoData.Checked = controlState.CbIgnoreNoData;
             cbIgnoreElementarySchool.Checked = controlState.CbIgnoreElementarySchool;
             ckbCompare.Checked = controlState.CkbCompare;
@@ -1345,14 +1339,7 @@ public partial class AttendForm : Form
             RbWeek = rbWeek.Checked,
             RbHalfYear = rbHalfYear.Checked,
             RbMonth = rbMonth.Checked,
-            TabPage1Text = tabPage1.Text,
-            TabPage2Text = tabPage2.Text,
-            TabPage3Text = tabPage3.Text,
-            TabPage4Text = tabPage4.Text,
-            // TextBoxSelect1 = txtBoxSelect1.Text,
-            // TextBoxSelect2 = txtBoxSelect2.Text,
-            // TextBoxSelect3 = txtBoxSelect3.Text,
-            // TextBoxSelect4 = txtBoxSelect4.Text,
+            RbSelfDef = rbSelfDef.Checked,
             TxtbIgnoreLevel = txtbIgnoreLevel.Text,
             TxtBoxStable = txtBoxStable.Text,
             TxtBoxStartColumn = txtBoxStartColumn.Text,
@@ -1376,6 +1363,7 @@ public partial class AttendForm : Form
             TbSheet3WeekCat1 = tbSheet3WeekCat1.Text,
             TbSheet2WeekCat2 = tbSheet2WeekCat2.Text,
             TbSheet2WeekCat1 = tbSheet2WeekCat1.Text,
+            TbSelfDefWeek = tbSelfDefWeek.Text,
             CbIgnoreNoData = cbIgnoreNoData.Checked,
             CbIgnoreElementarySchool = cbIgnoreElementarySchool.Checked,
             CkbCompare = ckbCompare.Checked,

@@ -15,15 +15,7 @@ namespace Attend
         public bool RbWeek { get; set; }
         public bool RbHalfYear { get; set; }
         public bool RbMonth { get; set; }
-        public string TabPage1Text { get; set; }
-        public string TabPage2Text { get; set; }
-        public string TabPage3Text { get; set; }
-        public string TabPage4Text { get; set; }
-
-        // public string TextBoxSelect1 { get; set; }
-        // public string TextBoxSelect2 { get; set; }
-        // public string TextBoxSelect3 { get; set; }
-        // public string TextBoxSelect4 { get; set; }
+        public bool RbSelfDef { get; set; }
         public string TxtbIgnoreLevel { get; set; }
         public string TxtBoxStable { get; set; }
         public string TxtBoxStartColumn { get; set; }
@@ -47,6 +39,7 @@ namespace Attend
         public string TbSheet3WeekCat1 { get; set; }
         public string TbSheet2WeekCat2 { get; set; }
         public string TbSheet2WeekCat1 { get; set; }
+        public string TbSelfDefWeek { get; set; }
         public bool CbIgnoreNoData { get; set; }
         public bool CbIgnoreElementarySchool { get; set; }
         public bool CkbCompare { get; set; }
