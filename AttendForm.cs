@@ -478,7 +478,7 @@ public partial class AttendForm : Form
                 if (rbWeek.Checked == true)
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
-                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 1);
+                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 1, true);
                     foreach (string s in result)
                     {
                         // MessageBox.Show(s);
@@ -512,7 +512,7 @@ public partial class AttendForm : Form
                 if (rbHalfYear.Checked == true)
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
-                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 26);
+                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, 26, true);
 
                     foreach (string s in result)
                     {
@@ -528,7 +528,7 @@ public partial class AttendForm : Form
                 if (rbSelfDef.Checked == true)
                 {
                     lastColumnWithData = GetLastColumnWithData(sheet, 1, startColumnIndex); // 分析第二列
-                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, int.Parse(tbSelfDefWeek.Text));
+                    List<string> result = GroupNumbers(startColumnIndex, lastColumnWithData, int.Parse(tbSelfDefWeek.Text), true);
 
                     foreach (string s in result)
                     {
@@ -714,22 +714,36 @@ public partial class AttendForm : Form
         return lastColumnWithData;
     }
 
-    private List<string> GroupNumbers(long startNum, long endNum, long groupSize)
+    private List<string> GroupNumbers(long startNum, long endNum, long groupSize, bool startFromEnd)
     {
         var groups = new List<string>();
         long total = endNum - startNum + 1;
         long numGroups = (long)Math.Ceiling((double)total / groupSize);
 
-        for (long i = numGroups - 1; i >= 0; i--)
+        if (startFromEnd)
         {
-            long groupEndNum = startNum + groupSize - 1;
-            if (groupEndNum > endNum) groupEndNum = endNum;
-            groups.Add(startNum + "-" + groupEndNum);
-            startNum = groupEndNum + 1;
+            for (long i = 0; i < numGroups; i++)
+            {
+                long groupStartNum = endNum - groupSize + 1;
+                if (groupStartNum < startNum) groupStartNum = startNum;
+                groups.Insert(0, groupStartNum + "-" + endNum);
+                endNum = groupStartNum - 1;
+            }
+        }
+        else
+        {
+            for (long i = numGroups - 1; i >= 0; i--)
+            {
+                long groupEndNum = startNum + groupSize - 1;
+                if (groupEndNum > endNum) groupEndNum = endNum;
+                groups.Add(startNum + "-" + groupEndNum);
+                startNum = groupEndNum + 1;
+            }
         }
 
         return groups;
     }
+
     private Dictionary<string, List<string>> ClassifyAttendancy(string columnRange, ISheet sheet, string[] categories)
     {
         var dict = new Dictionary<string, List<string>>();
