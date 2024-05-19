@@ -675,8 +675,34 @@ public partial class AttendForm : Form
                 }
             }
         }
+        AdjustDataGridView(dataGridView, 2);
     }
 
+    public void AdjustDataGridView(DataGridView dgv, int startRow)
+    {
+        for (int col = 0; col < dgv.Columns.Count; col++)
+        {
+            int insertIndex = startRow;
+            for (int row = startRow; row < dgv.Rows.Count; row++)
+            {
+                DataGridViewCell cell = dgv.Rows[row].Cells[col];
+                if (cell.Style.BackColor != System.Drawing.Color.Empty)
+                {
+                    // Swap cells
+                    object temp = dgv.Rows[insertIndex].Cells[col].Value;
+                    System.Drawing.Color tempColor = dgv.Rows[insertIndex].Cells[col].Style.BackColor;
+
+                    dgv.Rows[insertIndex].Cells[col].Value = cell.Value;
+                    dgv.Rows[insertIndex].Cells[col].Style.BackColor = cell.Style.BackColor;
+
+                    cell.Value = temp;
+                    cell.Style.BackColor = tempColor;
+
+                    insertIndex++;
+                }
+            }
+        }
+    }
 
 
     private List<string> GroupByMonth(ISheet sheet)
