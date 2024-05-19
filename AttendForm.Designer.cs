@@ -35,8 +35,11 @@ partial class AttendForm
         DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AttendForm));
         tabControl2 = new TabControl();
         tabPage5 = new TabPage();
+        label4 = new Label();
+        tbFontSize = new TextBox();
         ckbFwdBwd = new CheckBox();
         cbIgnoreNoData = new CheckBox();
         cbIgnoreElementarySchool = new CheckBox();
@@ -106,8 +109,6 @@ partial class AttendForm
         tabPage4 = new TabPage();
         dgvResult4 = new DataGridView();
         panel1 = new Panel();
-        tbFontSize = new TextBox();
-        label4 = new Label();
         tabControl2.SuspendLayout();
         tabPage5.SuspendLayout();
         tabPage6.SuspendLayout();
@@ -160,6 +161,27 @@ partial class AttendForm
         tabPage5.TabIndex = 0;
         tabPage5.Text = "參數";
         tabPage5.UseVisualStyleBackColor = true;
+        // 
+        // label4
+        // 
+        label4.AutoSize = true;
+        label4.Location = new Point(342, 12);
+        label4.Margin = new Padding(2, 0, 2, 0);
+        label4.Name = "label4";
+        label4.Size = new Size(58, 15);
+        label4.TabIndex = 29;
+        label4.Text = "字體大小:";
+        // 
+        // tbFontSize
+        // 
+        tbFontSize.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        tbFontSize.Location = new Point(404, 5);
+        tbFontSize.Margin = new Padding(2);
+        tbFontSize.Name = "tbFontSize";
+        tbFontSize.Size = new Size(33, 24);
+        tbFontSize.TabIndex = 28;
+        tbFontSize.Text = "12";
+        tbFontSize.TextAlign = HorizontalAlignment.Center;
         // 
         // ckbFwdBwd
         // 
@@ -944,35 +966,15 @@ partial class AttendForm
         panel1.Size = new Size(1014, 174);
         panel1.TabIndex = 0;
         // 
-        // tbFontSize
-        // 
-        tbFontSize.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
-        tbFontSize.Location = new Point(404, 5);
-        tbFontSize.Margin = new Padding(2);
-        tbFontSize.Name = "tbFontSize";
-        tbFontSize.Size = new Size(33, 24);
-        tbFontSize.TabIndex = 28;
-        tbFontSize.Text = "12";
-        tbFontSize.TextAlign = HorizontalAlignment.Center;
-        // 
-        // label4
-        // 
-        label4.AutoSize = true;
-        label4.Location = new Point(342, 12);
-        label4.Margin = new Padding(2, 0, 2, 0);
-        label4.Name = "label4";
-        label4.Size = new Size(58, 15);
-        label4.TabIndex = 29;
-        label4.Text = "字體大小:";
-        // 
         // AttendForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1020, 898);
         Controls.Add(tableLayoutPanel1);
+        Icon = (Icon)resources.GetObject("$this.Icon");
         Name = "AttendForm";
-        Text = "點名系統表單整理小幫手 v1.0 20240518";
+        Text = "點名系統表單整理小幫手 v1.0 20240520";
         FormClosing += AttendForm_FormClosing;
         Load += AttendForm_Load;
         SizeChanged += AttendForm_SizeChanged;
