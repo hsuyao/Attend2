@@ -615,6 +615,18 @@ public partial class AttendForm : Form
             dt.Rows.Add(dataRow);
         }
 
+        // Set the font size according to tbFontSize.Text
+        float fontSize;
+        if (float.TryParse(tbFontSize.Text, out fontSize))
+        {
+            dataGridView.DefaultCellStyle.Font = new System.Drawing.Font(dataGridView.DefaultCellStyle.Font.FontFamily, fontSize);
+        }
+        else
+        {
+            // Handle invalid font size
+            MessageBox.Show("Invalid font size.");
+        }
+
         dataGridView.DataSource = dt;
         dataGridView.AutoResizeColumns();
         dataGridView.AutoResizeRows();
@@ -1365,6 +1377,7 @@ public partial class AttendForm : Form
             cbIgnoreElementarySchool.Checked = controlState.CbIgnoreElementarySchool;
             ckbCompare.Checked = controlState.CkbCompare;
             ckbFwdBwd.Checked = controlState.CkbFwdBwd;
+            tbFontSize.Text = controlState.TbFontSize;
             // ... 其他控件
         }
 
@@ -1408,6 +1421,7 @@ public partial class AttendForm : Form
             CbIgnoreElementarySchool = cbIgnoreElementarySchool.Checked,
             CkbCompare = ckbCompare.Checked,
             CkbFwdBwd = ckbFwdBwd.Checked,
+            TbFontSize = tbFontSize.Text,
             // ... 其他控件
         };
 

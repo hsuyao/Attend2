@@ -37,6 +37,7 @@ partial class AttendForm
         DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
         tabControl2 = new TabControl();
         tabPage5 = new TabPage();
+        ckbFwdBwd = new CheckBox();
         cbIgnoreNoData = new CheckBox();
         cbIgnoreElementarySchool = new CheckBox();
         ckbCompare = new CheckBox();
@@ -105,7 +106,8 @@ partial class AttendForm
         tabPage4 = new TabPage();
         dgvResult4 = new DataGridView();
         panel1 = new Panel();
-        ckbFwdBwd = new CheckBox();
+        tbFontSize = new TextBox();
+        label4 = new Label();
         tabControl2.SuspendLayout();
         tabPage5.SuspendLayout();
         tabPage6.SuspendLayout();
@@ -137,6 +139,8 @@ partial class AttendForm
         // 
         // tabPage5
         // 
+        tabPage5.Controls.Add(label4);
+        tabPage5.Controls.Add(tbFontSize);
         tabPage5.Controls.Add(ckbFwdBwd);
         tabPage5.Controls.Add(cbIgnoreNoData);
         tabPage5.Controls.Add(cbIgnoreElementarySchool);
@@ -156,6 +160,18 @@ partial class AttendForm
         tabPage5.TabIndex = 0;
         tabPage5.Text = "參數";
         tabPage5.UseVisualStyleBackColor = true;
+        // 
+        // ckbFwdBwd
+        // 
+        ckbFwdBwd.AutoSize = true;
+        ckbFwdBwd.Checked = true;
+        ckbFwdBwd.CheckState = CheckState.Checked;
+        ckbFwdBwd.Location = new Point(170, 89);
+        ckbFwdBwd.Name = "ckbFwdBwd";
+        ckbFwdBwd.Size = new Size(152, 19);
+        ckbFwdBwd.TabIndex = 27;
+        ckbFwdBwd.Text = "向後統計: 半年、自訂週";
+        ckbFwdBwd.UseVisualStyleBackColor = true;
         // 
         // cbIgnoreNoData
         // 
@@ -928,17 +944,26 @@ partial class AttendForm
         panel1.Size = new Size(1014, 174);
         panel1.TabIndex = 0;
         // 
-        // ckbFwdBwd
+        // tbFontSize
         // 
-        ckbFwdBwd.AutoSize = true;
-        ckbFwdBwd.Checked = true;
-        ckbFwdBwd.CheckState = CheckState.Checked;
-        ckbFwdBwd.Location = new Point(170, 89);
-        ckbFwdBwd.Name = "ckbFwdBwd";
-        ckbFwdBwd.Size = new Size(152, 19);
-        ckbFwdBwd.TabIndex = 27;
-        ckbFwdBwd.Text = "向後統計: 半年、自訂週";
-        ckbFwdBwd.UseVisualStyleBackColor = true;
+        tbFontSize.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 136);
+        tbFontSize.Location = new Point(404, 5);
+        tbFontSize.Margin = new Padding(2);
+        tbFontSize.Name = "tbFontSize";
+        tbFontSize.Size = new Size(33, 24);
+        tbFontSize.TabIndex = 28;
+        tbFontSize.Text = "12";
+        tbFontSize.TextAlign = HorizontalAlignment.Center;
+        // 
+        // label4
+        // 
+        label4.AutoSize = true;
+        label4.Location = new Point(342, 12);
+        label4.Margin = new Padding(2, 0, 2, 0);
+        label4.Name = "label4";
+        label4.Size = new Size(58, 15);
+        label4.TabIndex = 29;
+        label4.Text = "字體大小:";
         // 
         // AttendForm
         // 
@@ -947,7 +972,7 @@ partial class AttendForm
         ClientSize = new Size(1020, 898);
         Controls.Add(tableLayoutPanel1);
         Name = "AttendForm";
-        Text = "點名系統表單整理小幫手 v1.0 20240517";
+        Text = "點名系統表單整理小幫手 v1.0 20240518";
         FormClosing += AttendForm_FormClosing;
         Load += AttendForm_Load;
         SizeChanged += AttendForm_SizeChanged;
@@ -1055,4 +1080,6 @@ partial class AttendForm
     private TextBox tbSelfDefWeek;
     private RadioButton rbSelfDef;
     private CheckBox ckbFwdBwd;
+    private Label label4;
+    private TextBox tbFontSize;
 }

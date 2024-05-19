@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Drawing;
+using System.Web;
 
 
 namespace Attend
@@ -44,6 +45,7 @@ namespace Attend
         public bool CbIgnoreElementarySchool { get; set; }
         public bool CkbCompare { get; set; }
         public bool CkbFwdBwd { get; set; }
+        public string TbFontSize { get; set; } 
         // ... 其他控件
     }
     internal class DataGridViewData
