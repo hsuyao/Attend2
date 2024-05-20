@@ -1292,6 +1292,14 @@ public partial class AttendForm : Form
         {
             string fileName = FileNames[i];
             string fileInfo = lbFileInfo.Items[i].ToString();
+            float fontSize;
+
+            // 嘗試將 tbFontSize.Text 轉換為浮點數
+            if (!float.TryParse(tbFontSize.Text, out fontSize))
+            {
+                // 如果轉換失敗，可以設置一個默認的字體大小，這裡假設為 10
+                fontSize = 10f;
+            }
 
             // 如果 tabPage 已經存在，則選擇該 tabPage
             // 否則，創建一個新的 tabPage 和一個新的 dataGridView
@@ -1312,6 +1320,9 @@ public partial class AttendForm : Form
                 tabPage.Controls.Add(dataGridView);
                 tabControl1.TabPages.Add(tabPage);
             }
+
+            // 設置 DataGridView 的字體大小
+            dataGridView.Font = new System.Drawing.Font(dataGridView.Font.FontFamily, fontSize);
 
             // 選擇 tabPage
             tabControl1.SelectedTab = tabPage;
