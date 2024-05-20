@@ -29,16 +29,18 @@ public partial class AttendForm : Form
 {
     HSSFWorkbook workbook;
     string[] filenames = new string[] { "", "", "", "" };
+    public List<string> FileNames { get; private set; }
     Size originalFormSize;
     Size originalTabControlSize;
     Size originalDataGridViewSize;
     public AttendForm()
     {
         InitializeComponent();
+        FileNames = new List<string>();
         // 記錄原始的大小
         originalFormSize = this.Size;
         originalTabControlSize = tabControl1.Size;
-        originalDataGridViewSize = dgvResult1.Size;
+        originalDataGridViewSize = tabControl1.Size; // dgvResult1.Size;
     }
 
     public bool ConvertHssfToXssf(string inputFileName, string outputFileName)
@@ -169,14 +171,7 @@ public partial class AttendForm : Form
             return null;
         }
     }
-    private void btnSelect_Click(object sender, EventArgs e)
-    {
-        OpenFileDialog ofd = new OpenFileDialog();
-        ofd.ShowDialog();
-        filenames[0] = ofd.FileName;
-        txtBoxSelect1.Text = ReadFirstCell(filenames[0]);
 
-    }
     private string GetMonthString(ISheet sheet, string input)
     {
         int columnIndex = int.Parse(input.Split('-')[0]);
@@ -435,26 +430,32 @@ public partial class AttendForm : Form
         }
     }
 
-    void SetTabText(ISheet sheet, string inputString)
+    public static void SetTabText(DataGridView dataGridView, string s)
     {
+        // Check if the DataGridView is contained within a TabPage
+        TabPage tabPage = FindParentTabPage(dataGridView);
 
-        if (inputString == filenames[0])
+        // If a TabPage is found, set its Text property
+        if (tabPage != null)
         {
-            tabPage1.Text = sheet.SheetName + " " + txtBoxSelect1.Text;
+            tabPage.Text = s;
         }
-        if (inputString == filenames[1])
-        {
-            tabPage2.Text = sheet.SheetName + " " + txtBoxSelect2.Text;
-        }
-        if (inputString == filenames[2])
-        {
-            tabPage3.Text = sheet.SheetName + " " + txtBoxSelect3.Text;
-        }
-        if (inputString == filenames[3])
-        {
-            tabPage4.Text = sheet.SheetName + " " + txtBoxSelect4.Text;
-        }
+    }
 
+    private static TabPage FindParentTabPage(System.Windows.Forms.Control control)
+    {
+        // Loop through the parent hierarchy of the control to find a TabPage
+        System.Windows.Forms.Control parent = control.Parent;
+        while (parent != null)
+        {
+            if (parent is TabPage)
+            {
+                return (TabPage)parent;
+            }
+            parent = parent.Parent;
+        }
+        // Return null if no TabPage is found
+        return null;
     }
     private void OpenExcelFile(string inputFilePath, string outputFilePath, DataGridView dbvResult)
     {
@@ -562,7 +563,7 @@ public partial class AttendForm : Form
                     FillSheetNameAndDataName(minor_sheet, sheetName[i] + " " + cell.ToString());
                 }
 
-                SetTabText(sheetToShow, inputFilePath);
+                SetTabText(dbvResult, sheetToShow.SheetName + " " + cell.ToString());
                 using (FileStream file = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
                 {
                     workbook.Write(file);
@@ -1247,24 +1248,6 @@ public partial class AttendForm : Form
         }
         return false;
     }
-
-    private void btnSelect2_Click(object sender, EventArgs e)
-    {
-        OpenFileDialog ofd = new OpenFileDialog();
-        ofd.ShowDialog();
-        filenames[1] = ofd.FileName;
-        txtBoxSelect2.Text = ReadFirstCell(filenames[1]);
-    }
-
-    private void btnSelect3_Click(object sender, EventArgs e)
-    {
-        OpenFileDialog ofd = new OpenFileDialog();
-        ofd.ShowDialog();
-        filenames[2] = ofd.FileName;
-        txtBoxSelect3.Text = ReadFirstCell(filenames[2]);
-    }
-
-
     private void AttendForm_SizeChanged(object sender, EventArgs e)
     {
         // 計算 Form 大小的變化比例
@@ -1288,81 +1271,118 @@ public partial class AttendForm : Form
             }
         }
     }
-
-    private void btnSelect4_Click(object sender, EventArgs e)
-    {
-        OpenFileDialog ofd = new OpenFileDialog();
-        ofd.ShowDialog();
-        filenames[3] = ofd.FileName;
-        txtBoxSelect4.Text = ReadFirstCell(filenames[3]);
-    }
-
     private void btnCalculateAllExcel_Click(object sender, EventArgs e)
     {
-
-        if (filenames[3].Length > 0)
+        // 確保 FileNames 和 lbFileInfo 有相同數量的項目
+        if (FileNames.Count != lbFileInfo.Items.Count)
         {
-            tabControl1.SelectedTab = tabPage4;
-            OpenExcelFile(filenames[3], txtBoxSelect4.Text + ".xlsx", dgvResult4);
-        }
-        if (filenames[2].Length > 0)
-        {
-            tabControl1.SelectedTab = tabPage3;
-            OpenExcelFile(filenames[2], txtBoxSelect3.Text + ".xlsx", dgvResult3);
-        }
-        if (filenames[1].Length > 0)
-        {
-            tabControl1.SelectedTab = tabPage2;
-            OpenExcelFile(filenames[1], txtBoxSelect2.Text + ".xlsx", dgvResult2);
-        }
-        if (filenames[0].Length > 0)
-        {
-            tabControl1.SelectedTab = tabPage1;
-            OpenExcelFile(filenames[0], txtBoxSelect1.Text + ".xlsx", dgvResult1);
+            MessageBox.Show("FileNames 和 lbFileInfo 的項目數量不一致");
+            return;
         }
 
-        if (filenames[0].Length == 0 && filenames[1].Length == 0 && filenames[2].Length == 0 && filenames[3].Length == 0)
+        // 如果沒有選擇任何檔案，則顯示提示訊息
+        if (FileNames.Count == 0)
+        {
             MessageBox.Show("請選擇檔案");
+            return;
+        }
+
+        // 為每個檔案創建一個 tabPage 和一個 dataGridView
+        for (int i = 0; i < FileNames.Count; i++)
+        {
+            string fileName = FileNames[i];
+            string fileInfo = lbFileInfo.Items[i].ToString();
+
+            // 如果 tabPage 已經存在，則選擇該 tabPage
+            // 否則，創建一個新的 tabPage 和一個新的 dataGridView
+            TabPage tabPage;
+            DataGridView dataGridView;
+            if (tabControl1.TabPages.Count > i)
+            {
+                tabPage = tabControl1.TabPages[i];
+                dataGridView = (DataGridView)tabPage.Controls[0];
+            }
+            else
+            {
+                tabPage = new TabPage($"Tab {i + 1}");
+                dataGridView = new DataGridView
+                {
+                    Dock = DockStyle.Fill,
+                };
+                tabPage.Controls.Add(dataGridView);
+                tabControl1.TabPages.Add(tabPage);
+            }
+
+            // 選擇 tabPage
+            tabControl1.SelectedTab = tabPage;
+
+            // 開啟 Excel 檔案
+            OpenExcelFile(fileName, fileInfo + ".xlsx", dataGridView);
+        }
     }
     private string[] CatagoryArray(string input)
     {
-        if (input == filenames[0] && rbWeek.Checked)
+        // 获取 ListBox 中项目的索引
+        int index = FileNames.IndexOf(input);
+        if (index == -1)
         {
-            return new string[] { tbSheet1WeekCat1.Text, tbSheet1WeekCat2.Text };
+            return new string[] { };
         }
-        else if (input == filenames[0] && !rbWeek.Checked)
+
+        // 获取指定索引的项目
+        string fileInfo = lbFileInfo.Items[index].ToString();
+
+        // 根据 fileInfo 和 rbWeek 的选中状态返回相应的数组
+        if (fileInfo == "主日")
         {
-            return new string[] { tbSheet1Cat1.Text, tbSheet1Cat2.Text, tbSheet1Cat3.Text };
+            if (rbWeek.Checked)
+            {
+                return new string[] { tbSheet1WeekCat1.Text, tbSheet1WeekCat2.Text };
+            }
+            else
+            {
+                return new string[] { tbSheet1Cat1.Text, tbSheet1Cat2.Text, tbSheet1Cat3.Text };
+            }
         }
-        else if (input == filenames[1] && rbWeek.Checked)
+        else if (fileInfo == "禱告")
         {
-            return new string[] { tbSheet2WeekCat1.Text, tbSheet2WeekCat2.Text };
+            if (rbWeek.Checked)
+            {
+                return new string[] { tbSheet2WeekCat1.Text, tbSheet2WeekCat2.Text };
+            }
+            else
+            {
+                return new string[] { tbSheet2Cat1.Text, tbSheet2Cat2.Text, tbSheet2Cat3.Text };
+            }
         }
-        else if (input == filenames[1] && !rbWeek.Checked)
+        else if (fileInfo == "小排")
         {
-            return new string[] { tbSheet2Cat1.Text, tbSheet2Cat2.Text, tbSheet2Cat3.Text };
+            if (rbWeek.Checked)
+            {
+                return new string[] { tbSheet3WeekCat1.Text, tbSheet3WeekCat2.Text };
+            }
+            else
+            {
+                return new string[] { tbSheet3Cat1.Text, tbSheet3Cat2.Text, tbSheet3Cat3.Text };
+            }
         }
-        else if (input == filenames[2] && rbWeek.Checked)
+        else if (fileInfo == "晨興")
         {
-            return new string[] { tbSheet3WeekCat1.Text, tbSheet3WeekCat2.Text };
-        }
-        else if (input == filenames[2] && !rbWeek.Checked)
-        {
-            return new string[] { tbSheet3Cat1.Text, tbSheet3Cat2.Text, tbSheet3Cat3.Text };
-        }
-        else if (input == filenames[3] && rbWeek.Checked)
-        {
-            return new string[] { tbSheet4WeekCat1.Text, tbSheet4WeekCat2.Text };
-        }
-        else if (input == filenames[3] && !rbWeek.Checked)
-        {
-            return new string[] { tbSheet4Cat1.Text, tbSheet4Cat2.Text, tbSheet4Cat3.Text };
+            if (rbWeek.Checked)
+            {
+                return new string[] { tbSheet4WeekCat1.Text, tbSheet4WeekCat2.Text };
+            }
+            else
+            {
+                return new string[] { tbSheet4Cat1.Text, tbSheet4Cat2.Text, tbSheet4Cat3.Text };
+            }
         }
         else
         {
             return new string[] { };
         }
     }
+
 
     private void AttendForm_Load(object sender, EventArgs e)
     {
@@ -1455,68 +1475,7 @@ public partial class AttendForm : Form
         File.WriteAllText("controlState.json", json);
         // SaveDataGridViews();
     }
-
-    private void SaveDataGridViews()
-    {
-        DataGridView[] dataGridViews = new DataGridView[] { dgvResult1, dgvResult2, dgvResult3, dgvResult4 };
-
-        foreach (var dgv in dataGridViews)
-        {
-            DataGridViewData data = new DataGridViewData
-            {
-                CellValues = new string[dgv.Rows.Count, dgv.Columns.Count],
-                CellColors = new string[dgv.Rows.Count, dgv.Columns.Count]
-            };
-
-            for (int i = 0; i < dgv.Rows.Count; i++)
-            {
-                for (int j = 0; j < dgv.Columns.Count; j++)
-                {
-                    if (dgv.Rows[i].Cells[j].Value != null)
-                    {
-                        data.CellValues[i, j] = dgv.Rows[i].Cells[j].Value.ToString();
-                    }
-                    data.CellColors[i, j] = dgv.Rows[i].Cells[j].Style.BackColor.ToArgb().ToString();
-                }
-            }
-
-            File.WriteAllText($"{dgv.Name}.json", JsonConvert.SerializeObject(data));
-        }
-    }
-
-    private void LoadDataGridViews()
-    {
-        DataGridView[] dataGridViews = new DataGridView[] { dgvResult1, dgvResult2, dgvResult3, dgvResult4 };
-
-        foreach (var dgv in dataGridViews)
-        {
-            if (File.Exists($"{dgv.Name}.json"))
-            {
-                DataGridViewData data = JsonConvert.DeserializeObject<DataGridViewData>(File.ReadAllText($"{dgv.Name}.json"));
-
-                dgv.Rows.Clear();
-                dgv.Columns.Clear();
-
-                int rowCount = data.CellValues.GetLength(0);
-                int colCount = data.CellValues.GetLength(1);
-
-                for (int i = 0; i < colCount; i++)
-                {
-                    dgv.Columns.Add(new DataGridViewTextBoxColumn());
-                }
-
-                for (int i = 0; i < rowCount; i++)
-                {
-                    dgv.Rows.Add();
-                    for (int j = 0; j < colCount; j++)
-                    {
-                        dgv.Rows[i].Cells[j].Value = data.CellValues[i, j];
-                        dgv.Rows[i].Cells[j].Style.BackColor = System.Drawing.Color.FromArgb(int.Parse(data.CellColors[i, j]));
-                    }
-                }
-            }
-        }
-    }
+    
     private string ShortenDateRange(string input)
     {
         var parts = input.Split('~');
@@ -1563,6 +1522,47 @@ public partial class AttendForm : Form
 
         // 將被選擇的tabpage的前景顏色設為黑色
         tabControl1.SelectedTab.ForeColor = System.Drawing.Color.Black;
+    }
+
+    private void btnAddNewFile_Click(object sender, EventArgs e)
+    {
+        OpenFileDialog openFileDialog = new OpenFileDialog();
+        // 只顯示 .xls 檔案
+        openFileDialog.Filter = "Excel 檔案 (*.xls)|*.xls";
+        // 允許選擇多個檔案
+        openFileDialog.Multiselect = true;
+
+        if (openFileDialog.ShowDialog() == DialogResult.OK)
+        {
+            foreach (string fileName in openFileDialog.FileNames)
+            {
+                string firstCell = ReadFirstCell(fileName);
+
+                // 檢查 firstCell 是否已經存在於 lbFileInfo 中
+                int index = lbFileInfo.Items.IndexOf(firstCell);
+                if (index != -1)
+                {
+                    // 如果存在，則移除舊的對應檔案
+                    FileNames.RemoveAt(index);
+                    lbFileInfo.Items.RemoveAt(index);
+                }
+
+                // 將檔案名稱添加到列表中
+                FileNames.Add(fileName);
+
+                // 將 firstCell 添加到 lbFileInfo 中
+                lbFileInfo.Items.Add(firstCell);
+            }
+        }
+    }
+
+    private void btnRemoveFile_Click(object sender, EventArgs e)
+    {
+        if (lbFileInfo.SelectedIndex != -1)
+        {
+            FileNames.RemoveAt(lbFileInfo.SelectedIndex);
+            lbFileInfo.Items.RemoveAt(lbFileInfo.SelectedIndex);
+        }
     }
 }
 
