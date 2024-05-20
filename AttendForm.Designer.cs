@@ -365,9 +365,9 @@ partial class AttendForm
         label14.AutoSize = true;
         label14.Location = new Point(6, 97);
         label14.Name = "label14";
-        label14.Size = new Size(41, 15);
+        label14.Size = new Size(34, 15);
         label14.TabIndex = 39;
-        label14.Text = "報表4:";
+        label14.Text = "晨興:";
         // 
         // tbSheet4Cat2
         // 
@@ -390,9 +390,9 @@ partial class AttendForm
         label15.AutoSize = true;
         label15.Location = new Point(6, 71);
         label15.Name = "label15";
-        label15.Size = new Size(41, 15);
+        label15.Size = new Size(34, 15);
         label15.TabIndex = 36;
-        label15.Text = "報表3:";
+        label15.Text = "小排:";
         // 
         // tbSheet3Cat2
         // 
@@ -415,9 +415,9 @@ partial class AttendForm
         label16.AutoSize = true;
         label16.Location = new Point(6, 46);
         label16.Name = "label16";
-        label16.Size = new Size(41, 15);
+        label16.Size = new Size(34, 15);
         label16.TabIndex = 33;
-        label16.Text = "報表2:";
+        label16.Text = "禱告:";
         // 
         // tbSheet2Cat2
         // 
@@ -440,9 +440,9 @@ partial class AttendForm
         label17.AutoSize = true;
         label17.Location = new Point(6, 20);
         label17.Name = "label17";
-        label17.Size = new Size(41, 15);
+        label17.Size = new Size(34, 15);
         label17.TabIndex = 30;
-        label17.Text = "報表1:";
+        label17.Text = "主日:";
         // 
         // tbSheet1Cat2
         // 
@@ -486,9 +486,9 @@ partial class AttendForm
         label13.AutoSize = true;
         label13.Location = new Point(6, 97);
         label13.Name = "label13";
-        label13.Size = new Size(41, 15);
+        label13.Size = new Size(34, 15);
         label13.TabIndex = 39;
-        label13.Text = "報表4:";
+        label13.Text = "晨興:";
         // 
         // tbSheet4WeekCat2
         // 
@@ -511,9 +511,9 @@ partial class AttendForm
         label12.AutoSize = true;
         label12.Location = new Point(6, 71);
         label12.Name = "label12";
-        label12.Size = new Size(41, 15);
+        label12.Size = new Size(34, 15);
         label12.TabIndex = 36;
-        label12.Text = "報表3:";
+        label12.Text = "小排:";
         // 
         // tbSheet3WeekCat2
         // 
@@ -536,9 +536,9 @@ partial class AttendForm
         label11.AutoSize = true;
         label11.Location = new Point(6, 46);
         label11.Name = "label11";
-        label11.Size = new Size(41, 15);
+        label11.Size = new Size(34, 15);
         label11.TabIndex = 33;
-        label11.Text = "報表2:";
+        label11.Text = "禱告:";
         // 
         // tbSheet2WeekCat2
         // 
@@ -561,9 +561,9 @@ partial class AttendForm
         label10.AutoSize = true;
         label10.Location = new Point(6, 20);
         label10.Name = "label10";
-        label10.Size = new Size(41, 15);
+        label10.Size = new Size(34, 15);
         label10.TabIndex = 30;
-        label10.Text = "報表1:";
+        label10.Text = "主日:";
         // 
         // tbSheet1WeekCat2
         // 
@@ -676,7 +676,7 @@ partial class AttendForm
         tableLayoutPanel1.RowCount = 2;
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 180F));
         tableLayoutPanel1.RowStyles.Add(new RowStyle());
-        tableLayoutPanel1.Size = new Size(1020, 898);
+        tableLayoutPanel1.Size = new Size(1075, 524);
         tableLayoutPanel1.TabIndex = 39;
         // 
         // tabControl1
@@ -689,7 +689,7 @@ partial class AttendForm
         tabControl1.Margin = new Padding(2);
         tabControl1.Name = "tabControl1";
         tabControl1.SelectedIndex = 0;
-        tabControl1.Size = new Size(1016, 714);
+        tabControl1.Size = new Size(1071, 340);
         tabControl1.TabIndex = 29;
         // 
         // tabPage1
@@ -698,7 +698,7 @@ partial class AttendForm
         tabPage1.Location = new Point(4, 29);
         tabPage1.Name = "tabPage1";
         tabPage1.Padding = new Padding(3);
-        tabPage1.Size = new Size(1008, 681);
+        tabPage1.Size = new Size(1063, 307);
         tabPage1.TabIndex = 0;
         tabPage1.Text = "統計結果";
         tabPage1.UseVisualStyleBackColor = true;
@@ -709,7 +709,7 @@ partial class AttendForm
         dataGridView1.Dock = DockStyle.Fill;
         dataGridView1.Location = new Point(3, 3);
         dataGridView1.Name = "dataGridView1";
-        dataGridView1.Size = new Size(1002, 675);
+        dataGridView1.Size = new Size(1057, 301);
         dataGridView1.TabIndex = 0;
         // 
         // panel1
@@ -723,7 +723,7 @@ partial class AttendForm
         panel1.Dock = DockStyle.Fill;
         panel1.Location = new Point(3, 3);
         panel1.Name = "panel1";
-        panel1.Size = new Size(1014, 174);
+        panel1.Size = new Size(1069, 174);
         panel1.TabIndex = 0;
         // 
         // btnRemoveFile
@@ -761,7 +761,7 @@ partial class AttendForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1020, 898);
+        ClientSize = new Size(1075, 524);
         Controls.Add(tableLayoutPanel1);
         Icon = (Icon)resources.GetObject("$this.Icon");
         Name = "AttendForm";

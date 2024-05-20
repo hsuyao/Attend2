@@ -46,8 +46,8 @@
               "Title": "AttendForm.cs [\u8A2D\u8A08]",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs",
               "RelativeDocumentMoniker": "AttendForm.cs",
-              "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs [\u8A2D\u8A08]*",
-              "RelativeToolTip": "AttendForm.cs [\u8A2D\u8A08]*",
+              "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs [\u8A2D\u8A08]",
+              "RelativeToolTip": "AttendForm.cs [\u8A2D\u8A08]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-15T10:53:43.909Z",
               "EditorCaption": " [\u8A2D\u8A08]"
@@ -58,9 +58,9 @@
               "Title": "AttendForm.cs",
               "DocumentMoniker": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs",
               "RelativeDocumentMoniker": "AttendForm.cs",
-              "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs*",
-              "RelativeToolTip": "AttendForm.cs*",
-              "ViewState": "AQIAABwFAAAAAAAAAAAlwCwFAAAzAAAA",
+              "ToolTip": "C:\\Users\\erichy_tsai\\Attend\\AttendForm.cs",
+              "RelativeToolTip": "AttendForm.cs",
+              "ViewState": "AQIAABwFAAAAAAAAAAArwCMFAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-15T10:42:32.55Z",
               "EditorCaption": ""
@@ -100,8 +100,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-15T10:42:45.644Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-15T10:42:45.644Z"
             },
             {
               "$type": "Document",
@@ -113,8 +112,7 @@
               "RelativeToolTip": "Class1.cs",
               "ViewState": "AQIAABcAAAAAAAAAAEBAwC8AAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-15T09:49:19.955Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-15T09:49:19.955Z"
             }
           ]
         }

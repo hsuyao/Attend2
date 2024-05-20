@@ -1313,6 +1313,7 @@ public partial class AttendForm : Form
             else
             {
                 tabPage = new TabPage($"Tab {i + 1}");
+                tabPage.Text = "Computing";
                 dataGridView = new DataGridView
                 {
                     Dock = DockStyle.Fill,
@@ -1390,7 +1391,14 @@ public partial class AttendForm : Form
         }
         else
         {
-            return new string[] { };
+            if (rbWeek.Checked)
+            {
+                return new string[] { tbSheet1WeekCat1.Text, tbSheet1WeekCat2.Text };
+            }
+            else
+            {
+                return new string[] { tbSheet1Cat1.Text, tbSheet1Cat2.Text, tbSheet1Cat3.Text };
+            }
         }
     }
 
