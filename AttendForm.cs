@@ -60,31 +60,20 @@ public partial class AttendForm : Form
                 hssfWorkbook = new HSSFWorkbook(file);
             }
 
-            // 讀取或創建一個 .xlsx 文件
-            XSSFWorkbook xssfWorkbook;
+            // 如果輸出文件已存在，刪除它
             if (File.Exists(outputFileName))
             {
-                using (FileStream file = new FileStream(outputFileName, FileMode.Open, FileAccess.Read))
-                {
-                    xssfWorkbook = new XSSFWorkbook(file);
-                }
+                File.Delete(outputFileName);
             }
-            else
-            {
-                xssfWorkbook = new XSSFWorkbook();
-            }
+
+            // 創建一個新的 .xlsx 文件
+            XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
 
             // 遍歷所有的工作表
             for (int i = 0; i < hssfWorkbook.NumberOfSheets; i++)
             {
                 ISheet hssfSheet = hssfWorkbook.GetSheetAt(i);
-                ISheet xssfSheet = xssfWorkbook.GetSheet(hssfSheet.SheetName);
-
-                // 如果工作表不存在，則創建一個新的
-                if (xssfSheet == null)
-                {
-                    xssfSheet = xssfWorkbook.CreateSheet(hssfSheet.SheetName);
-                }
+                ISheet xssfSheet = xssfWorkbook.CreateSheet(hssfSheet.SheetName);
 
                 // 遍歷所有的行
                 for (int j = 0; j <= hssfSheet.LastRowNum; j++)
@@ -148,6 +137,7 @@ public partial class AttendForm : Form
         }
         return false;
     }
+
     private string ReadFirstCell(string filePath)
     {
         try
