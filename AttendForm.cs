@@ -59,6 +59,7 @@ public partial class AttendForm : Form
 {
     HSSFWorkbook workbook;
     private List<AttendanceRecord> records;
+    private Dictionary<string, int> attendanceSummary;
     public List<string> FileNames { get; private set; }
     Size originalFormSize;
     Size originalTabControlSize;
@@ -72,8 +73,22 @@ public partial class AttendForm : Form
         originalTabControlSize = tabControl1.Size;
         originalDataGridViewSize = tabControl1.Size; // dgvResult1.Size;
         LoadAttendanceRecords();
+        attendanceSummary = new Dictionary<string, int>();
+        CalculateAttendanceSummary();
     }
+    private void CalculateAttendanceSummary()
+    {
+        attendanceSummary.Clear(); // Clear existing summary
 
+        var summaryData = records.GroupBy(r => r.Name)
+            .Select(group => new { Name = group.Key, TotalAttendance = group.Sum(record => record.Attendance) })
+            .ToList();
+
+        foreach (var item in summaryData)
+        {
+            attendanceSummary[item.Name] = item.TotalAttendance;
+        }
+    }
     private void AddNewRecord(AttendanceRecord newRecord)
     {
         AttendanceRecordComparer comparer = new AttendanceRecordComparer();
@@ -746,10 +761,44 @@ public partial class AttendForm : Form
                 }
             }
         }
-        AdjustDataGridView(dataGridView, 2);
+        SortDataGridViewByDictionary(dataGridView, attendanceSummary, 2);
+        AdjustDataGridViewByColor(dataGridView, 2);
     }
+    public void SortDataGridViewByDictionary(DataGridView dgv, Dictionary<string, int> valueDict, int startRow)
+    {
+        // Iterate through each column
+        foreach (DataGridViewColumn column in dgv.Columns)
+        {
+            // Extract cell values and their corresponding dictionary values
+            var cellValuesWithDictValues = new List<Tuple<string, int>>();
 
-    public void AdjustDataGridView(DataGridView dgv, int startRow)
+            for (int rowIndex = startRow; rowIndex < dgv.Rows.Count; rowIndex++)
+            {
+                var cell = dgv.Rows[rowIndex].Cells[column.Index];
+                var cellValue = cell.Value != null ? cell.Value.ToString() : null;
+
+                if (cellValue != null && valueDict.TryGetValue(cellValue, out int dictValue))
+                {
+                    cellValuesWithDictValues.Add(System.Tuple.Create(cellValue, dictValue));
+                }
+                else
+                {
+                    // Handle cases where the cell value is null or not found in the dictionary
+                    cellValuesWithDictValues.Add(System.Tuple.Create(cellValue, int.MinValue));
+                }
+            }
+
+            // Sort based on the dictionary values in descending order
+            var sortedValues = cellValuesWithDictValues.OrderByDescending(t => t.Item2).Select(t => t.Item1).ToList();
+
+            // Apply the sorted values back to the DataGridView
+            for (int rowIndex = startRow; rowIndex < dgv.Rows.Count; rowIndex++)
+            {
+                dgv.Rows[rowIndex].Cells[column.Index].Value = sortedValues[rowIndex - startRow];
+            }
+        }
+    }
+    public void AdjustDataGridViewByColor(DataGridView dgv, int startRow)
     {
         for (int col = 0; col < dgv.Columns.Count; col++)
         {
