@@ -21,14 +21,44 @@ using DocumentFormat.OpenXml.Presentation;
 using Newtonsoft.Json;
 using System.Drawing;
 using NPOI.SS.Formula.Functions;
+using NPOI.HSSF.Record;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Attend;
 
+public class AttendanceRecordComparer : IEqualityComparer<AttendanceRecord>
+{
+    public bool Equals(AttendanceRecord x, AttendanceRecord y)
+    {
+        if (x == null || y == null)
+            return false;
+
+        return x.Name == y.Name && x.Date == y.Date && x.Type == y.Type; // Example comparison based on name and date
+    }
+
+    public int GetHashCode(AttendanceRecord record)
+    {
+        if (record == null)
+            return 0;
+
+        // Combine hash codes of Name and Date for uniqueness
+        int hash = record.Name.GetHashCode();
+        hash = (hash * 31) + record.Date.GetHashCode();
+        return hash;
+    }
+}
+public class AttendanceRecord
+{
+    public string Name { get; set; }
+    public string Date { get; set; }
+    public string Type { get; set; }
+    public int Attendance { get; set; }
+}
 
 public partial class AttendForm : Form
 {
     HSSFWorkbook workbook;
-    string[] filenames = new string[] { "", "", "", "" };
+    private List<AttendanceRecord> records;
     public List<string> FileNames { get; private set; }
     Size originalFormSize;
     Size originalTabControlSize;
@@ -41,8 +71,58 @@ public partial class AttendForm : Form
         originalFormSize = this.Size;
         originalTabControlSize = tabControl1.Size;
         originalDataGridViewSize = tabControl1.Size; // dgvResult1.Size;
+        LoadAttendanceRecords();
     }
 
+    private void AddNewRecord(AttendanceRecord newRecord)
+    {
+        AttendanceRecordComparer comparer = new AttendanceRecordComparer();
+        int existingIndex = records.FindIndex(r => comparer.Equals(r, newRecord));
+
+        if (existingIndex != -1)
+        {
+            // Record already exists, update it
+            records[existingIndex] = newRecord;
+            // Update UI or perform other actions after successful update
+        }
+        else
+        {
+            // Record does not exist, add it
+            records.Add(newRecord);
+            // Update UI or perform other actions after successful addition
+        }
+    }
+    private void SaveAttendanceRecords()
+    {
+        if (records != null && records.Count > 0)
+        {
+            string filePath = "attendance.json";
+            string json = JsonConvert.SerializeObject(records, Formatting.Indented);
+            File.WriteAllText(filePath, json);
+        }
+    }
+    private void LoadAttendanceRecords()
+    {
+        string filePath = "attendance.json";
+        if (File.Exists(filePath))
+        {
+            try
+            {
+                string json = File.ReadAllText(filePath);
+                records = JsonConvert.DeserializeObject<List<AttendanceRecord>>(json);
+            }
+            catch (Exception ex)
+            {
+                // Handle potential exceptions during JSON deserialization (e.g., invalid format)
+                MessageBox.Show("Error loading attendance records: " + ex.Message);
+                records = new List<AttendanceRecord>(); // Initialize empty list on error
+            }
+        }
+        else
+        {
+            records = new List<AttendanceRecord>(); // Initialize empty list if file doesn't exist
+        }
+    }
     public bool ConvertHssfToXssf(string inputFileName, string outputFileName)
     {
         try
@@ -782,7 +862,9 @@ public partial class AttendForm : Form
         string[] parts = columnRange.Split('-');
         int startColumn = int.Parse(parts[0]);
         int endColumn = int.Parse(parts[1]);
-
+        IRow row0 = sheet.GetRow(0); // 獲取第一列
+        ICell cell0 = row0.GetCell(0); // 獲取第一欄
+        var type = cell0.ToString(); // 讀取單元格的內容
         for (int i = 2; i <= sheet.LastRowNum; i++)
         {
             var row = sheet.GetRow(i);
@@ -805,20 +887,40 @@ public partial class AttendForm : Form
             for (int j = startColumn; j <= endColumn; j++)
             {
                 ICell cell = row.GetCell(j);
+                int attendancy = 0;
                 if (cell != null)
                 {
+                    attendancy = 0;
                     switch (cell.CellType)
                     {
                         case CellType.Numeric:
+                            
                             if (cell.NumericCellValue == 1)
+                            {
                                 attendanceCount++;
+                                attendancy = 1;
+                            }
+
                             break;
                         case CellType.String:
                             if (cell.StringCellValue == "1")
+                            {
                                 attendanceCount++;
+                                attendancy = 1;
+                            }
                             break;
                             // 你可以根據需要添加更多的 case
                     }
+                    AttendanceRecord newRecord = new AttendanceRecord
+                    {
+                        Name = name,
+                        Date = GetWeekString(sheet, string.Format("{0}-{1}", j,j)),
+                        Type = type,
+                        Attendance = attendancy
+                    };
+
+                    // Call the AddNewRecord function
+                    AddNewRecord(newRecord);
                 }
                 weekCount++;
             }
@@ -1064,10 +1166,46 @@ public partial class AttendForm : Form
                 }
             }
         }
-
+        ColorRow(sheet, 0, "#E2E9FF");
+        ColorRow(sheet, 1, "#ECF5FF");
         MergeCells(sheet, 0);
     }
+    public void ColorRow(ISheet sheet, int rowNum, string colorCode)
+    {
+        try
+        {
+            // 獲取行
+            IRow row = sheet.GetRow(rowNum);
+            if (row == null)
+            {
+                throw new ArgumentException($"行號 {rowNum} 無效");
+            }
 
+            // 轉換色碼
+            System.Drawing.Color drawingColor = ColorTranslator.FromHtml(colorCode);
+            byte[] rgb = new byte[3] { drawingColor.R, drawingColor.G, drawingColor.B };
+            XSSFColor color = new XSSFColor(rgb);
+
+            // 創建單元格樣式
+            ICellStyle cellStyle = sheet.Workbook.CreateCellStyle();
+            cellStyle.FillPattern = FillPattern.SolidForeground;
+            ((XSSFCellStyle)cellStyle).SetFillForegroundColor(color);
+
+            // 著色有值的單元格
+            for (int i = 0; i < row.LastCellNum; i++)
+            {
+                ICell cell = row.GetCell(i);
+                if (cell != null && !string.IsNullOrWhiteSpace(cell.ToString()))
+                {
+                    cell.CellStyle = cellStyle;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show("發生錯誤: " + e.Message);
+        }
+    }
     private void FillSheetNameAndDataName(ISheet sheet, string inputString)
     {
         IRow row = sheet.GetRow(0); // 取得第一列
@@ -1483,6 +1621,7 @@ public partial class AttendForm : Form
         var json = JsonConvert.SerializeObject(controlState);
         File.WriteAllText("controlState.json", json);
         // SaveDataGridViews();
+        SaveAttendanceRecords();
     }
     
     private string ShortenDateRange(string input)

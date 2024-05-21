@@ -763,7 +763,6 @@ partial class AttendForm
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1075, 524);
         Controls.Add(tableLayoutPanel1);
-        Icon = (Icon)resources.GetObject("$this.Icon");
         Name = "AttendForm";
         Text = "點名系統表單整理小幫手 v1.0 20240520";
         FormClosing += AttendForm_FormClosing;
