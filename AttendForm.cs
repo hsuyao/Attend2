@@ -71,8 +71,6 @@ public partial class AttendForm : Form
             int count = records.Count(r => r.Name == newRecord.Name);
             if (count < 52)
             {
-                // Add the new record
-                newRecord.Attendance = 1; // Ensuring Attendance is set to 1
                 records.Add(newRecord);
             }
             else
@@ -85,9 +83,6 @@ public partial class AttendForm : Form
                 {
                     records.Remove(oldestRecord);
                 }
-
-                // Add the new record
-                newRecord.Attendance = 1; // Ensuring Attendance is set to 1
                 records.Add(newRecord);
             }
         }
