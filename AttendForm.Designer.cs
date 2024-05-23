@@ -29,7 +29,6 @@ partial class AttendForm
     /// </summary>
     private void InitializeComponent()
     {
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AttendForm));
         tabControl2 = new TabControl();
         tabPage5 = new TabPage();
         label4 = new Label();
@@ -676,7 +675,7 @@ partial class AttendForm
         tableLayoutPanel1.RowCount = 2;
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 180F));
         tableLayoutPanel1.RowStyles.Add(new RowStyle());
-        tableLayoutPanel1.Size = new Size(1075, 524);
+        tableLayoutPanel1.Size = new Size(998, 788);
         tableLayoutPanel1.TabIndex = 39;
         // 
         // tabControl1
@@ -689,7 +688,7 @@ partial class AttendForm
         tabControl1.Margin = new Padding(2);
         tabControl1.Name = "tabControl1";
         tabControl1.SelectedIndex = 0;
-        tabControl1.Size = new Size(1071, 340);
+        tabControl1.Size = new Size(994, 604);
         tabControl1.TabIndex = 29;
         // 
         // tabPage1
@@ -698,7 +697,7 @@ partial class AttendForm
         tabPage1.Location = new Point(4, 29);
         tabPage1.Name = "tabPage1";
         tabPage1.Padding = new Padding(3);
-        tabPage1.Size = new Size(1063, 307);
+        tabPage1.Size = new Size(986, 571);
         tabPage1.TabIndex = 0;
         tabPage1.Text = "統計結果";
         tabPage1.UseVisualStyleBackColor = true;
@@ -709,7 +708,7 @@ partial class AttendForm
         dataGridView1.Dock = DockStyle.Fill;
         dataGridView1.Location = new Point(3, 3);
         dataGridView1.Name = "dataGridView1";
-        dataGridView1.Size = new Size(1057, 301);
+        dataGridView1.Size = new Size(980, 565);
         dataGridView1.TabIndex = 0;
         // 
         // panel1
@@ -723,7 +722,7 @@ partial class AttendForm
         panel1.Dock = DockStyle.Fill;
         panel1.Location = new Point(3, 3);
         panel1.Name = "panel1";
-        panel1.Size = new Size(1069, 174);
+        panel1.Size = new Size(992, 174);
         panel1.TabIndex = 0;
         // 
         // btnRemoveFile
@@ -761,7 +760,7 @@ partial class AttendForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1075, 524);
+        ClientSize = new Size(998, 788);
         Controls.Add(tableLayoutPanel1);
         Name = "AttendForm";
         Text = "點名系統表單整理小幫手 v1.0 20240520";

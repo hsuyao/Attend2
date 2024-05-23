@@ -117,29 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAA
-        AADE22v/jHo9/2xCIf9sQyH/bEIh/2xDIf9rQiH/bEIi/2xCIf9qQSL/aUEh/2pBIf9rQSL/aUAi/4he
-        If/htyL/lYpJ/5lhOv/Oo4T/4bea/+G3mv/gt5n/37aY/9+1l/+0hmv/bF4b/3aeB/96qgT/eJgJ/2pU
-        Hf93Rir/hVsj/31mO/+bYDf/7OXc/+nvzf/j7MP/+fjr//rsx//s3Lv/cGUg/3rJFP970hH/e8YJ/33F
-        BP98tQH/aFAe/2xCI/99Zj3/nWI3/+3p5v+K0TD/ersH/93quf/7zU7/vpE9/3awJv951zX/suB2/+vy
-        2f+Kxyb/e8cI/3OLDf9sQiP/fmY+/6BmN//t6eb/pOiR/5Pke//m9tr//e2t/7+meP+YxXf/hNlH/7zm
-        jf+H1EH/5vHR/5LJM/9yiw3/bEEk/35oP/+kbTz/7enm/7Sw+/+mm/z/7On4//vbgv/tyW7/fnRL/5Lk
-        hP923l7/dt5Z/37YSP+Ryjv/aFAe/2tBI/99aED/pm89/+3p5v90lP3/ZnP+/9nW9P/801X//NJT/8+m
-        Rv92cUj/kMJ+/3XOZf9xsVL/dGM1/3xSPf9rQiP/fGhA/6l2RP/t6eb/yN79/7zY/f/x9/z//ffc//33
-        2//999v/9vTt/83As/+6qZ//1MrC//fv2/+IYk7/a0Ii/3xoQf+peEX/7enm/5neZv+Gxiz/4u3F//zW
-        Y//81WH//NRg//zxzv/81F///NRf//vinf/89OH/iGJP/2pCIv98aEH/qn1M/+3p5v+U6Zj/guWA/97v
-        xf/84Hj//d91//zfdv/99NL//d91//zedf/86af//PTh/4hiTv9sQSL/e2hB/6p+Tv/t6eb/5+71/+Hp
-        8//5+/z/8fjg//D43v/w+N7//f33//333P/t48z/5tWx/+fUsf+EXUj/bEEi/3poQv+qiF3/7enm/3iI
-        /P9tX/7/1tX2/43idf+L4nP/ieFy//Hzzv++mUn/pW4k/7qAHf+6fxv/rHEd/3NKJP96Z0H/qopf/+3p
-        5v+Cs/z/bKT+/9rl+f+k7bL/ou2x/6Htsf/0+eX/mHlS//bEQ///yBn/5qYb/4JgMf+yz3L/emhC/6yO
-        Zf/n4t7//Pz7//z8+//8/Pv//Pz7//z8+//8/Pv//Pz7/5h/bv/41WH/3qQf/4JqOv+43X7/u+OB/5KU
-        WP+ymXb/mXlX/5d2Uv+XdE//l3JN/5dwS/+Xb0r/l25H/5ZsRv94TzP/yKRb/4d7R/+64oH/u+SD/7vk
-        g/+544T/jIpS/2RBJ/9jQCb/Y0Am/2M/Jv9jQCb/Yz8l/2NAJf9jPyX/Yz8m/4V9S/+544L/uuWE/7rk
-        g/+75IP/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAA==
-</value>
-  </data>
 </root>

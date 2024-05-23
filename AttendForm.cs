@@ -5,19 +5,14 @@ using System.Runtime.CompilerServices;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using ClosedXML.Excel;
 using NPOI.SS.Util;
 using NPOI.HSSF.Util;
 using CellType = NPOI.SS.UserModel.CellType;
 using IndexedColors = NPOI.SS.UserModel.IndexedColors;
-using DocumentFormat.OpenXml.Office2016.Excel;
-using DocumentFormat.OpenXml.Bibliography;
 using NPOI.HPSF;
 using System.Text;
 using System.Data;
 using System.Windows.Forms;
-using DocumentFormat.OpenXml.Presentation;
 using Newtonsoft.Json;
 using System.Drawing;
 using NPOI.SS.Formula.Functions;
@@ -25,35 +20,6 @@ using NPOI.HSSF.Record;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Attend;
-
-public class AttendanceRecordComparer : IEqualityComparer<AttendanceRecord>
-{
-    public bool Equals(AttendanceRecord x, AttendanceRecord y)
-    {
-        if (x == null || y == null)
-            return false;
-
-        return x.Name == y.Name && x.Date == y.Date && x.Type == y.Type; // Example comparison based on name and date
-    }
-
-    public int GetHashCode(AttendanceRecord record)
-    {
-        if (record == null)
-            return 0;
-
-        // Combine hash codes of Name and Date for uniqueness
-        int hash = record.Name.GetHashCode();
-        hash = (hash * 31) + record.Date.GetHashCode();
-        return hash;
-    }
-}
-public class AttendanceRecord
-{
-    public string Name { get; set; }
-    public string Date { get; set; }
-    public string Type { get; set; }
-    public int Attendance { get; set; }
-}
 
 public partial class AttendForm : Form
 {
@@ -89,23 +55,77 @@ public partial class AttendForm : Form
             attendanceSummary[item.Name] = item.TotalAttendance;
         }
     }
-    private void AddNewRecord(AttendanceRecord newRecord)
+    public void AddNewRecord(AttendanceRecord newRecord)
     {
         AttendanceRecordComparer comparer = new AttendanceRecordComparer();
         int existingIndex = records.FindIndex(r => comparer.Equals(r, newRecord));
 
         if (existingIndex != -1)
         {
-            // Record already exists, update it
-            records[existingIndex] = newRecord;
-            // Update UI or perform other actions after successful update
+            // Record already exists, update it with Attendance = 1 if different
+            records[existingIndex].Attendance = newRecord.Attendance|records[existingIndex].Attendance;
         }
         else
         {
-            // Record does not exist, add it
-            records.Add(newRecord);
-            // Update UI or perform other actions after successful addition
+            // Check if the number of records with the same Name is less than 52
+            int count = records.Count(r => r.Name == newRecord.Name);
+            if (count < 52)
+            {
+                // Add the new record
+                newRecord.Attendance = 1; // Ensuring Attendance is set to 1
+                records.Add(newRecord);
+            }
+            else
+            {
+                // Find and remove the oldest record with the same Name
+                var oldestRecord = records.Where(r => r.Name == newRecord.Name)
+                                          .OrderBy(r => ParseCustomDate(r.Date))
+                                          .FirstOrDefault();
+                if (oldestRecord != null)
+                {
+                    records.Remove(oldestRecord);
+                }
+
+                // Add the new record
+                newRecord.Attendance = 1; // Ensuring Attendance is set to 1
+                records.Add(newRecord);
+            }
         }
+
+        // Update UI or perform other actions after successful addition or update
+    }
+
+    private DateTime ParseCustomDate(string date)
+    {
+        // Example: "2024年5月第一週"
+        var parts = date.Split(new[] { '年', '月' }, StringSplitOptions.RemoveEmptyEntries);
+        int year = int.Parse(parts[0]);
+        int month = int.Parse(parts[1]);
+        string weekPart = parts[2];
+
+        // Determine the week number
+        int weekNumber = 1;
+        if (weekPart.Contains("第二週"))
+        {
+            weekNumber = 2;
+        }
+        else if (weekPart.Contains("第三週"))
+        {
+            weekNumber = 3;
+        }
+        else if (weekPart.Contains("第四週"))
+        {
+            weekNumber = 4;
+        }else if (weekPart.Contains("第五週"))
+        {
+            weekNumber = 4;
+        }
+
+        // Calculate the date of the first day of the specified week
+        DateTime firstDayOfMonth = new DateTime(year, month, 1);
+        DateTime targetDate = firstDayOfMonth.AddDays((weekNumber - 1) * 7);
+
+        return targetDate;
     }
     private void SaveAttendanceRecords()
     {
@@ -155,31 +175,20 @@ public partial class AttendForm : Form
                 hssfWorkbook = new HSSFWorkbook(file);
             }
 
-            // 讀取或創建一個 .xlsx 文件
-            XSSFWorkbook xssfWorkbook;
+            // 如果輸出文件已存在，刪除它
             if (File.Exists(outputFileName))
             {
-                using (FileStream file = new FileStream(outputFileName, FileMode.Open, FileAccess.Read))
-                {
-                    xssfWorkbook = new XSSFWorkbook(file);
-                }
+                File.Delete(outputFileName);
             }
-            else
-            {
-                xssfWorkbook = new XSSFWorkbook();
-            }
+
+            // 創建一個新的 .xlsx 文件
+            XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
 
             // 遍歷所有的工作表
             for (int i = 0; i < hssfWorkbook.NumberOfSheets; i++)
             {
                 ISheet hssfSheet = hssfWorkbook.GetSheetAt(i);
-                ISheet xssfSheet = xssfWorkbook.GetSheet(hssfSheet.SheetName);
-
-                // 如果工作表不存在，則創建一個新的
-                if (xssfSheet == null)
-                {
-                    xssfSheet = xssfWorkbook.CreateSheet(hssfSheet.SheetName);
-                }
+                ISheet xssfSheet = xssfWorkbook.CreateSheet(hssfSheet.SheetName);
 
                 // 遍歷所有的行
                 for (int j = 0; j <= hssfSheet.LastRowNum; j++)
@@ -243,6 +252,7 @@ public partial class AttendForm : Form
         }
         return false;
     }
+
     private string ReadFirstCell(string filePath)
     {
         try
@@ -953,7 +963,7 @@ public partial class AttendForm : Form
                     switch (cell.CellType)
                     {
                         case CellType.Numeric:
-                            
+
                             if (cell.NumericCellValue == 1)
                             {
                                 attendanceCount++;
@@ -973,8 +983,7 @@ public partial class AttendForm : Form
                     AttendanceRecord newRecord = new AttendanceRecord
                     {
                         Name = name,
-                        Date = GetWeekString(sheet, string.Format("{0}-{1}", j,j)),
-                        Type = type,
+                        Date = GetWeekString(sheet, string.Format("{0}-{1}", j, j)),
                         Attendance = attendancy
                     };
 
@@ -1682,7 +1691,7 @@ public partial class AttendForm : Form
         // SaveDataGridViews();
         SaveAttendanceRecords();
     }
-    
+
     private string ShortenDateRange(string input)
     {
         var parts = input.Split('~');
@@ -1772,5 +1781,3 @@ public partial class AttendForm : Form
         }
     }
 }
-
-

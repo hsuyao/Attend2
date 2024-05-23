@@ -9,6 +9,34 @@ using System.Drawing;
 using System.Web;
 
 
+public class AttendanceRecordComparer : IEqualityComparer<AttendanceRecord>
+{
+    public bool Equals(AttendanceRecord x, AttendanceRecord y)
+    {
+        if (x == null || y == null)
+            return false;
+
+        return x.Name == y.Name && x.Date == y.Date;
+    }
+
+    public int GetHashCode(AttendanceRecord record)
+    {
+        if (record == null)
+            return 0;
+
+        // Combine hash codes of Name and Date for uniqueness
+        int hash = record.Name.GetHashCode();
+        hash = (hash * 31) + record.Date.GetHashCode();
+        return hash;
+    }
+}
+public class AttendanceRecord
+{
+    public string Name { get; set; }
+    public string Date { get; set; }
+    public int Attendance { get; set; }
+}
+
 namespace Attend
 {
     internal class ControlState
