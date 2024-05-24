@@ -29,6 +29,7 @@ partial class AttendForm
     /// </summary>
     private void InitializeComponent()
     {
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AttendForm));
         tabControl2 = new TabControl();
         tabPage5 = new TabPage();
         label4 = new Label();
@@ -77,6 +78,8 @@ partial class AttendForm
         tbSheet1WeekCat2 = new TextBox();
         tbSheet1WeekCat1 = new TextBox();
         tabPage2 = new TabPage();
+        label20 = new Label();
+        label19 = new Label();
         lbClrHdr2 = new Label();
         lbClrHdr1 = new Label();
         lbClrNeg = new Label();
@@ -102,8 +105,6 @@ partial class AttendForm
         btnRemoveFile = new Button();
         lbFileInfo = new ListBox();
         btnAddNewFile = new Button();
-        label19 = new Label();
-        label20 = new Label();
         tabControl2.SuspendLayout();
         tabPage5.SuspendLayout();
         tabPage6.SuspendLayout();
@@ -616,6 +617,24 @@ partial class AttendForm
         tabPage2.Text = "Color";
         tabPage2.UseVisualStyleBackColor = true;
         // 
+        // label20
+        // 
+        label20.AutoSize = true;
+        label20.Location = new Point(154, 42);
+        label20.Name = "label20";
+        label20.Size = new Size(34, 15);
+        label20.TabIndex = 43;
+        label20.Text = "分類:";
+        // 
+        // label19
+        // 
+        label19.AutoSize = true;
+        label19.Location = new Point(154, 6);
+        label19.Name = "label19";
+        label19.Size = new Size(34, 15);
+        label19.TabIndex = 42;
+        label19.Text = "小區:";
+        // 
         // lbClrHdr2
         // 
         lbClrHdr2.BackColor = Color.Black;
@@ -807,7 +826,7 @@ partial class AttendForm
         tableLayoutPanel1.RowCount = 2;
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 180F));
         tableLayoutPanel1.RowStyles.Add(new RowStyle());
-        tableLayoutPanel1.Size = new Size(998, 788);
+        tableLayoutPanel1.Size = new Size(999, 826);
         tableLayoutPanel1.TabIndex = 39;
         // 
         // tabControl1
@@ -815,13 +834,16 @@ partial class AttendForm
         tabControl1.Appearance = TabAppearance.FlatButtons;
         tabControl1.Controls.Add(tabPage1);
         tabControl1.Dock = DockStyle.Fill;
+        tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
         tabControl1.Font = new Font("Microsoft JhengHei UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 136);
         tabControl1.Location = new Point(2, 182);
         tabControl1.Margin = new Padding(2);
         tabControl1.Name = "tabControl1";
         tabControl1.SelectedIndex = 0;
-        tabControl1.Size = new Size(994, 604);
+        tabControl1.Size = new Size(995, 642);
         tabControl1.TabIndex = 29;
+        tabControl1.DrawItem += tabControl1_DrawItem;
+        tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged_1;
         // 
         // tabPage1
         // 
@@ -829,7 +851,7 @@ partial class AttendForm
         tabPage1.Location = new Point(4, 29);
         tabPage1.Name = "tabPage1";
         tabPage1.Padding = new Padding(3);
-        tabPage1.Size = new Size(986, 571);
+        tabPage1.Size = new Size(987, 609);
         tabPage1.TabIndex = 0;
         tabPage1.Text = "統計結果";
         tabPage1.UseVisualStyleBackColor = true;
@@ -840,7 +862,7 @@ partial class AttendForm
         dataGridView1.Dock = DockStyle.Fill;
         dataGridView1.Location = new Point(3, 3);
         dataGridView1.Name = "dataGridView1";
-        dataGridView1.Size = new Size(980, 565);
+        dataGridView1.Size = new Size(981, 603);
         dataGridView1.TabIndex = 0;
         // 
         // panel1
@@ -854,7 +876,7 @@ partial class AttendForm
         panel1.Dock = DockStyle.Fill;
         panel1.Location = new Point(3, 3);
         panel1.Name = "panel1";
-        panel1.Size = new Size(992, 174);
+        panel1.Size = new Size(993, 174);
         panel1.TabIndex = 0;
         // 
         // btnRemoveFile
@@ -888,32 +910,15 @@ partial class AttendForm
         btnAddNewFile.UseVisualStyleBackColor = false;
         btnAddNewFile.Click += btnAddNewFile_Click;
         // 
-        // label19
-        // 
-        label19.AutoSize = true;
-        label19.Location = new Point(154, 6);
-        label19.Name = "label19";
-        label19.Size = new Size(34, 15);
-        label19.TabIndex = 42;
-        label19.Text = "小區:";
-        // 
-        // label20
-        // 
-        label20.AutoSize = true;
-        label20.Location = new Point(154, 42);
-        label20.Name = "label20";
-        label20.Size = new Size(34, 15);
-        label20.TabIndex = 43;
-        label20.Text = "分類:";
-        // 
         // AttendForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(998, 788);
+        ClientSize = new Size(999, 826);
         Controls.Add(tableLayoutPanel1);
+        Icon = (Icon)resources.GetObject("$this.Icon");
         Name = "AttendForm";
-        Text = "點名系統表單整理小幫手 v1.0 20240520";
+        Text = "點名系統表單整理小幫手 v1.0 20240524";
         FormClosing += AttendForm_FormClosing;
         Load += AttendForm_Load;
         SizeChanged += AttendForm_SizeChanged;

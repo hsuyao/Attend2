@@ -1656,9 +1656,9 @@ public partial class AttendForm : Form
             ckbCompare.Checked = controlState.CkbCompare;
             ckbFwdBwd.Checked = controlState.CkbFwdBwd;
             tbFontSize.Text = controlState.TbFontSize;
-            lbClrStat1.Text = controlState.LbClrHdr1;
+            lbClrStat1.Text = controlState.LbClrStat1;
             lbClrStat1.BackColor = ColorTranslator.FromHtml(lbClrStat1.Text);
-            lbClrStat2.Text = controlState.LbClrHdr2;
+            lbClrStat2.Text = controlState.LbClrStat2;
             lbClrStat2.BackColor = ColorTranslator.FromHtml(lbClrStat2.Text);
             lbClrPos.Text = controlState.LbClrPos;
             lbClrPos.BackColor = ColorTranslator.FromHtml(lbClrPos.Text);
@@ -1887,5 +1887,47 @@ public partial class AttendForm : Form
     private void lbClrHdr2_Click_1(object sender, EventArgs e)
     {
         ColorPicker(sender, e);
+    }
+    private void TabControl_DrawItem(object sender, DrawItemEventArgs e)
+    {
+        // 绘制标签页的标题文本
+        TabControl tabControl = (TabControl)sender;
+        TabPage tabPage = tabControl.TabPages[e.Index];
+        string tabText = tabPage.Text;
+
+        // 根据选中状态设置文本颜色
+        Color textColor = (e.State == DrawItemState.Selected) ? SystemColors.ControlText : SystemColors.GrayText;
+
+        // 使用自定义字体绘制标签页文本
+        using (Font tabFont = new Font(tabControl.Font.FontFamily, (e.State == DrawItemState.Selected) ? 14 : 10)) // 设置不同的字体大小
+        {
+            // 绘制文本
+            e.Graphics.DrawString(tabText, tabFont, new SolidBrush(textColor), e.Bounds.X + 3, e.Bounds.Y + 3);
+        }
+    }
+    private void tabControl1_SelectedIndexChanged_1(object sender, EventArgs e)
+    {
+        for (int i = 0; i < tabControl1.TabCount; i++)
+        {
+            tabControl1.TabPages[i].Font = new Font(tabControl1.Font.FontFamily, (i == tabControl1.SelectedIndex) ? 14 : 10);
+        }
+    }
+
+    private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
+    {
+        // 绘制标签页的标题文本
+        TabControl tabControl = (TabControl)sender;
+        TabPage tabPage = tabControl.TabPages[e.Index];
+        string tabText = tabPage.Text;
+
+        // 根据选中状态设置文本颜色
+        Color textColor = (e.State == DrawItemState.Selected) ? SystemColors.ControlText : SystemColors.GrayText;
+
+        // 使用自定义字体绘制标签页文本
+        using (Font tabFont = new Font(tabControl.Font.FontFamily, (e.State == DrawItemState.Selected) ? 10 : 9)) // 设置不同的字体大小
+        {
+            // 绘制文本
+            e.Graphics.DrawString(tabText, tabFont, new SolidBrush(textColor), e.Bounds.X + 3, e.Bounds.Y + 3);
+        }
     }
 }
