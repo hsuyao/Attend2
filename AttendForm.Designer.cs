@@ -76,6 +76,17 @@ partial class AttendForm
         label10 = new Label();
         tbSheet1WeekCat2 = new TextBox();
         tbSheet1WeekCat1 = new TextBox();
+        tabPage2 = new TabPage();
+        lbClrHdr2 = new Label();
+        lbClrHdr1 = new Label();
+        lbClrNeg = new Label();
+        lbClrPos = new Label();
+        lbClrStat2 = new Label();
+        lbClrStat1 = new Label();
+        label18 = new Label();
+        label9 = new Label();
+        label8 = new Label();
+        label7 = new Label();
         rbWeek = new RadioButton();
         rbMonth = new RadioButton();
         rbHalfYear = new RadioButton();
@@ -91,11 +102,14 @@ partial class AttendForm
         btnRemoveFile = new Button();
         lbFileInfo = new ListBox();
         btnAddNewFile = new Button();
+        label19 = new Label();
+        label20 = new Label();
         tabControl2.SuspendLayout();
         tabPage5.SuspendLayout();
         tabPage6.SuspendLayout();
         groupBox2.SuspendLayout();
         groupBox3.SuspendLayout();
+        tabPage2.SuspendLayout();
         groupBox1.SuspendLayout();
         tableLayoutPanel1.SuspendLayout();
         tabControl1.SuspendLayout();
@@ -108,6 +122,7 @@ partial class AttendForm
         // 
         tabControl2.Controls.Add(tabPage5);
         tabControl2.Controls.Add(tabPage6);
+        tabControl2.Controls.Add(tabPage2);
         tabControl2.Location = new Point(437, 3);
         tabControl2.Name = "tabControl2";
         tabControl2.SelectedIndex = 0;
@@ -580,6 +595,123 @@ partial class AttendForm
         tbSheet1WeekCat1.TabIndex = 0;
         tbSheet1WeekCat1.Text = "本週到會";
         // 
+        // tabPage2
+        // 
+        tabPage2.Controls.Add(label20);
+        tabPage2.Controls.Add(label19);
+        tabPage2.Controls.Add(lbClrHdr2);
+        tabPage2.Controls.Add(lbClrHdr1);
+        tabPage2.Controls.Add(lbClrNeg);
+        tabPage2.Controls.Add(lbClrPos);
+        tabPage2.Controls.Add(lbClrStat2);
+        tabPage2.Controls.Add(lbClrStat1);
+        tabPage2.Controls.Add(label18);
+        tabPage2.Controls.Add(label9);
+        tabPage2.Controls.Add(label8);
+        tabPage2.Controls.Add(label7);
+        tabPage2.Location = new Point(4, 24);
+        tabPage2.Name = "tabPage2";
+        tabPage2.Size = new Size(538, 127);
+        tabPage2.TabIndex = 2;
+        tabPage2.Text = "Color";
+        tabPage2.UseVisualStyleBackColor = true;
+        // 
+        // lbClrHdr2
+        // 
+        lbClrHdr2.BackColor = Color.Black;
+        lbClrHdr2.Location = new Point(201, 41);
+        lbClrHdr2.Name = "lbClrHdr2";
+        lbClrHdr2.Size = new Size(64, 16);
+        lbClrHdr2.TabIndex = 41;
+        lbClrHdr2.Text = "#ECF5FF";
+        lbClrHdr2.Click += lbClrHdr2_Click_1;
+        // 
+        // lbClrHdr1
+        // 
+        lbClrHdr1.BackColor = Color.Black;
+        lbClrHdr1.Location = new Point(201, 6);
+        lbClrHdr1.Name = "lbClrHdr1";
+        lbClrHdr1.Size = new Size(64, 16);
+        lbClrHdr1.TabIndex = 40;
+        lbClrHdr1.Text = "#E2E9FF";
+        lbClrHdr1.Click += lbClrHdr1_Click_1;
+        // 
+        // lbClrNeg
+        // 
+        lbClrNeg.BackColor = Color.Black;
+        lbClrNeg.Location = new Point(50, 104);
+        lbClrNeg.Name = "lbClrNeg";
+        lbClrNeg.Size = new Size(64, 15);
+        lbClrNeg.TabIndex = 39;
+        lbClrNeg.Text = "#FFD2D2";
+        lbClrNeg.Click += lbClrNeg_Click;
+        // 
+        // lbClrPos
+        // 
+        lbClrPos.BackColor = Color.Black;
+        lbClrPos.Location = new Point(50, 75);
+        lbClrPos.Name = "lbClrPos";
+        lbClrPos.Size = new Size(64, 15);
+        lbClrPos.TabIndex = 38;
+        lbClrPos.Text = "#2CEF90";
+        lbClrPos.Click += lbClrPos_Click;
+        // 
+        // lbClrStat2
+        // 
+        lbClrStat2.BackColor = Color.Black;
+        lbClrStat2.Location = new Point(50, 42);
+        lbClrStat2.Name = "lbClrStat2";
+        lbClrStat2.Size = new Size(64, 14);
+        lbClrStat2.TabIndex = 37;
+        lbClrStat2.Text = "#9DBDDC";
+        lbClrStat2.Click += lbClrHdr2_Click;
+        // 
+        // lbClrStat1
+        // 
+        lbClrStat1.BackColor = Color.Black;
+        lbClrStat1.Location = new Point(50, 10);
+        lbClrStat1.Name = "lbClrStat1";
+        lbClrStat1.Size = new Size(64, 16);
+        lbClrStat1.TabIndex = 36;
+        lbClrStat1.Text = "#91CBE8";
+        lbClrStat1.Click += lbClrHdr1_Click;
+        // 
+        // label18
+        // 
+        label18.AutoSize = true;
+        label18.Location = new Point(3, 104);
+        label18.Name = "label18";
+        label18.Size = new Size(46, 15);
+        label18.TabIndex = 31;
+        label18.Text = "負變化:";
+        // 
+        // label9
+        // 
+        label9.AutoSize = true;
+        label9.Location = new Point(3, 75);
+        label9.Name = "label9";
+        label9.Size = new Size(46, 15);
+        label9.TabIndex = 30;
+        label9.Text = "正變化:";
+        // 
+        // label8
+        // 
+        label8.AutoSize = true;
+        label8.Location = new Point(3, 42);
+        label8.Name = "label8";
+        label8.Size = new Size(41, 15);
+        label8.TabIndex = 29;
+        label8.Text = "統計2:";
+        // 
+        // label7
+        // 
+        label7.AutoSize = true;
+        label7.Location = new Point(3, 11);
+        label7.Name = "label7";
+        label7.Size = new Size(41, 15);
+        label7.TabIndex = 28;
+        label7.Text = "統計1:";
+        // 
         // rbWeek
         // 
         rbWeek.AutoSize = true;
@@ -756,6 +888,24 @@ partial class AttendForm
         btnAddNewFile.UseVisualStyleBackColor = false;
         btnAddNewFile.Click += btnAddNewFile_Click;
         // 
+        // label19
+        // 
+        label19.AutoSize = true;
+        label19.Location = new Point(154, 6);
+        label19.Name = "label19";
+        label19.Size = new Size(34, 15);
+        label19.TabIndex = 42;
+        label19.Text = "小區:";
+        // 
+        // label20
+        // 
+        label20.AutoSize = true;
+        label20.Location = new Point(154, 42);
+        label20.Name = "label20";
+        label20.Size = new Size(34, 15);
+        label20.TabIndex = 43;
+        label20.Text = "分類:";
+        // 
         // AttendForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -775,6 +925,8 @@ partial class AttendForm
         groupBox2.PerformLayout();
         groupBox3.ResumeLayout(false);
         groupBox3.PerformLayout();
+        tabPage2.ResumeLayout(false);
+        tabPage2.PerformLayout();
         groupBox1.ResumeLayout(false);
         groupBox1.PerformLayout();
         tableLayoutPanel1.ResumeLayout(false);
@@ -855,4 +1007,17 @@ partial class AttendForm
     private Button btnRemoveFile;
     private TabPage tabPage1;
     private DataGridView dataGridView1;
+    private TabPage tabPage2;
+    private Label label18;
+    private Label label9;
+    private Label label8;
+    private Label label7;
+    private Label lbClrPos;
+    private Label lbClrStat2;
+    private Label lbClrStat1;
+    private Label lbClrNeg;
+    private Label lbClrHdr2;
+    private Label lbClrHdr1;
+    private Label label20;
+    private Label label19;
 }

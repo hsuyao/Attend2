@@ -73,7 +73,13 @@ namespace Attend
         public bool CbIgnoreElementarySchool { get; set; }
         public bool CkbCompare { get; set; }
         public bool CkbFwdBwd { get; set; }
-        public string TbFontSize { get; set; } 
+        public string TbFontSize { get; set; }
+        public string LbClrHdr1 { get; set; }
+        public string LbClrHdr2 { get; set; }
+        public string LbClrPos { get; set; }
+        public string LbClrNeg { get; set; }
+        public string LbClrStat1 { get; set; }
+        public string LbClrStat2 { get; set; }
         // ... 其他控件
     }
     internal class DataGridViewData

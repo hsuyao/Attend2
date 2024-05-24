@@ -27,12 +27,14 @@ public partial class AttendForm : Form
     private List<AttendanceRecord> records;
     private Dictionary<string, int> attendanceSummary;
     public List<string> FileNames { get; private set; }
+    ColorDialog colorDialog;
     Size originalFormSize;
     Size originalTabControlSize;
     Size originalDataGridViewSize;
     public AttendForm()
     {
         InitializeComponent();
+        colorDialog = new ColorDialog();
         FileNames = new List<string>();
         // 記錄原始的大小
         originalFormSize = this.Size;
@@ -112,7 +114,8 @@ public partial class AttendForm : Form
         else if (weekPart.Contains("第四週"))
         {
             weekNumber = 4;
-        }else if (weekPart.Contains("第五週"))
+        }
+        else if (weekPart.Contains("第五週"))
         {
             weekNumber = 4;
         }
@@ -248,7 +251,23 @@ public partial class AttendForm : Form
         }
         return false;
     }
+    private static XSSFColor HexToXSSFColor(string hexColor)
+    {
+        // Remove the hash at the front if it's there
+        if (hexColor.StartsWith("#"))
+        {
+            hexColor = hexColor.Substring(1);
+        }
 
+        // Convert hex string to Color
+        Color color = ColorTranslator.FromHtml("#" + hexColor);
+
+        // Convert Color to byte array
+        byte[] rgb = new byte[] { color.R, color.G, color.B };
+
+        // Create XSSFColor from the byte array
+        return new XSSFColor(rgb);
+    }
     private string ReadFirstCell(string filePath)
     {
         try
@@ -351,8 +370,8 @@ public partial class AttendForm : Form
         var districtIdentitySums = new Dictionary<string, double>();
 
         // 建立顏色
-        var lightBlue = new XSSFColor(new byte[] { 145, 203, 232 });
-        var navyBlue = new XSSFColor(new byte[] { 157, 189, 220 });
+        var lightBlue = HexToXSSFColor(lbClrStat1.Text);
+        var navyBlue = HexToXSSFColor(lbClrStat2.Text);
 
         bool isLightBlue = true;
 
@@ -1232,8 +1251,8 @@ public partial class AttendForm : Form
                 }
             }
         }
-        ColorRow(sheet, 0, "#E2E9FF");
-        ColorRow(sheet, 1, "#ECF5FF");
+        ColorRow(sheet, 0, lbClrHdr1.Text);
+        ColorRow(sheet, 1, lbClrHdr2.Text);
         MergeCells(sheet, 0);
     }
     public void ColorRow(ISheet sheet, int rowNum, string colorCode)
@@ -1385,8 +1404,8 @@ public partial class AttendForm : Form
         ISheet compareSheet = workbook.GetSheet(compareSheetName);
 
         // Define the colors
-        XSSFColor lightGreen = new XSSFColor(new byte[] { 44, 238, 144 }); // light green
-        XSSFColor lightRed = new XSSFColor(new byte[] { 255, 210, 210 }); // light red
+        XSSFColor lightGreen = HexToXSSFColor(lbClrPos.Text);
+        XSSFColor lightRed = HexToXSSFColor(lbClrNeg.Text);
 
         // Loop through columns
         for (int col = 1; col < mainSheet.GetRow(0).LastCellNum; col++)
@@ -1637,13 +1656,47 @@ public partial class AttendForm : Form
             ckbCompare.Checked = controlState.CkbCompare;
             ckbFwdBwd.Checked = controlState.CkbFwdBwd;
             tbFontSize.Text = controlState.TbFontSize;
+            lbClrStat1.Text = controlState.LbClrHdr1;
+            lbClrStat1.BackColor = ColorTranslator.FromHtml(lbClrStat1.Text);
+            lbClrStat2.Text = controlState.LbClrHdr2;
+            lbClrStat2.BackColor = ColorTranslator.FromHtml(lbClrStat2.Text);
+            lbClrPos.Text = controlState.LbClrPos;
+            lbClrPos.BackColor = ColorTranslator.FromHtml(lbClrPos.Text);
+            lbClrNeg.Text = controlState.LbClrNeg;
+            lbClrNeg.BackColor = ColorTranslator.FromHtml(lbClrNeg.Text);
+            lbClrHdr1.Text = controlState.LbClrHdr1;
+            lbClrHdr1.BackColor = ColorTranslator.FromHtml(lbClrHdr1.Text);
+            lbClrHdr2.Text = controlState.LbClrHdr2;
+            lbClrHdr2.BackColor = ColorTranslator.FromHtml(lbClrHdr2.Text);
+
             // ... 其他控件
+        }
+        else
+        {
+            lbClrStat1.BackColor = ColorTranslator.FromHtml(lbClrStat1.Text);
+            lbClrStat2.BackColor = ColorTranslator.FromHtml(lbClrStat2.Text);
+            lbClrPos.BackColor = ColorTranslator.FromHtml(lbClrPos.Text);
+            lbClrNeg.BackColor = ColorTranslator.FromHtml(lbClrNeg.Text);
+            lbClrHdr1.BackColor = ColorTranslator.FromHtml(lbClrHdr1.Text);
+            lbClrHdr2.BackColor = ColorTranslator.FromHtml(lbClrHdr2.Text);
         }
 
         //  LoadDataGridViews();
 
     }
-
+    private void SetBackColorFromHex(TextBox textBox, string hexColor)
+    {
+        try
+        {
+            Color color = ColorTranslator.FromHtml(hexColor);
+            textBox.BackColor = color;
+            textBox.Text = hexColor.ToUpper();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Invalid color format: {hexColor}. Error: {ex.Message}");
+        }
+    }
     private void AttendForm_FormClosing(object sender, FormClosingEventArgs e)
     {
         var controlState = new ControlState
@@ -1681,6 +1734,10 @@ public partial class AttendForm : Form
             CkbCompare = ckbCompare.Checked,
             CkbFwdBwd = ckbFwdBwd.Checked,
             TbFontSize = tbFontSize.Text,
+            LbClrHdr1 = lbClrStat1.Text,
+            LbClrHdr2 = lbClrStat2.Text,
+            LbClrNeg = lbClrNeg.Text,
+            LbClrPos = lbClrPos.Text,
             // ... 其他控件
         };
 
@@ -1777,5 +1834,58 @@ public partial class AttendForm : Form
             FileNames.RemoveAt(lbFileInfo.SelectedIndex);
             lbFileInfo.Items.RemoveAt(lbFileInfo.SelectedIndex);
         }
+    }
+
+    private void ColorPicker(object sender, EventArgs e)
+    {
+        Label lbClr = sender as Label;
+
+        Color initialColor = ColorTranslator.FromHtml(lbClr.Text);
+        colorDialog.Color = initialColor;
+
+        if (colorDialog.ShowDialog() == DialogResult.OK)
+        {
+            // Get the selected color
+            Color selectedColor = colorDialog.Color;
+
+            // Update the TextBox background color and text
+            lbClr.BackColor = selectedColor;
+            lbClr.Text = ColorToHex(selectedColor);
+        }
+
+    }
+    private string ColorToHex(Color color)
+    {
+        return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+    }
+
+    private void lbClrHdr1_Click(object sender, EventArgs e)
+    {
+        ColorPicker(sender, e);
+    }
+
+    private void lbClrHdr2_Click(object sender, EventArgs e)
+    {
+        ColorPicker(sender, e);
+    }
+
+    private void lbClrPos_Click(object sender, EventArgs e)
+    {
+        ColorPicker(sender, e);
+    }
+
+    private void lbClrNeg_Click(object sender, EventArgs e)
+    {
+        ColorPicker(sender, e);
+    }
+
+    private void lbClrHdr1_Click_1(object sender, EventArgs e)
+    {
+        ColorPicker(sender, e);
+    }
+
+    private void lbClrHdr2_Click_1(object sender, EventArgs e)
+    {
+        ColorPicker(sender, e);
     }
 }
