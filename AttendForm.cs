@@ -63,7 +63,7 @@ public partial class AttendForm : Form
         if (existingIndex != -1)
         {
             // Record already exists, update it with Attendance = 1 if different
-            records[existingIndex].Attendance = newRecord.Attendance|records[existingIndex].Attendance;
+            records[existingIndex].Attendance = newRecord.Attendance | records[existingIndex].Attendance;
         }
         else
         {
@@ -81,7 +81,7 @@ public partial class AttendForm : Form
                                           .FirstOrDefault();
                 if (oldestRecord != null)
                 {
-                    records.Remove(oldestRecord);
+                    records.Remove(oldestRecord); // Remove the oldest record
                 }
                 records.Add(newRecord);
             }
@@ -89,6 +89,7 @@ public partial class AttendForm : Form
 
         // Update UI or perform other actions after successful addition or update
     }
+
 
     private DateTime ParseCustomDate(string date)
     {
@@ -785,31 +786,33 @@ public partial class AttendForm : Form
         foreach (DataGridViewColumn column in dgv.Columns)
         {
             // Extract cell values and their corresponding dictionary values
-            var cellValuesWithDictValues = new List<Tuple<string, int>>();
+            var cellValuesWithDictValues = new List<Tuple<string, int, DataGridViewCellStyle>>();
 
             for (int rowIndex = startRow; rowIndex < dgv.Rows.Count; rowIndex++)
             {
                 var cell = dgv.Rows[rowIndex].Cells[column.Index];
                 var cellValue = cell.Value != null ? cell.Value.ToString() : null;
+                var cellStyle = cell.Style.Clone(); // Clone the cell style
 
                 if (cellValue != null && valueDict.TryGetValue(cellValue, out int dictValue))
                 {
-                    cellValuesWithDictValues.Add(System.Tuple.Create(cellValue, dictValue));
+                    cellValuesWithDictValues.Add(Tuple.Create(cellValue, dictValue, cellStyle));
                 }
                 else
                 {
                     // Handle cases where the cell value is null or not found in the dictionary
-                    cellValuesWithDictValues.Add(System.Tuple.Create(cellValue, int.MinValue));
+                    cellValuesWithDictValues.Add(Tuple.Create(cellValue, int.MinValue, cellStyle));
                 }
             }
 
             // Sort based on the dictionary values in descending order
-            var sortedValues = cellValuesWithDictValues.OrderByDescending(t => t.Item2).Select(t => t.Item1).ToList();
+            var sortedValues = cellValuesWithDictValues.OrderByDescending(t => t.Item2).ToList();
 
             // Apply the sorted values back to the DataGridView
             for (int rowIndex = startRow; rowIndex < dgv.Rows.Count; rowIndex++)
             {
-                dgv.Rows[rowIndex].Cells[column.Index].Value = sortedValues[rowIndex - startRow];
+                dgv.Rows[rowIndex].Cells[column.Index].Value = sortedValues[rowIndex - startRow].Item1;
+                dgv.Rows[rowIndex].Cells[column.Index].Style = sortedValues[rowIndex - startRow].Item3; // Set the cell style
             }
         }
     }
