@@ -638,6 +638,7 @@ partial class AttendForm
         // lbClrHdr2
         // 
         lbClrHdr2.BackColor = Color.Black;
+        lbClrHdr2.BorderStyle = BorderStyle.Fixed3D;
         lbClrHdr2.Location = new Point(201, 41);
         lbClrHdr2.Name = "lbClrHdr2";
         lbClrHdr2.Size = new Size(64, 16);
@@ -648,6 +649,7 @@ partial class AttendForm
         // lbClrHdr1
         // 
         lbClrHdr1.BackColor = Color.Black;
+        lbClrHdr1.BorderStyle = BorderStyle.Fixed3D;
         lbClrHdr1.Location = new Point(201, 6);
         lbClrHdr1.Name = "lbClrHdr1";
         lbClrHdr1.Size = new Size(64, 16);
@@ -658,6 +660,7 @@ partial class AttendForm
         // lbClrNeg
         // 
         lbClrNeg.BackColor = Color.Black;
+        lbClrNeg.BorderStyle = BorderStyle.Fixed3D;
         lbClrNeg.Location = new Point(50, 104);
         lbClrNeg.Name = "lbClrNeg";
         lbClrNeg.Size = new Size(64, 15);
@@ -668,6 +671,7 @@ partial class AttendForm
         // lbClrPos
         // 
         lbClrPos.BackColor = Color.Black;
+        lbClrPos.BorderStyle = BorderStyle.Fixed3D;
         lbClrPos.Location = new Point(50, 75);
         lbClrPos.Name = "lbClrPos";
         lbClrPos.Size = new Size(64, 15);
@@ -678,6 +682,7 @@ partial class AttendForm
         // lbClrStat2
         // 
         lbClrStat2.BackColor = Color.Black;
+        lbClrStat2.BorderStyle = BorderStyle.Fixed3D;
         lbClrStat2.Location = new Point(50, 42);
         lbClrStat2.Name = "lbClrStat2";
         lbClrStat2.Size = new Size(64, 14);
@@ -688,6 +693,7 @@ partial class AttendForm
         // lbClrStat1
         // 
         lbClrStat1.BackColor = Color.Black;
+        lbClrStat1.BorderStyle = BorderStyle.Fixed3D;
         lbClrStat1.Location = new Point(50, 10);
         lbClrStat1.Name = "lbClrStat1";
         lbClrStat1.Size = new Size(64, 16);
@@ -803,11 +809,11 @@ partial class AttendForm
         // btnCalculateAllExcel
         // 
         btnCalculateAllExcel.BackColor = SystemColors.ActiveCaption;
-        btnCalculateAllExcel.Font = new Font("Microsoft JhengHei UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 136);
-        btnCalculateAllExcel.Location = new Point(246, 8);
+        btnCalculateAllExcel.Font = new Font("Microsoft JhengHei UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 136);
+        btnCalculateAllExcel.Location = new Point(246, 2);
         btnCalculateAllExcel.Margin = new Padding(2);
         btnCalculateAllExcel.Name = "btnCalculateAllExcel";
-        btnCalculateAllExcel.Size = new Size(42, 153);
+        btnCalculateAllExcel.Size = new Size(42, 159);
         btnCalculateAllExcel.TabIndex = 36;
         btnCalculateAllExcel.Text = "統計已選擇檔案";
         btnCalculateAllExcel.UseVisualStyleBackColor = false;
@@ -882,9 +888,9 @@ partial class AttendForm
         // btnRemoveFile
         // 
         btnRemoveFile.BackColor = SystemColors.ActiveCaption;
-        btnRemoveFile.Location = new Point(126, 9);
+        btnRemoveFile.Location = new Point(126, 3);
         btnRemoveFile.Name = "btnRemoveFile";
-        btnRemoveFile.Size = new Size(115, 25);
+        btnRemoveFile.Size = new Size(115, 31);
         btnRemoveFile.TabIndex = 41;
         btnRemoveFile.Text = "移除檔案";
         btnRemoveFile.UseVisualStyleBackColor = false;
@@ -902,9 +908,9 @@ partial class AttendForm
         // btnAddNewFile
         // 
         btnAddNewFile.BackColor = SystemColors.ActiveCaption;
-        btnAddNewFile.Location = new Point(9, 9);
+        btnAddNewFile.Location = new Point(9, 0);
         btnAddNewFile.Name = "btnAddNewFile";
-        btnAddNewFile.Size = new Size(111, 25);
+        btnAddNewFile.Size = new Size(111, 34);
         btnAddNewFile.TabIndex = 39;
         btnAddNewFile.Text = "新增檔案";
         btnAddNewFile.UseVisualStyleBackColor = false;

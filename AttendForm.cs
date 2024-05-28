@@ -35,6 +35,7 @@ public partial class AttendForm : Form
     {
         InitializeComponent();
         colorDialog = new ColorDialog();
+        colorDialog.FullOpen = true;
         FileNames = new List<string>();
         // 記錄原始的大小
         originalFormSize = this.Size;
@@ -117,7 +118,7 @@ public partial class AttendForm : Form
         }
         else if (weekPart.Contains("第五週"))
         {
-            weekNumber = 4;
+            weekNumber = 5;
         }
 
         // Calculate the date of the first day of the specified week
@@ -370,10 +371,11 @@ public partial class AttendForm : Form
         var districtIdentitySums = new Dictionary<string, double>();
 
         // 建立顏色
-        var lightBlue = HexToXSSFColor(lbClrStat1.Text);
-        var navyBlue = HexToXSSFColor(lbClrStat2.Text);
+        var ClrStat1 = HexToXSSFColor(lbClrStat1.Text);
+        var ClrStat2 = HexToXSSFColor(lbClrStat2.Text);
+       
 
-        bool isLightBlue = true;
+        bool isColor1 = true;
 
         foreach (var key in result.Keys)
         {
@@ -446,13 +448,13 @@ public partial class AttendForm : Form
                 XSSFCellStyle style = (XSSFCellStyle)workbook.CreateCellStyle();
                 // style.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
                 style.VerticalAlignment = VerticalAlignment.Center;
-                if (isLightBlue == true)
+                if (isColor1 == true)
                 {
-                    style.SetFillForegroundColor(lightBlue);
+                    style.SetFillForegroundColor(ClrStat2);
                 }
                 else
                 {
-                    style.SetFillForegroundColor(navyBlue);
+                    style.SetFillForegroundColor(ClrStat1);
                 }
 
                 style.FillPattern = FillPattern.SolidForeground;
@@ -463,7 +465,7 @@ public partial class AttendForm : Form
             }
             XSSFCellStyle style0 = (XSSFCellStyle)workbook.CreateCellStyle();
             style0.VerticalAlignment = VerticalAlignment.Center;
-            style0.SetFillForegroundColor(navyBlue);
+            style0.SetFillForegroundColor(ClrStat1);
             style0.FillPattern = FillPattern.SolidForeground;
             for (int i = startColumn; i <= startColumn + 2; i++)
             {
@@ -471,7 +473,7 @@ public partial class AttendForm : Form
             }
 
             // 切換顏色
-            isLightBlue = !isLightBlue;
+            isColor1 = !isColor1;
         }
 
         MergeColumnCells(sheet, startColumn);
@@ -1734,8 +1736,10 @@ public partial class AttendForm : Form
             CkbCompare = ckbCompare.Checked,
             CkbFwdBwd = ckbFwdBwd.Checked,
             TbFontSize = tbFontSize.Text,
-            LbClrHdr1 = lbClrStat1.Text,
-            LbClrHdr2 = lbClrStat2.Text,
+            LbClrStat1 = lbClrStat1.Text,
+            LbClrStat2 = lbClrStat2.Text,
+            LbClrHdr1 = lbClrHdr1.Text,
+            LbClrHdr2 = lbClrHdr2.Text,
             LbClrNeg = lbClrNeg.Text,
             LbClrPos = lbClrPos.Text,
             // ... 其他控件
