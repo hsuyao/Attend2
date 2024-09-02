@@ -731,7 +731,7 @@ public partial class AttendForm : Form
             {
                 if (row.GetCell(j) != null)
                 {
-                    dataRow[j] = row.GetCell(j).ToString();
+                    dataRow[j] = RemoveParentheses(row.GetCell(j).ToString());
                 }
             }
 
@@ -791,7 +791,7 @@ public partial class AttendForm : Form
                     {
                         if (range.IsInRange(i, j))
                         {
-                            dataGridView.Rows[i].Cells[j].Value = sheet.GetRow(range.FirstRow).GetCell(range.FirstColumn).ToString();
+                            dataGridView.Rows[i].Cells[j].Value = RemoveParentheses(sheet.GetRow(range.FirstRow).GetCell(range.FirstColumn).ToString());
                             break;
                         }
                     }
@@ -801,6 +801,13 @@ public partial class AttendForm : Form
         SortDataGridViewByDictionary(dataGridView, attendanceSummary, 2);
         AdjustDataGridViewByColor(dataGridView, 2);
     }
+
+    private string RemoveParentheses(string input)
+    {
+        // 使用正則表達式移除全形和半形括號及其中的內容
+        return System.Text.RegularExpressions.Regex.Replace(input, @"[（(][^）)]*[）)]", string.Empty);
+    }
+
     public void SortDataGridViewByDictionary(DataGridView dgv, Dictionary<string, int> valueDict, int startRow)
     {
         // Iterate through each column
