@@ -1417,10 +1417,10 @@ public partial class AttendForm : Form
         XSSFColor lightRed = HexToXSSFColor(lbClrNeg.Text);
 
         // Loop through columns
-        for (int col = 1; col < mainSheet.GetRow(0).LastCellNum; col++)
+        for (int col = 0; col < mainSheet.GetRow(0).LastCellNum; col++)
         {
             // Compare column
-            for (int row = 2; row <= mainSheet.LastRowNum; row++)
+            for (int row = 1; row <= mainSheet.LastRowNum; row++)
             {
                 ICell mainCell = mainSheet.GetRow(row)?.GetCell(col);
                 string mainCellValue = mainCell?.ToString() ?? string.Empty;
