@@ -816,7 +816,7 @@ public partial class AttendForm : Form
             // Extract cell values and their corresponding dictionary values
             var cellValuesWithDictValues = new List<Tuple<string, int, DataGridViewCellStyle>>();
 
-            for (int rowIndex = startRow; rowIndex < dgv.Rows.Count; rowIndex++)
+            for (int rowIndex = startRow; rowIndex <= dgv.Rows.Count - 1; rowIndex++) // Include the last row
             {
                 var cell = dgv.Rows[rowIndex].Cells[column.Index];
                 var cellValue = cell.Value != null ? cell.Value.ToString() : null;
@@ -837,38 +837,56 @@ public partial class AttendForm : Form
             var sortedValues = cellValuesWithDictValues.OrderByDescending(t => t.Item2).ToList();
 
             // Apply the sorted values back to the DataGridView
-            for (int rowIndex = startRow; rowIndex < dgv.Rows.Count; rowIndex++)
+            for (int rowIndex = startRow; rowIndex <= dgv.Rows.Count - 1; rowIndex++) // Include the last row
             {
                 dgv.Rows[rowIndex].Cells[column.Index].Value = sortedValues[rowIndex - startRow].Item1;
                 dgv.Rows[rowIndex].Cells[column.Index].Style = sortedValues[rowIndex - startRow].Item3; // Set the cell style
             }
         }
     }
+
     public void AdjustDataGridViewByColor(DataGridView dgv, int startRow)
     {
         for (int col = 0; col < dgv.Columns.Count; col++)
         {
-            int insertIndex = startRow;
+            List<object> coloredCells = new List<object>();
+            List<System.Drawing.Color> coloredCellColors = new List<System.Drawing.Color>();
+            List<object> nonColoredCells = new List<object>();
+
+            // 先備份所有的格子
             for (int row = startRow; row < dgv.Rows.Count; row++)
             {
                 DataGridViewCell cell = dgv.Rows[row].Cells[col];
                 if (cell.Style.BackColor != System.Drawing.Color.Empty)
                 {
-                    // Swap cells
-                    object temp = dgv.Rows[insertIndex].Cells[col].Value;
-                    System.Drawing.Color tempColor = dgv.Rows[insertIndex].Cells[col].Style.BackColor;
-
-                    dgv.Rows[insertIndex].Cells[col].Value = cell.Value;
-                    dgv.Rows[insertIndex].Cells[col].Style.BackColor = cell.Style.BackColor;
-
-                    cell.Value = temp;
-                    cell.Style.BackColor = tempColor;
-
-                    insertIndex++;
+                    coloredCells.Add(cell.Value);
+                    coloredCellColors.Add(cell.Style.BackColor);
                 }
+                else
+                {
+                    nonColoredCells.Add(cell.Value);
+                }
+            }
+
+            // 把有顏色的格子先填上去
+            int insertIndex = startRow;
+            for (int i = 0; i < coloredCells.Count; i++)
+            {
+                dgv.Rows[insertIndex].Cells[col].Value = coloredCells[i];
+                dgv.Rows[insertIndex].Cells[col].Style.BackColor = coloredCellColors[i];
+                insertIndex++;
+            }
+
+            // 把沒顏色的格子填在後面
+            for (int i = 0; i < nonColoredCells.Count; i++)
+            {
+                dgv.Rows[insertIndex].Cells[col].Value = nonColoredCells[i];
+                dgv.Rows[insertIndex].Cells[col].Style.BackColor = System.Drawing.Color.Empty;
+                insertIndex++;
             }
         }
     }
+
 
 
     private List<string> GroupByMonth(ISheet sheet)
