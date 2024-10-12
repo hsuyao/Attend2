@@ -25,7 +25,7 @@ public partial class AttendForm : Form
 {
     HSSFWorkbook workbook;
     private List<AttendanceRecord> records;
-    private Dictionary<string, int> attendanceSummary;
+    private Dictionary<string, Dictionary<string, object>> attendanceSummary;
     public List<string> FileNames { get; private set; }
     ColorDialog colorDialog;
     Size originalFormSize;
@@ -42,20 +42,30 @@ public partial class AttendForm : Form
         originalTabControlSize = tabControl1.Size;
         originalDataGridViewSize = tabControl1.Size; // dgvResult1.Size;
         LoadAttendanceRecords();
-        attendanceSummary = new Dictionary<string, int>();
+        attendanceSummary = new Dictionary<string, Dictionary<string, object>>();
         CalculateAttendanceSummary();
     }
     private void CalculateAttendanceSummary()
     {
-        attendanceSummary.Clear(); // Clear existing summary
+        attendanceSummary.Clear();
 
-        var summaryData = records.GroupBy(r => r.Name)
-            .Select(group => new { Name = group.Key, TotalAttendance = group.Sum(record => record.Attendance) })
-            .ToList();
-
-        foreach (var item in summaryData)
+        foreach (var record in records)
         {
-            attendanceSummary[item.Name] = item.TotalAttendance;
+            if (!attendanceSummary.ContainsKey(record.Name))
+            {
+                attendanceSummary[record.Name] = new Dictionary<string, object>
+            {
+                { "TotalAttendance", 0 },
+                { "LastAttendDate", "無近期紀錄" }
+            };
+            }
+
+            attendanceSummary[record.Name]["TotalAttendance"] = (int)attendanceSummary[record.Name]["TotalAttendance"] + record.Attendance;
+
+            if (record.Attendance == 1)
+            {
+                attendanceSummary[record.Name]["LastAttendDate"] = record.Date;
+            }
         }
     }
     public void AddNewRecord(AttendanceRecord newRecord)
@@ -808,39 +818,40 @@ public partial class AttendForm : Form
         return System.Text.RegularExpressions.Regex.Replace(input, @"[（(][^）)]*[）)]", string.Empty);
     }
 
-    public void SortDataGridViewByDictionary(DataGridView dgv, Dictionary<string, int> valueDict, int startRow)
+    public void SortDataGridViewByDictionary(DataGridView dgv, Dictionary<string, Dictionary<string, object>> attendanceSummary, int startRow)
     {
-        // Iterate through each column
+        // 迭代每個欄位
         foreach (DataGridViewColumn column in dgv.Columns)
         {
-            // Extract cell values and their corresponding dictionary values
+            // 提取儲存格值及其對應的字典值
             var cellValuesWithDictValues = new List<Tuple<string, int, DataGridViewCellStyle>>();
-
-            for (int rowIndex = startRow; rowIndex <= dgv.Rows.Count - 1; rowIndex++) // Include the last row
+            for (int rowIndex = startRow; rowIndex <= dgv.Rows.Count - 1; rowIndex++) // 包含最後一行
             {
                 var cell = dgv.Rows[rowIndex].Cells[column.Index];
                 var cellValue = cell.Value != null ? cell.Value.ToString() : null;
-                var cellStyle = cell.Style.Clone(); // Clone the cell style
+                var cellStyle = cell.Style.Clone(); // 複製儲存格樣式
 
-                if (cellValue != null && valueDict.TryGetValue(cellValue, out int dictValue))
+                if (cellValue != null && attendanceSummary.TryGetValue(cellValue, out var dictValue))
                 {
-                    cellValuesWithDictValues.Add(Tuple.Create(cellValue, dictValue, cellStyle));
+                    // 從巢狀字典中取得 TotalAttendance
+                    int attendanceValue = (int)dictValue["TotalAttendance"];
+                    cellValuesWithDictValues.Add(Tuple.Create(cellValue, attendanceValue, cellStyle));
                 }
                 else
                 {
-                    // Handle cases where the cell value is null or not found in the dictionary
+                    // 處理儲存格值為 null 或在字典中找不到的情況
                     cellValuesWithDictValues.Add(Tuple.Create(cellValue, int.MinValue, cellStyle));
                 }
             }
 
-            // Sort based on the dictionary values in descending order
+            // 根據字典值以降序排序
             var sortedValues = cellValuesWithDictValues.OrderByDescending(t => t.Item2).ToList();
 
-            // Apply the sorted values back to the DataGridView
-            for (int rowIndex = startRow; rowIndex <= dgv.Rows.Count - 1; rowIndex++) // Include the last row
+            // 將排序後的數值應用回 DataGridView
+            for (int rowIndex = startRow; rowIndex <= dgv.Rows.Count - 1; rowIndex++) // 包含最後一行
             {
                 dgv.Rows[rowIndex].Cells[column.Index].Value = sortedValues[rowIndex - startRow].Item1;
-                dgv.Rows[rowIndex].Cells[column.Index].Style = sortedValues[rowIndex - startRow].Item3; // Set the cell style
+                dgv.Rows[rowIndex].Cells[column.Index].Style = sortedValues[rowIndex - startRow].Item3; // 設定儲存格樣式
             }
         }
     }
