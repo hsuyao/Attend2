@@ -719,98 +719,103 @@ public partial class AttendForm : Form
     }
 
     private void DisplayExcelInDataGridView(ISheet sheet, DataGridView dataGridView)
+{
+    var dt = new DataTable();
+    var headerRow = sheet.GetRow(0);
+    int cellCount = headerRow.LastCellNum;
+
+    // Add columns with numeric names
+    for (int i = 0; i < cellCount; i++)
     {
-        var dt = new DataTable();
-        var headerRow = sheet.GetRow(0);
-        int cellCount = headerRow.LastCellNum;
-
-        // Add columns with numeric names
-        for (int i = 0; i < cellCount; i++)
-        {
-            DataColumn column = new DataColumn(i.ToString());
-            dt.Columns.Add(column);
-        }
-
-        // Add rows
-        for (int i = 0; i <= sheet.LastRowNum; i++)
-        {
-            var row = sheet.GetRow(i);
-            DataRow dataRow = dt.NewRow();
-
-            for (int j = 0; j < cellCount; j++)
-            {
-                if (row.GetCell(j) != null)
-                {
-                    dataRow[j] = RemoveParentheses(row.GetCell(j).ToString());
-                }
-            }
-
-            dt.Rows.Add(dataRow);
-        }
-
-        // Set the font size according to tbFontSize.Text
-        float fontSize;
-        if (float.TryParse(tbFontSize.Text, out fontSize))
-        {
-            dataGridView.DefaultCellStyle.Font = new System.Drawing.Font(dataGridView.DefaultCellStyle.Font.FontFamily, fontSize);
-        }
-        else
-        {
-            // Handle invalid font size
-            MessageBox.Show("Invalid font size.");
-        }
-
-        dataGridView.DataSource = dt;
-        dataGridView.AutoResizeColumns();
-        dataGridView.AutoResizeRows();
-        dataGridView.ColumnHeadersVisible = false;
-        dataGridView.RowHeadersVisible = false;
-
-        // Set the column captions to the values from the second row
-        if (dt.Rows.Count > 0)
-        {
-            for (int i = 0; i < dataGridView.Columns.Count; i++)
-            {
-                dataGridView.Columns[i].HeaderText = dt.Rows[0][i].ToString();
-            }
-        }
-
-        // Set cell colors and handle merged cells
-        for (int i = 0; i <= sheet.LastRowNum; i++)
-        {
-            var row = sheet.GetRow(i);
-
-            for (int j = 0; j < cellCount; j++)
-            {
-                if (row.GetCell(j) != null)
-                {
-                    // Get the color of the cell in Excel
-                    var color = row.GetCell(j).CellStyle.FillForegroundColorColor;
-
-                    if (color != null)
-                    {
-                        // Convert the color to System.Drawing.Color
-                        var drawingColor = System.Drawing.Color.FromArgb(color.RGB[0], color.RGB[1], color.RGB[2]);
-
-                        // Set the background color of the corresponding cell in DataGridView
-                        dataGridView.Rows[i].Cells[j].Style.BackColor = drawingColor;
-                    }
-
-                    // Handle merged cells
-                    foreach (var range in sheet.MergedRegions)
-                    {
-                        if (range.IsInRange(i, j))
-                        {
-                            dataGridView.Rows[i].Cells[j].Value = RemoveParentheses(sheet.GetRow(range.FirstRow).GetCell(range.FirstColumn).ToString());
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        SortDataGridViewByDictionary(dataGridView, attendanceSummary, 2);
-        AdjustDataGridViewByColor(dataGridView, 2);
+        DataColumn column = new DataColumn(i.ToString());
+        dt.Columns.Add(column);
     }
+
+    // Add rows
+    for (int i = 0; i <= sheet.LastRowNum; i++)
+    {
+        var row = sheet.GetRow(i);
+        DataRow dataRow = dt.NewRow();
+        for (int j = 0; j < cellCount; j++)
+        {
+            if (row.GetCell(j) != null)
+            {
+                dataRow[j] = RemoveParentheses(row.GetCell(j).ToString());
+            }
+        }
+        dt.Rows.Add(dataRow);
+    }
+
+    // Set the font size according to tbFontSize.Text
+    float fontSize;
+    if (float.TryParse(tbFontSize.Text, out fontSize))
+    {
+        dataGridView.DefaultCellStyle.Font = new System.Drawing.Font(dataGridView.DefaultCellStyle.Font.FontFamily, fontSize);
+    }
+    else
+    {
+        // Handle invalid font size
+        MessageBox.Show("Invalid font size.");
+    }
+
+    dataGridView.DataSource = dt;
+    dataGridView.AutoResizeColumns();
+    dataGridView.AutoResizeRows();
+    dataGridView.ColumnHeadersVisible = false;
+    dataGridView.RowHeadersVisible = false;
+
+    // Set the column captions to the values from the second row
+    if (dt.Rows.Count > 0)
+    {
+        for (int i = 0; i < dataGridView.Columns.Count; i++)
+        {
+            dataGridView.Columns[i].HeaderText = dt.Rows[i].ToString();
+        }
+    }
+
+    // Set cell colors and handle merged cells
+    for (int i = 0; i <= sheet.LastRowNum; i++)
+    {
+        var row = sheet.GetRow(i);
+        for (int j = 0; j < cellCount; j++)
+        {
+            if (row.GetCell(j) != null)
+            {
+                // Get the color of the cell in Excel
+                var color = row.GetCell(j).CellStyle.FillForegroundColorColor;
+                if (color != null)
+                {
+                    // Convert the color to System.Drawing.Color
+                    var drawingColor = System.Drawing.Color.FromArgb(color.RGB[0], color.RGB[1], color.RGB[2]);
+
+                    // Set the background color of the corresponding cell in DataGridView
+                    dataGridView.Rows[i].Cells[j].Style.BackColor = drawingColor;
+                }
+
+                // Handle merged cells
+                foreach (var range in sheet.MergedRegions)
+                {
+                    if (range.IsInRange(i, j))
+                    {
+                        dataGridView.Rows[i].Cells[j].Value = RemoveParentheses(sheet.GetRow(range.FirstRow).GetCell(range.FirstColumn).ToString());
+                        break;
+                    }
+                }
+
+                // **新增程式碼：在 cell 中寫入第二行文字**
+                if (attendanceSummary.TryGetValue(dataGridView.Rows[i].Cells[j].Value.ToString(), out var dictValue))
+                {
+                    string secondStringValue = dictValue["LastAttendDate"].ToString();
+                    dataGridView.Rows[i].Cells[j].Value = $"{dataGridView.Rows[i].Cells[j].Value}\n{secondStringValue}";
+                    dataGridView.Rows[i].Cells[j].Style.Font = new Font(dataGridView.DefaultCellStyle.Font.FontFamily, 8);
+                }
+            }
+        }
+    }
+
+    SortDataGridViewByDictionary(dataGridView, attendanceSummary, 2);
+    AdjustDataGridViewByColor(dataGridView, 2);
+}
 
     private string RemoveParentheses(string input)
     {
