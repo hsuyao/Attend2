@@ -764,8 +764,9 @@ public partial class AttendForm : Form
     dataGridView.ColumnHeadersVisible = false;
     dataGridView.RowHeadersVisible = false;
     dataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-    // Set the column captions to the values from the second row
-    if (dt.Rows.Count > 0)
+
+        // Set the column captions to the values from the second row
+        if (dt.Rows.Count > 0)
     {
         for (int i = 0; i < dataGridView.Columns.Count; i++)
         {
@@ -802,19 +803,22 @@ public partial class AttendForm : Form
                     }
                 }
 
-                // **新增程式碼：在 cell 中寫入第二行文字**
+                
                 if (attendanceSummary.TryGetValue(dataGridView.Rows[i].Cells[j].Value.ToString(), out var dictValue))
                 {
                     string secondStringValue = dictValue["LastAttendDate"].ToString();
-                    dataGridView.Rows[i].Cells[j].Value = $"{dataGridView.Rows[i].Cells[j].Value}\n{secondStringValue}";
-                    dataGridView.Rows[i].Cells[j].Style.Font = new Font(dataGridView.DefaultCellStyle.Font.FontFamily, 8);
+
+                    // 加入判斷：如果 LastAttendDate 被包含在 TabPageText 內，
+                    // SheetName是日期
+                    if (!sheet.SheetName.Contains(secondStringValue))
+                    {
+                        dataGridView.Rows[i].Cells[j].Value = $"{dataGridView.Rows[i].Cells[j].Value}\n{secondStringValue}";
+                        dataGridView.Rows[i].Cells[j].Style.Font = new Font(dataGridView.DefaultCellStyle.Font.FontFamily, fontSize/2);
+                    }
                 }
             }
         }
     }
-
-
-
 
     SortDataGridViewByDictionary(dataGridView, attendanceSummary, 2);
     AdjustDataGridViewByColor(dataGridView, 2);
