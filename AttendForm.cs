@@ -77,12 +77,12 @@ public partial class AttendForm : Form
 
         if (existingIndex != -1)
         {
-            // Record already exists, update it with Attendance = 1 if different
-            records[existingIndex].Attendance = newRecord.Attendance | records[existingIndex].Attendance;
+            // 记录已存在，更新 Attendance
+            records[existingIndex].Attendance = newRecord.Attendance;
         }
         else
         {
-            // Check if the number of records with the same Name is less than 52
+            // 检查相同姓名的记录数量是否少于 52
             int count = records.Count(r => r.Name == newRecord.Name);
             if (count < 52)
             {
@@ -90,21 +90,29 @@ public partial class AttendForm : Form
             }
             else
             {
-                // Find and remove the oldest record with the same Name
+                // 找到并移除最舊记录
                 var oldestRecord = records.Where(r => r.Name == newRecord.Name)
-                                          .OrderBy(r => ParseCustomDate(r.Date))
-                                          .FirstOrDefault();
+                    .OrderBy(r => ParseCustomDate(r.Date))
+                    .FirstOrDefault();
+
                 if (oldestRecord != null)
                 {
-                    records.Remove(oldestRecord); // Remove the oldest record
+                    // 比较 newRecord 和 oldestRecord 的日期
+                    if (ParseCustomDate(newRecord.Date) > ParseCustomDate(oldestRecord.Date))
+                    {
+                        // 仅当 newRecord 的日期较新时才移除和新增
+                        records.Remove(oldestRecord);
+                        records.Add(newRecord);
+                    }
+                    // 若 newRecord 较旧，则不进行任何操作
                 }
-                records.Add(newRecord);
+                else
+                    count = 0;
             }
         }
 
-        // Update UI or perform other actions after successful addition or update
+        // 更新 UI 或執行其他操作
     }
-
 
     private DateTime ParseCustomDate(string date)
     {
