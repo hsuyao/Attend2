@@ -763,7 +763,7 @@ public partial class AttendForm : Form
     dataGridView.AutoResizeRows();
     dataGridView.ColumnHeadersVisible = false;
     dataGridView.RowHeadersVisible = false;
-
+    dataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
     // Set the column captions to the values from the second row
     if (dt.Rows.Count > 0)
     {
@@ -812,6 +812,9 @@ public partial class AttendForm : Form
             }
         }
     }
+
+
+
 
     SortDataGridViewByDictionary(dataGridView, attendanceSummary, 2);
     AdjustDataGridViewByColor(dataGridView, 2);
