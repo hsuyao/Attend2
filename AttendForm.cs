@@ -18,6 +18,8 @@ using System.Drawing;
 using NPOI.SS.Formula.Functions;
 using NPOI.HSSF.Record;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text.RegularExpressions;
+
 
 namespace Attend;
 
@@ -759,14 +761,12 @@ public partial class AttendForm : Form
     }
 
     dataGridView.DataSource = dt;
-    dataGridView.AutoResizeColumns();
-    dataGridView.AutoResizeRows();
     dataGridView.ColumnHeadersVisible = false;
     dataGridView.RowHeadersVisible = false;
-    dataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+    // dataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
-        // Set the column captions to the values from the second row
-        if (dt.Rows.Count > 0)
+    // Set the column captions to the values from the second row
+    if (dt.Rows.Count > 0)
     {
         for (int i = 0; i < dataGridView.Columns.Count; i++)
         {
@@ -812,18 +812,66 @@ public partial class AttendForm : Form
                     // SheetName是日期
                     if (!sheet.SheetName.Contains(secondStringValue))
                     {
-                        dataGridView.Rows[i].Cells[j].Value = $"{dataGridView.Rows[i].Cells[j].Value}\n{secondStringValue}";
-                        dataGridView.Rows[i].Cells[j].Style.Font = new Font(dataGridView.DefaultCellStyle.Font.FontFamily, fontSize/2);
+                        secondStringValue = ConvertDateFormat(secondStringValue);
+                        dataGridView.Rows[i].Cells[j].Value = $"{dataGridView.Rows[i].Cells[j].Value} {secondStringValue}";
+                        dataGridView.Rows[i].Cells[j].Style.Font = new Font(dataGridView.DefaultCellStyle.Font.FontFamily, fontSize*2/3);
                     }
                 }
             }
         }
     }
-
+    dataGridView.AutoResizeColumns();
+    dataGridView.AutoResizeRows();
+    
     SortDataGridViewByDictionary(dataGridView, attendanceSummary, 2);
     AdjustDataGridViewByColor(dataGridView, 2);
 }
+    static string ConvertDateFormat(string input)
+    {
+        // 使用正則表達式解析年份、月份和週次（週次為中文數字）
+        var match = Regex.Match(input, @"(\d{4})年(\d{1,2})月第([一二三四五六七八九十]+)週");
+        if (match.Success)
+        {
+            int year = int.Parse(match.Groups[1].Value);
+            int month = int.Parse(match.Groups[2].Value);
+            string weekChinese = match.Groups[3].Value;
 
+            // 將中文數字轉換成阿拉伯數字
+            int week = ConvertChineseNumberToInteger(weekChinese);
+
+            // 取得年份的最後兩位
+            string yearShort = (year % 100).ToString("D2");
+            // 取得月份的兩位數格式
+            string monthShort = month.ToString("D2");
+            // 將週數以 'W' 為前綴
+            string weekFormat = $"W{week}";
+
+            return $"{yearShort}.{monthShort}.{weekFormat}";
+        }
+        else
+        {
+            return input;
+        }
+    }
+
+    // 中文數字轉換為阿拉伯數字的方法
+    static int ConvertChineseNumberToInteger(string chineseNumber)
+    {
+        switch (chineseNumber)
+        {
+            case "一": return 1;
+            case "二": return 2;
+            case "三": return 3;
+            case "四": return 4;
+            case "五": return 5;
+            case "六": return 6;
+            case "七": return 7;
+            case "八": return 8;
+            case "九": return 9;
+            case "十": return 10;
+            default: return -1; // 錯誤情況
+        }
+    }
     private string RemoveParentheses(string input)
     {
         // 使用正則表達式移除全形和半形括號及其中的內容
