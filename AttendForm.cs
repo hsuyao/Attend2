@@ -822,7 +822,7 @@ public partial class AttendForm : Form
                     {
                         secondStringValue = ConvertDateFormat(secondStringValue);
                         dataGridView.Rows[i].Cells[j].Value = $"{dataGridView.Rows[i].Cells[j].Value} {secondStringValue}";
-                        dataGridView.Rows[i].Cells[j].Style.Font = new Font(dataGridView.DefaultCellStyle.Font.FontFamily, fontSize*2/3);
+                        dataGridView.Rows[i].Cells[j].Style.Font = new Font(dataGridView.DefaultCellStyle.Font.FontFamily, fontSize*75/100);
                     }
                 }
             }
