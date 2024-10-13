@@ -125,7 +125,7 @@ partial class AttendForm
         tabControl2.Controls.Add(tabPage6);
         tabControl2.Controls.Add(tabPage2);
         tabControl2.Location = new Point(687, 5);
-        tabControl2.Margin = new Padding(5, 5, 5, 5);
+        tabControl2.Margin = new Padding(5);
         tabControl2.Name = "tabControl2";
         tabControl2.SelectedIndex = 0;
         tabControl2.Size = new Size(858, 238);
@@ -148,9 +148,9 @@ partial class AttendForm
         tabPage5.Controls.Add(label1);
         tabPage5.Controls.Add(txtBoxStartColumn);
         tabPage5.Location = new Point(4, 32);
-        tabPage5.Margin = new Padding(5, 5, 5, 5);
+        tabPage5.Margin = new Padding(5);
         tabPage5.Name = "tabPage5";
-        tabPage5.Padding = new Padding(5, 5, 5, 5);
+        tabPage5.Padding = new Padding(5);
         tabPage5.Size = new Size(850, 202);
         tabPage5.TabIndex = 0;
         tabPage5.Text = "參數";
@@ -181,7 +181,7 @@ partial class AttendForm
         ckbFwdBwd.Checked = true;
         ckbFwdBwd.CheckState = CheckState.Checked;
         ckbFwdBwd.Location = new Point(267, 136);
-        ckbFwdBwd.Margin = new Padding(5, 5, 5, 5);
+        ckbFwdBwd.Margin = new Padding(5);
         ckbFwdBwd.Name = "ckbFwdBwd";
         ckbFwdBwd.Size = new Size(225, 27);
         ckbFwdBwd.TabIndex = 27;
@@ -194,7 +194,7 @@ partial class AttendForm
         cbIgnoreNoData.Checked = true;
         cbIgnoreNoData.CheckState = CheckState.Checked;
         cbIgnoreNoData.Location = new Point(267, 57);
-        cbIgnoreNoData.Margin = new Padding(5, 5, 5, 5);
+        cbIgnoreNoData.Margin = new Padding(5);
         cbIgnoreNoData.Name = "cbIgnoreNoData";
         cbIgnoreNoData.Size = new Size(252, 27);
         cbIgnoreNoData.TabIndex = 26;
@@ -207,7 +207,7 @@ partial class AttendForm
         cbIgnoreElementarySchool.Checked = true;
         cbIgnoreElementarySchool.CheckState = CheckState.Checked;
         cbIgnoreElementarySchool.Location = new Point(267, 15);
-        cbIgnoreElementarySchool.Margin = new Padding(5, 5, 5, 5);
+        cbIgnoreElementarySchool.Margin = new Padding(5);
         cbIgnoreElementarySchool.Name = "cbIgnoreElementarySchool";
         cbIgnoreElementarySchool.Size = new Size(198, 27);
         cbIgnoreElementarySchool.TabIndex = 25;
@@ -220,7 +220,7 @@ partial class AttendForm
         ckbCompare.Checked = true;
         ckbCompare.CheckState = CheckState.Checked;
         ckbCompare.Location = new Point(267, 98);
-        ckbCompare.Margin = new Padding(5, 5, 5, 5);
+        ckbCompare.Margin = new Padding(5);
         ckbCompare.Name = "ckbCompare";
         ckbCompare.Size = new Size(180, 27);
         ckbCompare.TabIndex = 24;
@@ -307,9 +307,9 @@ partial class AttendForm
         tabPage6.Controls.Add(groupBox2);
         tabPage6.Controls.Add(groupBox3);
         tabPage6.Location = new Point(4, 32);
-        tabPage6.Margin = new Padding(5, 5, 5, 5);
+        tabPage6.Margin = new Padding(5);
         tabPage6.Name = "tabPage6";
-        tabPage6.Padding = new Padding(5, 5, 5, 5);
+        tabPage6.Padding = new Padding(5);
         tabPage6.Size = new Size(850, 202);
         tabPage6.TabIndex = 1;
         tabPage6.Text = "分類文字";
@@ -334,9 +334,9 @@ partial class AttendForm
         groupBox2.Controls.Add(tbSheet1Cat2);
         groupBox2.Controls.Add(tbSheet1Cat1);
         groupBox2.Location = new Point(347, 9);
-        groupBox2.Margin = new Padding(5, 5, 5, 5);
+        groupBox2.Margin = new Padding(5);
         groupBox2.Name = "groupBox2";
-        groupBox2.Padding = new Padding(5, 5, 5, 5);
+        groupBox2.Padding = new Padding(5);
         groupBox2.Size = new Size(482, 182);
         groupBox2.TabIndex = 40;
         groupBox2.TabStop = false;
@@ -345,7 +345,7 @@ partial class AttendForm
         // tbSheet4Cat3
         // 
         tbSheet4Cat3.Location = new Point(347, 143);
-        tbSheet4Cat3.Margin = new Padding(5, 5, 5, 5);
+        tbSheet4Cat3.Margin = new Padding(5);
         tbSheet4Cat3.Name = "tbSheet4Cat3";
         tbSheet4Cat3.Size = new Size(116, 30);
         tbSheet4Cat3.TabIndex = 43;
@@ -354,7 +354,7 @@ partial class AttendForm
         // tbSheet3Cat3
         // 
         tbSheet3Cat3.Location = new Point(347, 103);
-        tbSheet3Cat3.Margin = new Padding(5, 5, 5, 5);
+        tbSheet3Cat3.Margin = new Padding(5);
         tbSheet3Cat3.Name = "tbSheet3Cat3";
         tbSheet3Cat3.Size = new Size(116, 30);
         tbSheet3Cat3.TabIndex = 42;
@@ -363,7 +363,7 @@ partial class AttendForm
         // tbSheet2Cat3
         // 
         tbSheet2Cat3.Location = new Point(347, 64);
-        tbSheet2Cat3.Margin = new Padding(5, 5, 5, 5);
+        tbSheet2Cat3.Margin = new Padding(5);
         tbSheet2Cat3.Name = "tbSheet2Cat3";
         tbSheet2Cat3.Size = new Size(116, 30);
         tbSheet2Cat3.TabIndex = 41;
@@ -372,7 +372,7 @@ partial class AttendForm
         // tbSheet1Cat3
         // 
         tbSheet1Cat3.Location = new Point(347, 25);
-        tbSheet1Cat3.Margin = new Padding(5, 5, 5, 5);
+        tbSheet1Cat3.Margin = new Padding(5);
         tbSheet1Cat3.Name = "tbSheet1Cat3";
         tbSheet1Cat3.Size = new Size(116, 30);
         tbSheet1Cat3.TabIndex = 40;
@@ -391,7 +391,7 @@ partial class AttendForm
         // tbSheet4Cat2
         // 
         tbSheet4Cat2.Location = new Point(209, 143);
-        tbSheet4Cat2.Margin = new Padding(5, 5, 5, 5);
+        tbSheet4Cat2.Margin = new Padding(5);
         tbSheet4Cat2.Name = "tbSheet4Cat2";
         tbSheet4Cat2.Size = new Size(127, 30);
         tbSheet4Cat2.TabIndex = 38;
@@ -400,7 +400,7 @@ partial class AttendForm
         // tbSheet4Cat1
         // 
         tbSheet4Cat1.Location = new Point(83, 144);
-        tbSheet4Cat1.Margin = new Padding(5, 5, 5, 5);
+        tbSheet4Cat1.Margin = new Padding(5);
         tbSheet4Cat1.Name = "tbSheet4Cat1";
         tbSheet4Cat1.Size = new Size(114, 30);
         tbSheet4Cat1.TabIndex = 37;
@@ -419,7 +419,7 @@ partial class AttendForm
         // tbSheet3Cat2
         // 
         tbSheet3Cat2.Location = new Point(209, 103);
-        tbSheet3Cat2.Margin = new Padding(5, 5, 5, 5);
+        tbSheet3Cat2.Margin = new Padding(5);
         tbSheet3Cat2.Name = "tbSheet3Cat2";
         tbSheet3Cat2.Size = new Size(127, 30);
         tbSheet3Cat2.TabIndex = 35;
@@ -428,7 +428,7 @@ partial class AttendForm
         // tbSheet3Cat1
         // 
         tbSheet3Cat1.Location = new Point(83, 104);
-        tbSheet3Cat1.Margin = new Padding(5, 5, 5, 5);
+        tbSheet3Cat1.Margin = new Padding(5);
         tbSheet3Cat1.Name = "tbSheet3Cat1";
         tbSheet3Cat1.Size = new Size(114, 30);
         tbSheet3Cat1.TabIndex = 34;
@@ -447,7 +447,7 @@ partial class AttendForm
         // tbSheet2Cat2
         // 
         tbSheet2Cat2.Location = new Point(209, 64);
-        tbSheet2Cat2.Margin = new Padding(5, 5, 5, 5);
+        tbSheet2Cat2.Margin = new Padding(5);
         tbSheet2Cat2.Name = "tbSheet2Cat2";
         tbSheet2Cat2.Size = new Size(127, 30);
         tbSheet2Cat2.TabIndex = 32;
@@ -456,7 +456,7 @@ partial class AttendForm
         // tbSheet2Cat1
         // 
         tbSheet2Cat1.Location = new Point(83, 66);
-        tbSheet2Cat1.Margin = new Padding(5, 5, 5, 5);
+        tbSheet2Cat1.Margin = new Padding(5);
         tbSheet2Cat1.Name = "tbSheet2Cat1";
         tbSheet2Cat1.Size = new Size(114, 30);
         tbSheet2Cat1.TabIndex = 31;
@@ -475,7 +475,7 @@ partial class AttendForm
         // tbSheet1Cat2
         // 
         tbSheet1Cat2.Location = new Point(209, 25);
-        tbSheet1Cat2.Margin = new Padding(5, 5, 5, 5);
+        tbSheet1Cat2.Margin = new Padding(5);
         tbSheet1Cat2.Name = "tbSheet1Cat2";
         tbSheet1Cat2.Size = new Size(127, 30);
         tbSheet1Cat2.TabIndex = 2;
@@ -484,7 +484,7 @@ partial class AttendForm
         // tbSheet1Cat1
         // 
         tbSheet1Cat1.Location = new Point(83, 26);
-        tbSheet1Cat1.Margin = new Padding(5, 5, 5, 5);
+        tbSheet1Cat1.Margin = new Padding(5);
         tbSheet1Cat1.Name = "tbSheet1Cat1";
         tbSheet1Cat1.Size = new Size(114, 30);
         tbSheet1Cat1.TabIndex = 0;
@@ -505,9 +505,9 @@ partial class AttendForm
         groupBox3.Controls.Add(tbSheet1WeekCat2);
         groupBox3.Controls.Add(tbSheet1WeekCat1);
         groupBox3.Location = new Point(9, 8);
-        groupBox3.Margin = new Padding(5, 5, 5, 5);
+        groupBox3.Margin = new Padding(5);
         groupBox3.Name = "groupBox3";
-        groupBox3.Padding = new Padding(5, 5, 5, 5);
+        groupBox3.Padding = new Padding(5);
         groupBox3.Size = new Size(328, 182);
         groupBox3.TabIndex = 38;
         groupBox3.TabStop = false;
@@ -526,7 +526,7 @@ partial class AttendForm
         // tbSheet4WeekCat2
         // 
         tbSheet4WeekCat2.Location = new Point(195, 144);
-        tbSheet4WeekCat2.Margin = new Padding(5, 5, 5, 5);
+        tbSheet4WeekCat2.Margin = new Padding(5);
         tbSheet4WeekCat2.Name = "tbSheet4WeekCat2";
         tbSheet4WeekCat2.Size = new Size(92, 30);
         tbSheet4WeekCat2.TabIndex = 38;
@@ -535,7 +535,7 @@ partial class AttendForm
         // tbSheet4WeekCat1
         // 
         tbSheet4WeekCat1.Location = new Point(83, 144);
-        tbSheet4WeekCat1.Margin = new Padding(5, 5, 5, 5);
+        tbSheet4WeekCat1.Margin = new Padding(5);
         tbSheet4WeekCat1.Name = "tbSheet4WeekCat1";
         tbSheet4WeekCat1.Size = new Size(100, 30);
         tbSheet4WeekCat1.TabIndex = 37;
@@ -554,7 +554,7 @@ partial class AttendForm
         // tbSheet3WeekCat2
         // 
         tbSheet3WeekCat2.Location = new Point(195, 104);
-        tbSheet3WeekCat2.Margin = new Padding(5, 5, 5, 5);
+        tbSheet3WeekCat2.Margin = new Padding(5);
         tbSheet3WeekCat2.Name = "tbSheet3WeekCat2";
         tbSheet3WeekCat2.Size = new Size(92, 30);
         tbSheet3WeekCat2.TabIndex = 35;
@@ -563,7 +563,7 @@ partial class AttendForm
         // tbSheet3WeekCat1
         // 
         tbSheet3WeekCat1.Location = new Point(83, 104);
-        tbSheet3WeekCat1.Margin = new Padding(5, 5, 5, 5);
+        tbSheet3WeekCat1.Margin = new Padding(5);
         tbSheet3WeekCat1.Name = "tbSheet3WeekCat1";
         tbSheet3WeekCat1.Size = new Size(100, 30);
         tbSheet3WeekCat1.TabIndex = 34;
@@ -582,7 +582,7 @@ partial class AttendForm
         // tbSheet2WeekCat2
         // 
         tbSheet2WeekCat2.Location = new Point(195, 66);
-        tbSheet2WeekCat2.Margin = new Padding(5, 5, 5, 5);
+        tbSheet2WeekCat2.Margin = new Padding(5);
         tbSheet2WeekCat2.Name = "tbSheet2WeekCat2";
         tbSheet2WeekCat2.Size = new Size(92, 30);
         tbSheet2WeekCat2.TabIndex = 32;
@@ -591,7 +591,7 @@ partial class AttendForm
         // tbSheet2WeekCat1
         // 
         tbSheet2WeekCat1.Location = new Point(83, 66);
-        tbSheet2WeekCat1.Margin = new Padding(5, 5, 5, 5);
+        tbSheet2WeekCat1.Margin = new Padding(5);
         tbSheet2WeekCat1.Name = "tbSheet2WeekCat1";
         tbSheet2WeekCat1.Size = new Size(100, 30);
         tbSheet2WeekCat1.TabIndex = 31;
@@ -610,7 +610,7 @@ partial class AttendForm
         // tbSheet1WeekCat2
         // 
         tbSheet1WeekCat2.Location = new Point(195, 26);
-        tbSheet1WeekCat2.Margin = new Padding(5, 5, 5, 5);
+        tbSheet1WeekCat2.Margin = new Padding(5);
         tbSheet1WeekCat2.Name = "tbSheet1WeekCat2";
         tbSheet1WeekCat2.Size = new Size(92, 30);
         tbSheet1WeekCat2.TabIndex = 2;
@@ -619,7 +619,7 @@ partial class AttendForm
         // tbSheet1WeekCat1
         // 
         tbSheet1WeekCat1.Location = new Point(83, 26);
-        tbSheet1WeekCat1.Margin = new Padding(5, 5, 5, 5);
+        tbSheet1WeekCat1.Margin = new Padding(5);
         tbSheet1WeekCat1.Name = "tbSheet1WeekCat1";
         tbSheet1WeekCat1.Size = new Size(100, 30);
         tbSheet1WeekCat1.TabIndex = 0;
@@ -640,7 +640,7 @@ partial class AttendForm
         tabPage2.Controls.Add(label8);
         tabPage2.Controls.Add(label7);
         tabPage2.Location = new Point(4, 32);
-        tabPage2.Margin = new Padding(5, 5, 5, 5);
+        tabPage2.Margin = new Padding(5);
         tabPage2.Name = "tabPage2";
         tabPage2.Size = new Size(850, 202);
         tabPage2.TabIndex = 2;
@@ -784,7 +784,7 @@ partial class AttendForm
         rbWeek.AutoSize = true;
         rbWeek.Checked = true;
         rbWeek.Location = new Point(25, 41);
-        rbWeek.Margin = new Padding(5, 5, 5, 5);
+        rbWeek.Margin = new Padding(5);
         rbWeek.Name = "rbWeek";
         rbWeek.Size = new Size(53, 27);
         rbWeek.TabIndex = 9;
@@ -796,7 +796,7 @@ partial class AttendForm
         // 
         rbMonth.AutoSize = true;
         rbMonth.Location = new Point(25, 80);
-        rbMonth.Margin = new Padding(5, 5, 5, 5);
+        rbMonth.Margin = new Padding(5);
         rbMonth.Name = "rbMonth";
         rbMonth.Size = new Size(137, 27);
         rbMonth.TabIndex = 10;
@@ -807,7 +807,7 @@ partial class AttendForm
         // 
         rbHalfYear.AutoSize = true;
         rbHalfYear.Location = new Point(25, 118);
-        rbHalfYear.Margin = new Padding(5, 5, 5, 5);
+        rbHalfYear.Margin = new Padding(5);
         rbHalfYear.Name = "rbHalfYear";
         rbHalfYear.Size = new Size(121, 27);
         rbHalfYear.TabIndex = 11;
@@ -842,7 +842,7 @@ partial class AttendForm
         // 
         rbSelfDef.AutoSize = true;
         rbSelfDef.Location = new Point(25, 156);
-        rbSelfDef.Margin = new Padding(5, 5, 5, 5);
+        rbSelfDef.Margin = new Padding(5);
         rbSelfDef.Name = "rbSelfDef";
         rbSelfDef.Size = new Size(134, 27);
         rbSelfDef.TabIndex = 12;
@@ -870,7 +870,7 @@ partial class AttendForm
         tableLayoutPanel1.Controls.Add(panel1, 0, 0);
         tableLayoutPanel1.Dock = DockStyle.Fill;
         tableLayoutPanel1.Location = new Point(0, 0);
-        tableLayoutPanel1.Margin = new Padding(5, 5, 5, 5);
+        tableLayoutPanel1.Margin = new Padding(5);
         tableLayoutPanel1.Name = "tableLayoutPanel1";
         tableLayoutPanel1.RowCount = 2;
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 276F));
@@ -897,9 +897,9 @@ partial class AttendForm
         // 
         tabPage1.Controls.Add(dataGridView1);
         tabPage1.Location = new Point(4, 37);
-        tabPage1.Margin = new Padding(5, 5, 5, 5);
+        tabPage1.Margin = new Padding(5);
         tabPage1.Name = "tabPage1";
-        tabPage1.Padding = new Padding(5, 5, 5, 5);
+        tabPage1.Padding = new Padding(5);
         tabPage1.Size = new Size(1556, 944);
         tabPage1.TabIndex = 0;
         tabPage1.Text = "統計結果";
@@ -910,7 +910,7 @@ partial class AttendForm
         dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dataGridView1.Dock = DockStyle.Fill;
         dataGridView1.Location = new Point(5, 5);
-        dataGridView1.Margin = new Padding(5, 5, 5, 5);
+        dataGridView1.Margin = new Padding(5);
         dataGridView1.Name = "dataGridView1";
         dataGridView1.RowHeadersWidth = 62;
         dataGridView1.Size = new Size(1546, 934);
@@ -926,7 +926,7 @@ partial class AttendForm
         panel1.Controls.Add(btnCalculateAllExcel);
         panel1.Dock = DockStyle.Fill;
         panel1.Location = new Point(5, 5);
-        panel1.Margin = new Padding(5, 5, 5, 5);
+        panel1.Margin = new Padding(5);
         panel1.Name = "panel1";
         panel1.Size = new Size(1560, 266);
         panel1.TabIndex = 0;
@@ -935,7 +935,7 @@ partial class AttendForm
         // 
         btnRemoveFile.BackColor = SystemColors.ActiveCaption;
         btnRemoveFile.Location = new Point(198, 5);
-        btnRemoveFile.Margin = new Padding(5, 5, 5, 5);
+        btnRemoveFile.Margin = new Padding(5);
         btnRemoveFile.Name = "btnRemoveFile";
         btnRemoveFile.Size = new Size(181, 48);
         btnRemoveFile.TabIndex = 41;
@@ -947,7 +947,7 @@ partial class AttendForm
         // 
         lbFileInfo.FormattingEnabled = true;
         lbFileInfo.Location = new Point(14, 57);
-        lbFileInfo.Margin = new Padding(5, 5, 5, 5);
+        lbFileInfo.Margin = new Padding(5);
         lbFileInfo.Name = "lbFileInfo";
         lbFileInfo.Size = new Size(362, 188);
         lbFileInfo.TabIndex = 40;
@@ -956,7 +956,7 @@ partial class AttendForm
         // 
         btnAddNewFile.BackColor = SystemColors.ActiveCaption;
         btnAddNewFile.Location = new Point(14, 0);
-        btnAddNewFile.Margin = new Padding(5, 5, 5, 5);
+        btnAddNewFile.Margin = new Padding(5);
         btnAddNewFile.Name = "btnAddNewFile";
         btnAddNewFile.Size = new Size(174, 52);
         btnAddNewFile.TabIndex = 39;
@@ -971,9 +971,9 @@ partial class AttendForm
         ClientSize = new Size(1570, 1267);
         Controls.Add(tableLayoutPanel1);
         Icon = (Icon)resources.GetObject("$this.Icon");
-        Margin = new Padding(5, 5, 5, 5);
+        Margin = new Padding(5);
         Name = "AttendForm";
-        Text = "點名系統表單整理小幫手 v1.0 20241012";
+        Text = "點名系統表單整理小幫手 v1.0 20241013";
         FormClosing += AttendForm_FormClosing;
         Load += AttendForm_Load;
         SizeChanged += AttendForm_SizeChanged;
