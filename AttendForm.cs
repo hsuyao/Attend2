@@ -19,6 +19,7 @@ using NPOI.SS.Formula.Functions;
 using NPOI.HSSF.Record;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 
 namespace Attend;
@@ -36,6 +37,11 @@ public partial class AttendForm : Form
     public AttendForm()
     {
         InitializeComponent();
+        // 取得編譯日期
+        DateTime compileDate = GetCompileDate();
+        // 設定 Form 的標題欄文字，只顯示日期
+        this.Text = $"召會點名系統統計小幫手 v1.0 Build {compileDate.ToString("yyyyMMdd")}";
+
         colorDialog = new ColorDialog();
         colorDialog.FullOpen = true;
         FileNames = new List<string>();
@@ -47,6 +53,14 @@ public partial class AttendForm : Form
         attendanceSummary = new Dictionary<string, Dictionary<string, object>>();
        // CalculateAttendanceSummary();
     }
+    private DateTime GetCompileDate()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var filePath = assembly.Location;
+        var fileInfo = new System.IO.FileInfo(filePath);
+        return fileInfo.LastWriteTime;
+    }
+
     private void CalculateAttendanceSummary()
     {
         attendanceSummary.Clear();
@@ -84,7 +98,7 @@ public partial class AttendForm : Form
         {
             // 检查相同姓名的记录数量是否少于 52
             int count = records.Count(r => r.Name == newRecord.Name);
-            if (count < 52)
+            if (count < 52*4000)
             {
                 records.Add(newRecord);
             }
@@ -813,7 +827,8 @@ public partial class AttendForm : Form
         }
 
         SortDataGridViewByDictionary(dataGridView, attendanceSummary, 2);
-        AppendLastAttendDate(sheet, dataGridView, attendanceSummary, 2);
+        if (cbDisplayLastAttend.Checked ==  true)
+            AppendLastAttendDate(sheet, dataGridView, attendanceSummary, 2);
         AdjustDataGridViewByColor(dataGridView, 2);
         dataGridView.AutoResizeColumns();
         dataGridView.AutoResizeRows();
@@ -842,7 +857,7 @@ public partial class AttendForm : Form
                     string lastAttendDate = dictValue["LastAttendDate"].ToString();
 
                     // 加入判斷：如果 LastAttendDate 被包含在 TabPageText 內，則不附加日期
-                    if (!sheet.SheetName.Contains(lastAttendDate))
+                    if (!sheet.SheetName.Contains(lastAttendDate) || cbAllDisplayLastAttend.Checked == true)
                     {
                         // 轉換日期格式
                         lastAttendDate = ConvertDateFormat(lastAttendDate);
@@ -1782,6 +1797,8 @@ public partial class AttendForm : Form
             tbSelfDefWeek.Text = controlState.TbSelfDefWeek;
             cbIgnoreNoData.Checked = controlState.CbIgnoreNoData;
             cbIgnoreElementarySchool.Checked = controlState.CbIgnoreElementarySchool;
+            cbDisplayLastAttend.Checked = controlState.CbDisplayLastAttend;
+            cbAllDisplayLastAttend.Checked = controlState.CbAllDisplayLastAttend;
             ckbCompare.Checked = controlState.CkbCompare;
             ckbFwdBwd.Checked = controlState.CkbFwdBwd;
             tbFontSize.Text = controlState.TbFontSize;
@@ -1860,6 +1877,8 @@ public partial class AttendForm : Form
             TbSelfDefWeek = tbSelfDefWeek.Text,
             CbIgnoreNoData = cbIgnoreNoData.Checked,
             CbIgnoreElementarySchool = cbIgnoreElementarySchool.Checked,
+            CbDisplayLastAttend = cbDisplayLastAttend.Checked,
+            CbAllDisplayLastAttend = cbAllDisplayLastAttend.Checked,
             CkbCompare = ckbCompare.Checked,
             CkbFwdBwd = ckbFwdBwd.Checked,
             TbFontSize = tbFontSize.Text,

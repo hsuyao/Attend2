@@ -70,6 +70,8 @@ namespace Attend
         public string TbSheet2WeekCat1 { get; set; }
         public string TbSelfDefWeek { get; set; }
         public bool CbIgnoreNoData { get; set; }
+        public bool CbDisplayLastAttend { get; set; }
+        public bool CbAllDisplayLastAttend { get; set; }
         public bool CbIgnoreElementarySchool { get; set; }
         public bool CkbCompare { get; set; }
         public bool CkbFwdBwd { get; set; }
